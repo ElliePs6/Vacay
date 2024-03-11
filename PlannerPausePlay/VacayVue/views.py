@@ -7,13 +7,38 @@ from .forms import LoginForm
 import calendar
 from calendar import HTMLCalendar
 from datetime import datetime
-from .models import Requests
+from .models import Requests,Employees
+from django.shortcuts import render, redirect
+from .forms import RequestForm
+
+def list_employees(request):
+    all_requests=Employees.objects.all()
+    return render(request, 'vacayvue/list-employees.html',
+        { 'all_requests':all_requests})
+
+def add_request(request):
+    submitted = False
+    if request.method == "POST":
+        form = RequestForm(request.POST)
+        if form.is_valid():
+            form.save()
+            # Redirect to the same view with the 'submitted' parameter in the URL
+            return redirect('/add-request/?submitted=True')
+    else:
+        form = RequestForm()
+
+    # Check if the 'submitted' parameter is present in the URL
+    if 'submitted' in request.GET and request.GET['submitted'] == 'True':
+        submitted = True
+
+    return render(request, 'vacayvue/add-request.html', {'form': form, 'submitted': submitted})
 
 
-def all_requests(request):
-    list_requests=Requests.objects.all()
+
+def list_requests(request):
+    all_requests=Requests.objects.all()
     return render(request, 'vacayvue/list-requests.html',
-        { 'list_requests':list_requests})
+        { 'all_requests':all_requests})
 
 
 def home(request,year=datetime.now().year,month=datetime.now().strftime('%B')):

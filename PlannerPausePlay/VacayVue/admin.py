@@ -22,7 +22,7 @@ class CompaniesAdmin(admin.ModelAdmin):
 
 @admin.register(Requests)
 class RequestsAdmin(admin.ModelAdmin):
-    fields=(('StartDate','EndDate'),'Status','Type')
+    fields=('EmployID',('StartDate','EndDate'),'Status','Type')
     list_display=('EmployID','StartDate','EndDate','Type','Status')
     search_fields=('Type','Status')
     list_filter=('StartDate','EndDate','Status')

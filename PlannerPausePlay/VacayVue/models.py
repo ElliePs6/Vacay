@@ -1,5 +1,6 @@
 from django.db import models
-from django.contrib.auth.models import User 
+from django.contrib.auth.models import User
+
 
 class Companies(models.Model):
     CompanyID = models.AutoField(primary_key=True)
@@ -11,23 +12,10 @@ class Companies(models.Model):
     def __str__(self):
         return self.Companyname
     
-
-class Requests(models.Model):
-    RequestID = models.AutoField(primary_key=True)
-   # EmployID = models.ForeignKey(Employees,blank=True,null=True, on_delete=models.CASCADE)
-    StartDate = models.DateField()
-    EndDate = models.DateField()
-    Type = models.CharField(max_length=50)
-    Status = models.CharField(max_length=50)
-    Comments = models.TextField(blank=True)
-
-    def __str__(self):
-        return self.Type
     
 #Καθε υποληλος θα ανηκει σε μια εταιρια
 class Employees(models.Model):
     EmployID = models.AutoField(primary_key=True)
-    RequestID=models.ForeignKey(Requests,blank=True,null=True, on_delete=models.CASCADE)
     Username = models.CharField(max_length=255, unique=True)
     Firstname = models.CharField(max_length=255)
     Lastname= models.CharField(max_length=25, blank=True)#Του λεμε οτι δεν ειναι αναγκαστικο να το συμπληρωσεις
@@ -41,14 +29,26 @@ class Employees(models.Model):
         return self.Username
 
 #request ειναι 1:1 σχεση .Μια ετηση για καθε υπαλλοιλο
+class Requests(models.Model):
+    RequestID = models.AutoField(primary_key=True)
+    EmployID = models.ForeignKey(Employees,blank=True,null=True, on_delete=models.CASCADE)
+    StartDate = models.DateField()
+    EndDate = models.DateField()
+    Type = models.CharField(max_length=50)
+    Status = models.CharField(max_length=50)
+    Comments = models.TextField(blank=True)
 
+    def __str__(self):
+        return self.Type
 
+class Calendar(models.Model):
+    title = models.CharField(max_length=255)
+    start = models.DateTimeField()
+    end = models.DateTimeField()
 
+    def __str__(self):
+        return self.title
 
-
-
-# Create your models here.
-# In models.py
 '''
 
 

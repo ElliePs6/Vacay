@@ -11,6 +11,7 @@ from .models import Requests,Employees
 from django.shortcuts import render, redirect
 from .forms import RequestForm
 
+
 def list_employees(request):
     all_requests=Employees.objects.all()
     return render(request, 'vacayvue/list-employees.html',

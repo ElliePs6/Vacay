@@ -1,5 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
+
 
 
 class Companies(models.Model):
@@ -30,25 +33,37 @@ class Employees(models.Model):
 
 #request ειναι 1:1 σχεση .Μια ετηση για καθε υπαλλοιλο
 class Requests(models.Model):
+    APPROVED = 'approved'
+    REJECTED = 'rejected'
+    PENDING = 'pending'  # Status when request is submitted
+
+    STATUS_CHOICES = [
+        (APPROVED, 'Approved'),
+        (REJECTED, 'Rejected'),
+        (PENDING, 'Pending'),
+    ]
+
     RequestID = models.AutoField(primary_key=True)
-    EmployID = models.ForeignKey(Employees,blank=True,null=True, on_delete=models.CASCADE)
+    EmployID = models.ForeignKey(Employees, blank=True, null=True, on_delete=models.CASCADE)
     StartDate = models.DateField()
     EndDate = models.DateField()
     Type = models.CharField(max_length=50)
-    Status = models.CharField(max_length=50)
+    Status = models.CharField(max_length=50, choices=STATUS_CHOICES, default=PENDING)
     Comments = models.TextField(blank=True)
 
     def __str__(self):
         return self.Type
 
-class Calendar(models.Model):
-    title = models.CharField(max_length=255)
-    start = models.DateTimeField()
-    end = models.DateTimeField()
 
-    def __str__(self):
-        return self.title
-
+class Events(models.Model):
+    event_id= models.AutoField(primary_key=True)
+    name = models.CharField(max_length=255,null=True,blank=True)
+    start = models.DateTimeField(null=True,blank=True)
+    end = models.DateTimeField(null=True,blank=True)
+        
+    class Meta:
+        db_table="tblevents"
+        
 '''
 
 

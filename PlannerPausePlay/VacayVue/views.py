@@ -1,16 +1,63 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponseForbidden
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .forms import LoginForm
-import calendar
-from calendar import HTMLCalendar
-from datetime import datetime
-from .models import Requests,Employees
-from django.shortcuts import render, redirect
+from .models import Requests,Employees,Events
 from .forms import RequestForm
+from django.http import JsonResponse 
 
+
+
+def index(request):  
+    all_events = Events.objects.all()
+    context = {
+        "events":all_events,
+    }
+    return render(request,'vacayvue/index.html',context)
+ 
+def all_events(request):                                                                                                 
+    all_events = Events.objects.all()                                                                                    
+    out = []                                                                                                             
+    for event in all_events:                                                                                             
+        out.append({                                                                                                     
+            'title': event.name,                                                                                         
+            'event_id': event.event_id,                                                                                              
+            'start': event.start.strftime("%m/%d/%Y, %H:%M:%S"),                                                         
+            'end': event.end.strftime("%m/%d/%Y, %H:%M:%S"),                                                             
+        })                                                                                                               
+                                                                                                                      
+    return JsonResponse(out, safe=False) 
+ 
+def add_event(request):
+    start = request.GET.get("start", None)
+    end = request.GET.get("end", None)
+    title = request.GET.get("title", None)
+    event = Events(name=str(title), start=start, end=end)
+    event.save()
+    data = {}
+    return JsonResponse(data)
+ 
+def update(request):
+    start = request.GET.get("start", None)
+    end = request.GET.get("end", None)
+    title = request.GET.get("title", None)
+    event_id = request.GET.get("event_id", None)
+    event = Events.objects.get(even_id=event_id)
+    event.start = start
+    event.end = end
+    event.name = title
+    event.save()
+    data = {}
+    return JsonResponse(data)
+ 
+def remove(request):
+    event_id = request.GET.get("event_id", None)
+    event = Events.objects.get(event_id=event_id)
+    event.delete()
+    data = {}
+    return JsonResponse(data)
+ 
 
 def list_employees(request):
     all_requests=Employees.objects.all()
@@ -42,28 +89,8 @@ def list_requests(request):
         { 'all_requests':all_requests})
 
 
-def home(request,year=datetime.now().year,month=datetime.now().strftime('%B')):
-    month=month.capitalize()
-    #convert month from name to number
-    month_number=list(calendar.month_name).index(month)
-    month_number=int(month_number)
-
-    #create a callendar
-    cal=HTMLCalendar().formatmonth(year,month_number)
-    now=datetime.now()
-    #Get current year   
-    current_year=now.year
-    #Get current time
-    time=now.strftime('%I:%M %p')
-    
-    return render(request, 'vacayvue/home.html',{
-        'year':year,
-        'month':month,
-        'month_number':month_number,
-        'cal':cal,
-        'current_year':current_year,
-        'time':time 
-    })
+def home(request):
+     return render(request, 'vacayvue/home.html')
 
 
 def register(request):
@@ -120,14 +147,3 @@ def logout_user(request):
     return redirect('home')
 
 
-
-
-'''
-def my_view(request):
-    if request.user.is_authenticated:
-        # User is authenticated, perform your actions here
-        return render(request, 'home.html')
-    else:
-        # User is not authenticated, you might want to redirect them to a login page
-        return HttpResponseForbidden("You are not allowed to access this page. Please log in.")
-        '''

@@ -2,7 +2,7 @@
 
 {% block content %}
 <center>
-<h1>My AppTitle</h1>
+<h1>VacayVue</h1>
 <div class="container-fluid">
     {% if request.user.is_authenticated %}
     <p class="text-success">You are logged in</p>
@@ -17,18 +17,7 @@
     <a href={% url 'login_user' %} type="=button" class="btn btn-success btn-lg">Log in</a>
 
     {% endif %}
-</div>
 
-<!-- Main Content -->
-<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
-    <!-- Your main content goes here -->
-    <div id="content-1">
-        <h3>Ημερολογιο : {{ month }} {{ year }}</h3>
-        <h4>Τωρινη ωρα : {{ time }}</h4>
-        {{ cal|safe }}
-    </div>
-</main>
-</div>
 </div>
 </center>
 

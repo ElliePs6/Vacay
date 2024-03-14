@@ -1,0 +1,26 @@
+{% extends 'vacayvue/base.html' %}
+
+{% block content %}
+
+<h1 class="text-center ">VacayVue Login</h1>
+
+<!--H forma mou-->
+
+
+    <form action="" method="POST">
+        {%csrf_token%}
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Username</label>
+              <input type="text" class="form-control" name="username" aria-describedby="emailHelp" placeholder="Enter username">
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Password</label>
+              <input type="password" class="form-control" name="password" placeholder="Password">
+            </div>          
+        <input type="submit" value="Sign in" class="btn btn-primary">
+    </form>
+
+
+
+
+{% endblock %}

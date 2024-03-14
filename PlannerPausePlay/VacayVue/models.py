@@ -1,7 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
-from django.utils.translation import gettext_lazy as _
+from datetime import datetime
+
+
 
 
 
@@ -56,19 +58,27 @@ class Requests(models.Model):
 
 
 class Events(models.Model):
-    event_id= models.AutoField(primary_key=True)
-    name = models.CharField(max_length=255,null=True,blank=True)
-    start = models.DateTimeField(null=True,blank=True)
-    end = models.DateTimeField(null=True,blank=True)
-        
+    event_id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=255, null=True, blank=True)
+    start = models.DateTimeField(null=True, blank=True)
+    end = models.DateTimeField(null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        if isinstance(self.start, str):
+            self.start = timezone.make_aware(datetime.strptime(self.start, '%Y-%m-%d %H:%M:%S'))
+        if isinstance(self.end, str):
+            self.end = timezone.make_aware(datetime.strptime(self.end, '%Y-%m-%d %H:%M:%S'))
+        super().save(*args, **kwargs)
+
     class Meta:
-        db_table="tblevents"
-        
+        db_table = "tblevents"
+
+
+
+
+
+
 '''
-
-
-
-
 class TeamMembers(models.Model):
     TeamMemberID = models.AutoField(primary_key=True)
     UserID = models.ForeignKey(Users, on_delete=models.CASCADE)
@@ -148,5 +158,3 @@ class ApprovalWorkflow(models.Model):
 
 
 '''
-
-    

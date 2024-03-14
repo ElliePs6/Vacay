@@ -1,11 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login, logout
-from django.contrib import messages
-from .forms import LoginForm
 from .models import Requests,Employees,Events
 from .forms import RequestForm
-from django.http import JsonResponse 
+from django.http import JsonResponse
+from django.utils import timezone 
 
 
 
@@ -16,19 +14,30 @@ def index(request):
     }
     return render(request,'vacayvue/index.html',context)
  
+
+
 def all_events(request):                                                                                                 
     all_events = Events.objects.all()                                                                                    
     out = []                                                                                                             
     for event in all_events:                                                                                             
-        out.append({                                                                                                     
-            'title': event.name,                                                                                         
-            'event_id': event.event_id,                                                                                              
-            'start': event.start.strftime("%m/%d/%Y, %H:%M:%S"),                                                         
-            'end': event.end.strftime("%m/%d/%Y, %H:%M:%S"),                                                             
-        })                                                                                                               
+        # Check if the event's start and end times have time information
+        if event.start.time() == timezone.datetime.min.time() and event.end.time() == timezone.datetime.max.time():
+            # If start and end times have no time information, format date only
+            out.append({                                                                                                     
+                'title': event.name,
+                'start': event.start.strftime("%m/%d/%Y"),                                                         
+                'end': event.end.strftime("%m/%d/%Y"),
+            })
+        else:
+            # If start and end times have time information, format date and time
+            out.append({                                                                                                     
+                'title': event.name,
+                'start': event.start.strftime("%m/%d/%Y, %H:%M:%S"),                                                         
+                'end': event.end.strftime("%m/%d/%Y, %H:%M:%S"),
+            })                                                                                                               
                                                                                                                       
-    return JsonResponse(out, safe=False) 
- 
+    return JsonResponse(out, safe=False)
+
 def add_event(request):
     start = request.GET.get("start", None)
     end = request.GET.get("end", None)
@@ -93,57 +102,5 @@ def home(request):
      return render(request, 'vacayvue/home.html')
 
 
-def register(request):
-    if request.method == 'POST':
-        first_name = request.POST['first_name']
-        last_name = request.POST['last_name']
-        username = request.POST['username']
-        email = request.POST['email']
-        password = request.POST['password']
-        confirm_password = request.POST['confirm_password']
-
-        if password == confirm_password:
-            if User.objects.filter(username=username).exists():
-                messages.info(request, "Username already exists")
-                return redirect('register')
-            elif User.objects.filter(email=email).exists():
-                messages.info(request, "Email already exists")
-                return redirect('register')
-            else:
-                user = User.objects.create_user(username=username, password=password, email=email, first_name=first_name, last_name=last_name)
-                # Set user as staff (not sure if this is intended)
-                user.is_staff = True
-                user.save()
-                return redirect('login_user')
-        else:
-            messages.error(request, "Passwords don't match")
-            return redirect('register')
-    else:
-        # Handle GET request or other methods if needed
-        return render(request, 'vacayvue/register.html')
-
-    
-
-def login_user(request):
-    if request.method == 'POST':
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            user = authenticate(request, username=username, password=password)
-            if user is not None:
-                print(f'Successfully authenticated user: {user.username}')
-                login(request, user)
-                return redirect('home')
-            else:
-                messages.info(request, 'Invalid login credentials.')
-    else:
-        form = LoginForm()
-
-    return render(request, 'vacayvue/login.html', {'form': form})
-
-def logout_user(request):
-    logout(request)
-    return redirect('home')
 
 

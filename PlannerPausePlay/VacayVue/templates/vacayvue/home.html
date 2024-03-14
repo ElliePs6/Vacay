@@ -3,22 +3,7 @@
 {% block content %}
 <center>
 <h1>VacayVue</h1>
-<div class="container-fluid">
-    {% if request.user.is_authenticated %}
-    <p class="text-success">You are logged in</p>
-    <p class="text-success">Username: {{request.user.username}}</p>
-    <p class="text-success">Firstname: {{request.user.first_name}}</p>
-    <p class="text-success">Lastname: {{request.user.last_name}}</p>
-    <a href={% url 'logout_user' %} type="=button" class="btn btn-success btn-lg">Log</a>
 
-    {% else %}
-    <p class="text-danger h3">User is not logged in</p>
-    <a href={% url 'register' %} type="=button" class="btn btn-success btn-lg">Register</a>
-    <a href={% url 'login_user' %} type="=button" class="btn btn-success btn-lg">Log in</a>
-
-    {% endif %}
-
-</div>
 </center>
 
 {% endblock %}

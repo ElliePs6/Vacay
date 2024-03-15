@@ -1,6 +1,8 @@
 {% extends 'vacayvue/base.html' %}
 
 {% block content %}
+{% if user.is_authenticated %}
+
   <center>
     <h1>Προσθήκη Αιτήματος στη Βάση</h1>
     </br></br>
@@ -15,4 +17,10 @@
       </form>
     {% endif %}
   </center>
+
+  {% else %}
+  <h1>Πρέπει να είστε συνδεδεμένος για να δείτε αυτη την σελίδα..</h1>
+   <a href="{% url 'login' %}">Συνδέσου εδώ</a>
+   {% endif %}
+
 {% endblock %}

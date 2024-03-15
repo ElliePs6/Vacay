@@ -7,22 +7,31 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'list-requests' %}">Λίστα Αιτήσεων</a>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Dropdown
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="{% url 'list-requests' %}">Λίστα Αιτήσεων</a></li>
+                <li><a class="dropdown-item" href="{% url 'add-request' %}">Προσθήκη Αίτησης</a></li>
+                <li><a class="dropdown-item" href="{% url 'list-employees' %}">Λίστα Υπαλλήλων</a></li>
+            </ul>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'add-request' %}">Προσθήκη Αίτησης</a>
+            <a class="nav-link" href="{% url 'calendar' %}">Ημερολογιο</a>
           </li>
+          {% if user.is_authenticated %}
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'list-employees' %}">Λίστα Υπαλλήλων</a>
+            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
           </li>
+          {%else%}
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'index' %}">Ημερολογιο</a>
+            <a class="nav-link" href="{% url 'register_user' %}">Register</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'login' %}">Login</a>
           </li>
-
+          {%endif%}
         </ul>
         <form class="d-flex" role="search">
           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">

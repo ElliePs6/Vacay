@@ -1,6 +1,7 @@
 {% extends 'vacayvue/base.html' %}
 
 {% block content %}
+{% if user.is_authenticated %}
 
     <h1>Λιστα με υπαλλήλους</h1>
 
@@ -24,4 +25,10 @@
     </div>
   </div>
   {% endfor %}
+
+  {% else %}
+  <h1>Πρέπει να είστε συνδεδεμένος για να δείτε αυτη την σελίδα..</h1>
+   <a href="{% url 'login' %}">Συνδέσου εδώ</a>
+   {% endif %}
+
 {% endblock %}

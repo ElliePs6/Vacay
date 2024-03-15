@@ -7,36 +7,25 @@ from django.utils import timezone
 
 
 
-def index(request):  
+def calendar(request):  
     all_events = Events.objects.all()
     context = {
         "events":all_events,
     }
-    return render(request,'vacayvue/index.html',context)
+    return render(request,'vacayvue/calendar.html',context)
  
-
-
 def all_events(request):                                                                                                 
     all_events = Events.objects.all()                                                                                    
     out = []                                                                                                             
     for event in all_events:                                                                                             
-        # Check if the event's start and end times have time information
-        if event.start.time() == timezone.datetime.min.time() and event.end.time() == timezone.datetime.max.time():
-            # If start and end times have no time information, format date only
-            out.append({                                                                                                     
-                'title': event.name,
-                'start': event.start.strftime("%m/%d/%Y"),                                                         
-                'end': event.end.strftime("%m/%d/%Y"),
-            })
-        else:
-            # If start and end times have time information, format date and time
-            out.append({                                                                                                     
-                'title': event.name,
-                'start': event.start.strftime("%m/%d/%Y, %H:%M:%S"),                                                         
-                'end': event.end.strftime("%m/%d/%Y, %H:%M:%S"),
-            })                                                                                                               
+        out.append({                                                                                                     
+            'title': event.name, 
+            'id':event.id,                                                                                                                                                                                      
+            'start': event.start.strftime("%m/%d/%Y, %H:%M:%S"),                                                         
+            'end': event.end.strftime("%m/%d/%Y, %H:%M:%S"),                                                             
+        })                                                                                                               
                                                                                                                       
-    return JsonResponse(out, safe=False)
+    return JsonResponse(out, safe=False) 
 
 def add_event(request):
     start = request.GET.get("start", None)
@@ -51,8 +40,8 @@ def update(request):
     start = request.GET.get("start", None)
     end = request.GET.get("end", None)
     title = request.GET.get("title", None)
-    event_id = request.GET.get("event_id", None)
-    event = Events.objects.get(even_id=event_id)
+    id = request.GET.get("id", None)
+    event = Events.objects.get(id=id)
     event.start = start
     event.end = end
     event.name = title
@@ -61,12 +50,16 @@ def update(request):
     return JsonResponse(data)
  
 def remove(request):
-    event_id = request.GET.get("event_id", None)
-    event = Events.objects.get(event_id=event_id)
+    id = request.GET.get("id", None)
+    event = Events.objects.get(id=id)
     event.delete()
     data = {}
     return JsonResponse(data)
  
+def update_request(request, request_id):
+    request = request.objects.get(pk=request_id)
+    return render(request, 'vacayvue/update_request.html',{'request':request})
+
 
 def list_employees(request):
     all_requests=Employees.objects.all()
@@ -89,8 +82,6 @@ def add_request(request):
         submitted = True
 
     return render(request, 'vacayvue/add-request.html', {'form': form, 'submitted': submitted})
-
-
 
 def list_requests(request):
     all_requests=Requests.objects.all()

@@ -1,10 +1,26 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
+
+class CustomUser(AbstractUser):
+    USER_TYPE_CHOICES = (
+        ('employee', 'Employee'),
+        ('company', 'Company'),
+    )
+  
+    email = models.EmailField(unique=True)
+    user_type = models.CharField(max_length=20, choices=USER_TYPE_CHOICES)
+
+    USERNAME_FIELD = 'email'  # Set email as the USERNAME_FIELD for authentication
+    REQUIRED_FIELDS = ['username',]  # No additional fields required for registration
+
+    def __str__(self):
+        return self.email
 
 
 class Companies(models.Model):
     CompanyID = models.AutoField(primary_key=True)
-    manager=models.ForeignKey(User,blank=True,null=True,on_delete=models.SET_NULL)
+  #  manager=models.ForeignKey(User,blank=True,null=True,on_delete=models.SET_NULL)
     Email = models.EmailField()
     Companyname = models.CharField(max_length=255)
 
@@ -23,7 +39,7 @@ class Employees(models.Model):
     Role = models.CharField(max_length=50)
     Email = models.EmailField(unique=True)
    # Department = models.CharField(max_length=255)
-    CompanyID = models.ForeignKey(Companies,blank=True,null=True, on_delete=models.CASCADE)
+    CompanyID = models.ForeignKey(Companies,related_name='employees',blank=True,null=True, on_delete=models.CASCADE)
     
     def __str__(self):
         return self.Username
@@ -41,7 +57,7 @@ class Requests(models.Model):
     ]
 
     request_id = models.AutoField(primary_key=True)
-    EmployID = models.ForeignKey(Employees, blank=True, null=True, on_delete=models.CASCADE)
+    EmployID = models.ForeignKey(Employees,related_name='requests', blank=True, null=True, on_delete=models.CASCADE)
     StartDate = models.DateField()
     EndDate = models.DateField()
     Type = models.CharField(max_length=50)

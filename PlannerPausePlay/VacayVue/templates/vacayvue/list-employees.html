@@ -1,16 +1,16 @@
 {% extends 'vacayvue/base.html' %}
 
 {% block content %}
-{% if user.is_authenticated %}
+{% if request.user.is_authenticated %}
 
     <h1>Λιστα με υπαλλήλους</h1>
 
 {% for request in all_requests%}
-</br>
+<br>
 <div class="card">
     <div class="card-header">
         {{request.Username}} 
-    </div></br>
+    </div><br>
     <div class="card-body">
       <h5 class="card-title">Ονοματεπώνυμο: {{request.Firstname}} {{request.Lastname}}</h5>
       <p class="card-text"> 

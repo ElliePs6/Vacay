@@ -2,25 +2,38 @@
 
 {% block content %}
 
-<h1 class="text-center ">VacayVue Login</h1>
-
-<!--H forma mou-->
-
-
-    <form action="" method="POST">
-      {% csrf_token %}
-            <div class="mb-3">
-              <label for="exampleInputEmail1" class="form-label">Username</label>
-              <input type="text" class="form-control" name="username" aria-describedby="emailHelp" placeholder="Enter username">
-            </div>
-            <div class="mb-3">
-              <label for="exampleInputPassword1" class="form-label">Password</label>
-              <input type="password" class="form-control" name="password" placeholder="Password">
-            </div>          
-        <input type="submit" value="Sign in" class="btn btn-primary">
-    </form>
-
-
-
+ {% if messages %}
+ <div class="alert alert-warning alert-dismissible fade show" role="alert">
+    {% for message in messages %}
+    {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    {% endfor %}
+</div>
+ {% endif %}
+ <div class="shadow p-3 mb-5 bg-body rounded">
+    <h1 class="text-center">VacayVue Login User</h1>
+    <br>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form action="" method="POST" class="form-container">
+                {% csrf_token %}
+                    <div class="form-group">
+                        <label for="id_user_type" class="form-label">User Type</label>
+                        {{ form.user_type }}
+                    </div>
+                    <div class="form-group">
+                        <label for="id_email" class="form-label">Email</label>
+                        {{ form.email }}
+                    </div>
+                    <div class="form-group">
+                        <label for="id_password" class="form-label">Password</label>
+                        {{ form.password }}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </form>
+                
+</div>
+</div>
+</div>
 
 {% endblock %}

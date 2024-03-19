@@ -1,26 +1,61 @@
 {% extends 'vacayvue/base.html' %}
 
 {% block content %}
-{% if user.is_authenticated %}
-
-  <center>
-    <h1>Προσθήκη Αιτήματος στη Βάση</h1>
-    </br></br>
-    {% if submitted %}
-      <h3> Η Αίτηση σας καταχωρήθηκε επιτυχώς!!!</h3>
-    {% else %}
-      <form action="" method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="hidden" name="submitted" value="True">
-        <input type="submit" value="Submit" class="btn btn-secondary">
-      </form>
-    {% endif %}
-  </center>
-
+  {% if request.user.is_authenticated %}
+  <div class="shadow p-3 bg-body rounded">
+    <h4 class="text-center">Προσθήκη Αιτήματος στη Βάση</h4>
+    <br>
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          {% if submitted %}
+            <div class="alert alert-success" role="alert">
+              Η Αίτηση σας καταχωρήθηκε επιτυχώς!!!
+            </div>
+          {% else %}
+            <form action="" method="POST" class="form-container">
+              {% csrf_token %}
+              <div class="form-group">
+                <label for="id_Type" class="form-label">Τύπος Άδειας</label>
+                {{ form.Type }}
+              </div>
+              <div class="row">
+                <div class="col">
+                  <div class="form-group">
+                    <label for="id_StartDate" class="form-label">Ημερομηνία Έναρξης</label>
+                    <div class="input-group">
+                      {{ form.StartDate }}
+                      <button class="btn btn-outline-secondary" type="button" id="start-calendar-icon">
+                          <i class="bi bi-calendar"></i>
+                        </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-group">
+                    <label for="id_EndDate" class="form-label">Ημερομηνία Λήξης</label>
+                    <div class="input-group">
+                      {{ form.EndDate }}
+                      <button class="btn btn-outline-secondary" type="button" id="end-calendar-icon">
+                          <i class="bi bi-calendar"></i>
+                        </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="id_Comments" class="form-label">Περιγραφή</label>
+                {{ form.Comments}}
+            </div>
+            <br>
+              <input type="hidden" name="submitted" value="True">
+              <button type="submit" class="btn btn-secondary">Υποβολή</button>
+            </form>
+          {% endif %}
+        </div>
+      </div>
+    </div>
   {% else %}
-  <h1>Πρέπει να είστε συνδεδεμένος για να δείτε αυτη την σελίδα..</h1>
-   <a href="{% url 'login' %}">Συνδέσου εδώ</a>
-   {% endif %}
-
+    <h1 class="text-center">Πρέπει να είστε συνδεδεμένος για να δείτε αυτή τη σελίδα.</h1>
+    <p class="text-center"><a href="{% url 'login' %}">Συνδεθείτε εδώ</a></p>
+  {% endif %}
 {% endblock %}

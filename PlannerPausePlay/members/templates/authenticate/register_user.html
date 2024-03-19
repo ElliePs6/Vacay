@@ -10,17 +10,15 @@
 {% endif %}
 
 <div class="shadow p-4 mb-5 bg-body rounded">
-  <h1 class="text-center ">VacayVue Register</h1>
+  <h1 class="text-center">VacayVue Register</h1>
 
-    <!--H forma mou-->
-    <form action="{% url 'register_user'%}" method="POST">
+    <!-- Your form -->
+    <form action="{% url 'register_user' %}" method="POST">
       {% csrf_token %}
-      {{form}}
-    </br>
+      {{ form }}
+      <br>
       <input type="submit" value="Εγγραφη" class="btn btn-success">
-      
   </form>
 </div>
-
 
 {% endblock %}

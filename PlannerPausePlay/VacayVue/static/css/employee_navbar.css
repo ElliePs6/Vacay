@@ -1,0 +1,27 @@
+/* Custom styles for the navbar */
+#v-pills-tab {
+    position: fixed; /* Fix the navbar position */
+    top: 0; /* Align navbar to the top */
+    left: 0; /* Align navbar to the left */
+    height: 100%; /* Make the navbar full height */
+    width: 200px; /* Set the width of the navbar */
+    background-color: #343a40; /* Navbar background color */
+    padding-top: 20px; /* Add padding to the top */
+}
+
+/* Adjust padding for the navbar items */
+#v-pills-tab .nav-link {
+    color: #fff; /* Text color */
+    padding: 10px 20px; /* Add padding */
+}
+
+/* Style for active nav link */
+#v-pills-tab .nav-link.active {
+    background-color: #495057; /* Background color for active link */
+}
+
+/* Adjust padding for the tab content */
+#v-pills-tabContent {
+    margin-left: 200px; /* Adjust margin to make space for the navbar */
+    padding: 20px; /* Add padding */
+}

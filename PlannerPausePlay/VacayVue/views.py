@@ -1,11 +1,14 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
 from .models import Requests,Employees,Events
 from .forms import RequestForm
 from django.http import JsonResponse
-from django.utils import timezone 
+from datetime import datetime
 
+def employee_navbar(request):
+    return render(request, 'vacayvue/employee_navbar.html')
 
+def navbar_company(request):
+    return render(request, 'vacayvue/navbar_company.html')
 
 def calendar(request):  
     all_events = Events.objects.all()
@@ -56,11 +59,6 @@ def remove(request):
     data = {}
     return JsonResponse(data)
  
-def update_request(request, request_id):
-    request = request.objects.get(pk=request_id)
-    return render(request, 'vacayvue/update_request.html',{'request':request})
-
-
 def list_employees(request):
     all_requests=Employees.objects.all()
     return render(request, 'vacayvue/list-employees.html',
@@ -90,8 +88,9 @@ def list_requests(request):
 
 
 def home(request):
-     return render(request, 'vacayvue/home.html')
-
-
-
-
+    #Get current year   
+    current_year=datetime.now().year
+    return render(request, 'vacayvue/home.html',{       
+        'current_year':current_year,
+        
+    })

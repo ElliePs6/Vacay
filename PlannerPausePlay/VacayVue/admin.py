@@ -1,14 +1,20 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
 from .models import Employees
 from .models import Companies
 from .models import Requests
+from.models import CustomUser
 #Για να βλεπουμε τους πινακες στον admin
 #admin.site.register(Employees)
 #admin.site.register(Companies)
 #admin.site.register(Requests)
 
-@admin.register(Employees)
 
+admin.site.register(CustomUser,UserAdmin)
+
+
+
+@admin.register(Employees)
 class EmployeesAdmin(admin.ModelAdmin):
     list_display=('Firstname','Lastname','Email','Role')
     ordering=('Username',)

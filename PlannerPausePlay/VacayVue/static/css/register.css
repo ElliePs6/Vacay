@@ -1,0 +1,43 @@
+/* Center the registration form */
+.shadow {
+    margin: 0 auto;
+    max-width: 600px; /* Adjust as needed */
+}
+
+/* Style the form inputs */
+.form-control {
+    background-color: white;
+    color: black;
+    border: 1px solid black; /* Add border */
+}
+
+/* Style the form labels */
+.form-label {
+    color: black;
+}
+
+/* Style the submit button */
+.btn-success {
+    background-color: #8e97da; /* Red color */
+    border-color: #8e97da; /* Red color */
+    color: white; /* White text color */
+    transition: background-color 0.3s ease; /* Smooth transition on hover */
+}
+
+/* Hover effect on the submit button */
+.btn-success:hover {
+    background-color: #3c479b; /* Darker shade of red on hover */
+    border-color: #3c479b; /* Darker shade of red on hover */
+}
+
+/* Style the alert message */
+.alert {
+    background-color: #FFC300; /* Yellow background color */
+    color: black; /* Black text color */
+    border-color: black; /* Black border color */
+}
+
+/* Close button in the alert message */
+.btn-close {
+    color: black; /* Black close button color */
+}

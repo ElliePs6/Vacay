@@ -13,7 +13,7 @@ urlpatterns = [
     path('add-request/',views.add_request,name='add-request'),
     path('list-employees/',views.list_employees,name="list-employees"),
     path('employee_navbar/', views.employee_navbar,name="employee_navbar"),
-    path('navbar_company/', views.navbar_company,name="navbar_company")
+    path('company_navbar/', views.company_navbar,name="company_navbar")
 
 
     

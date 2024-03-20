@@ -4,11 +4,13 @@ from .forms import RequestForm
 from django.http import JsonResponse
 from datetime import datetime
 
+
+
 def employee_navbar(request):
     return render(request, 'vacayvue/employee_navbar.html')
 
-def navbar_company(request):
-    return render(request, 'vacayvue/navbar_company.html')
+def company_navbar(request):
+    return render(request, 'vacayvue/company_navbar.html')
 
 def calendar(request):  
     all_events = Events.objects.all()

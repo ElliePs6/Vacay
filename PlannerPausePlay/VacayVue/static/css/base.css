@@ -9,6 +9,7 @@ body {
     font-family: Arial, sans-serif;
     background-color: #d0d3ee;
     display: flex;
+   
     flex-direction: column;
     min-height: 100vh; /* Ensure the body takes up the full height of the viewport */
 }
@@ -16,9 +17,13 @@ body {
 /* Container styles */
 .container {
     flex: 1; /* Take up remaining vertical space */
+    align-items: center;
+    justify-content: center;
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
+    border: 5px solid #0000;
+    
 }
 
 /* Header styles */
@@ -33,10 +38,9 @@ header {
 footer {
     background-color: #3c479b;
     color: #fff;
+    height: 70px; /* Set the height of the footer */
     padding: 10px 0;
     text-align: center;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
+    position: relative; /* Change position to relative */
     z-index: 2; /* Ensure the footer appears above the calendar */
 }

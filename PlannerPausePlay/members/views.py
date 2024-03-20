@@ -33,10 +33,10 @@ def login_user(request):
 
 
 def employee_home(request):
-    return render(request, 'authenticate/login_employee.html')
+    return render(request, 'authenticate/employee_home.html')
 
 def company_home(request):
-    return render(request, 'authenticate/login_company.html')
+    return render(request, 'authenticate/company_home.html')
 
 def logout_user(request):
     logout(request)

@@ -1,27 +1,42 @@
 /* Custom styles for the navbar */
 #v-pills-tab {
-    position: fixed; /* Fix the navbar position */
-    top: 0; /* Align navbar to the top */
+    position: absolute; /* Fix the navbar position */
+    top: 80px; /* Align navbar to the top with some space for the header */
     left: 0; /* Align navbar to the left */
-    height: 100%; /* Make the navbar full height */
+    height: calc(100vh - 130px); /* Adjusting height considering the header and footer */
     width: 200px; /* Set the width of the navbar */
     background-color: #343a40; /* Navbar background color */
     padding-top: 20px; /* Add padding to the top */
+    overflow-y: auto; /* Enable vertical scrolling if content exceeds viewport height */
+}
+
+.nav.flex-column {
+    background-color: #fff; /* Set background color for the vertical nav pills */
+    padding: 10px;
+    border-radius: 5px;
+    width: fit-content; /* Set width to fit content */
+    margin-bottom: 10px; /* Add space between nav pills and tab content */
 }
 
 /* Adjust padding for the navbar items */
 #v-pills-tab .nav-link {
-    color: #fff; /* Text color */
-    padding: 10px 20px; /* Add padding */
+    color: #000; /* Set color for nav links */
+    padding: 10px;
+    text-align: center;
+    margin-bottom: 5px; /* Add some space between nav links */
+    border-radius: 5px;
+    transition: background-color 0.3s ease; /* Smooth transition for background color */
+    display: block; /* Display nav links as block */
 }
 
 /* Style for active nav link */
 #v-pills-tab .nav-link.active {
-    background-color: #495057; /* Background color for active link */
+    background-color: #343a40; /* Set background color for active nav link */
+    color: #fff;
 }
 
 /* Adjust padding for the tab content */
 #v-pills-tabContent {
-    margin-left: 200px; /* Adjust margin to make space for the navbar */
-    padding: 20px; /* Add padding */
+    margin-left: 100px; /* Adjust margin to make space for the navbar and some space */
+    border-radius: 5px;
 }

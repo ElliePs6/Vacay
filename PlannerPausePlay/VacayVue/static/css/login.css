@@ -1,13 +1,6 @@
-/* Center the login form */
-.shadow {
-    margin: 50px auto;
-    padding: 30px;
-    border: 1px solid #c4ddda;
-    border-radius: 10px;
-    max-width:70vw;
-  }
+
 .form-container {
-    padding: 30px;
+    width:500px;
     border: 1px solid #ccc;
     border-radius: 5px;
   

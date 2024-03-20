@@ -1,41 +1,38 @@
 /* Styles for form container */
-.shadow {
-    margin: 60px auto;
-    padding: 30px;
-    border: 1px solid #fff;
-    border-radius: 10px;
-    max-width:70vw;
-  }
-  .form-container {
-    padding: 30px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  
-  }
-  
-  /* Styles for form labels */
-  .form-label {
-    font-weight: bold;
-  }
-  
-  /* Styles for form fields */
-  .form-group {
-    margin-bottom: 20px;
-  }
-  
-  /* Styles for date fields */
-  .row .col input[type="date"] {
-    width: 100%;
-  }
-  
-  /* Styles for calendar icon */
-  .input-group-text {
-    background-color: #fff;
-    border: none;
-  }
-  .alert-success {
-    margin-top: 20px;
-  }
-  .form-control.comments {
-    height: 150px; /* Adjust height as needed */
-  }
+
+.form-container {
+
+  padding: 30px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: rgb(207, 94, 29);
+  position: inherit;
+
+}
+
+/* Styles for form labels */
+.form-label {
+  font-weight: bold;
+}
+
+/* Styles for form fields */
+.form-group {
+  margin-bottom: 20px;
+}
+
+/* Styles for date fields */
+.row .col input[type="date"] {
+  width: 100%;
+}
+
+/* Styles for calendar icon */
+.input-group-text {
+  background-color: #fff;
+  border: none;
+}
+.alert-success {
+  margin-top: 20px;
+}
+.form-control.comments {
+  height: 150px; /* Adjust height as needed */
+}

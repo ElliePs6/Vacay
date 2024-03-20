@@ -32,23 +32,25 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
     <!-- Custom JavaScript -->
     <script src="{% static 'js/calendar.js' %}"></script>
+    <script src="{% static 'js/datepicker.js' %}"></script>
+
 </head>
 <body>
-
-     <!-- Conditionally include the navbar based on user's role -->
     {% if request.user.is_authenticated %}
-        {% if request.user.is_employee %}
-            {% include 'vacayvue/employee_navbar.html' %}
-        {% elif request.user.is_company %}
-         {% include 'vacayvue/navbar_company.html' %}
-        {% else %}
-         <!-- Default to guest navbar if the role is not specified -->
-            {% include 'vacayvue/navbar.html'%}
-        {% endif %}
+    {% if request.user.is_employee %}
+        {% include 'vacayvue/employee_navbar.html' %}
+    {% elif request.user.is_company %}
+        {% include 'vacayvue/company_navbar.html' %}
     {% else %}
-        {% include 'vacayvue/navbar.html'%}
+        <!-- Default to guest navbar if the role is not specified -->
+        {% include 'vacayvue/navbar.html' %}
     {% endif %}
-    <br>
+{% else %}
+    {% include 'vacayvue/navbar.html' %}
+{% endif %}
+
+ 
+    
     <div class="container">
         {% block content %}
         
@@ -59,7 +61,6 @@
     </footer>
     
 
-    <script src="{% static 'js/datepicker.js' %}"></script>
 
 </body>
 </html>

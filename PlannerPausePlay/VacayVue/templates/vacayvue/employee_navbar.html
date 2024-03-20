@@ -1,30 +1,26 @@
-{% extends 'vacayvue/base.html' %}
-
-{% block content %}
-<body>
-    <!-- Vertical Nav Pills -->
-    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-        <a class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Dashboars</a>
-        <a class="nav-link" id="v-pills-request-tab" data-bs-toggle="pill" href="#v-pills-addrequest" role="tab" aria-controls="v-pills-addrequest" aria-selected="false">AddRequest</a>
-        <a class="nav-link" id="v-pills-viewrequest-tab" data-bs-toggle="pill" href="#v-pills-viewrequest" role="tab" aria-controls="v-pills-viewrequest" aria-selected="false">ViewRequest</a>
-        <a class="nav-link" id="v-pills-ballance-tab" data-bs-toggle="pill" href="#v-pills-ballance" role="tab" aria-controls="v-pills-ballance" aria-selected="false">Ballance</a>
-    </div>
-
-    <!-- Tab Content -->
-    <div class="tab-content" id="v-pills-tabContent">
-        <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
-            <!-- Content for Home tab goes here -->
-        </div>
-        <div class="tab-pane fade" id="v-pills-addrequest" role="tabpanel" aria-labelledby="v-pills-profile-tab">
-            <!-- Content for Profile tab goes here -->
-        </div>
-        <div class="tab-pane fade" id="v-pills-viewrequest" role="tabpanel" aria-labelledby="v-pills-viewrequest-tab">
-          
-        </div>
-        <div class="tab-pane fade" id="v-pills-Ballance" role="tabpanel" aria-labelledby="v-pills-Ballance-tab">
-            
+<!-- Vertical Navbar -->
+<div class="nav flex-column" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+    <!-- Dashboard -->
+    <a class="nav-link active"  href="{% url 'calendar' %}" >Dashboard</a>
+    
+    <!-- Add Request -->
+    <a class="nav-link" href="{% url 'add-request' %}">Προσθήκη Αιτήσεων</a>
+    
+    <!-- View Request -->
+    <a class="nav-link" href="">Προβολή Αιτήσεων</a>
+    
+    <!-- Balance -->
+    <a class="nav-link" href="">Υπόλοιπο</a>
+  </div>
+  
+  <!-- Tab Content -->
+  <div class="tab-content" id="v-pills-tabContent">
+    <div class="tab-pane fade show active" id="v-pills-dashboard" role="tabpanel" aria-labelledby="v-pills-dashboard-tab">
+        <!-- Content for dashboard tab goes here -->
+        <div class="col-md-12"> 
+            <h2>Calendar</h2> 
+            <div id='calendar'></div> 
         </div>
     </div>
-
-</body>
-{% endblock %}
+    <!-- Add other tab panes here -->
+  </div>

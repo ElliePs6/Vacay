@@ -1,6 +1,6 @@
 /* Styles for the calendar container */
 #calendar {
-  max-width: calc(100% - 40px); /* Adjust to fit within the container */
+  width: 650px;/* Adjust to fit within the container */
   margin: 20px auto; /* Add margin to center and provide space from top */
   padding: 20px; /* Add padding for spacing inside the container */
   background-color: #fff;
@@ -8,16 +8,11 @@
   border-radius: 5px;
   position: relative; /* Ensure relative positioning */
   z-index: 1; /* Ensure the calendar stays above the footer */
-  height: 700px; /* Adjust the height as needed */
+  height: 600px; /* Adjusting height considering the header */
   overflow: auto; /* Add scrollbars if necessary */
 }
 
 
-/* Ensure calendar doesn't overflow the container */
-.container {
-  padding-bottom: 100px; /* Adjust as necessary to provide space for the footer */
-  position: relative; /* Ensure relative positioning */
-}
 
   /* Styles for the header */
   .fc-header-toolbar {

@@ -36,30 +36,37 @@
 
 </head>
 <body>
-    {% if request.user.is_authenticated %}
-    {% if request.user.is_employee %}
-        {% include 'vacayvue/employee_navbar.html' %}
-    {% elif request.user.is_company %}
-        {% include 'vacayvue/company_navbar.html' %}
-    {% else %}
-        <!-- Default to guest navbar if the role is not specified -->
-        {% include 'vacayvue/navbar.html' %}
-    {% endif %}
-{% else %}
-    {% include 'vacayvue/navbar.html' %}
-{% endif %}
+    
+             <!-- User is not authenticated.-->
+             {% include 'vacayvue/navbar.html' %}
+            {% if request.user.is_authenticated %}
+            <!-- User is authenticated.-->
+             {% if request.user.user_type == 'employee' %}
+                 {% include 'vacayvue/employee_navbar.html' %}
+             {% elif request.user.user_type == 'company' %}
+                 {% include 'vacayvue/company_navbar.html' %}
+             {% else %}
+                 {% include 'vacayvue/navbar.html' %}
+             {% endif %}
+                
+         {% endif %}
+        
+   
 
+       
  
     
     <div class="container">
         {% block content %}
         
         {% endblock %}
-    </div>           
+    </div> 
+      
     <footer>
         Copyright (c) {{current_year}}
     </footer>
     
+    <script src="{% static 'js/activenav.js' %}"></script>
 
 
 </body>

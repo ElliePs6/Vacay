@@ -14,18 +14,20 @@ admin.site.register(CustomUser,UserAdmin)
 
 
 
-@admin.register(Employees)
+admin.site.register(Employees)
+'''
 class EmployeesAdmin(admin.ModelAdmin):
-    list_display=('Firstname','Lastname','Email','Role')
+    list_display=('Username','join_date','Email','Role')
     ordering=('Username',)
     search_fields=('Username','Email')
-
-@admin.register(Companies)
+'''
+admin.site.register(Companies)
+'''
 class CompaniesAdmin(admin.ModelAdmin):
     list_display=('Companyname','Email')
     ordering=('Companyname',)
     search_fields=('Companyname','Email')
-
+'''
 @admin.register(Requests)
 class RequestsAdmin(admin.ModelAdmin):
     fields=('EmployID',('StartDate','EndDate'),'Status','Type')

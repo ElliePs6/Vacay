@@ -13,12 +13,12 @@
   <h1 class="text-center">VacayVue Register</h1>
 
     <!-- Your form -->
-    <form action="{% url 'register_user' %}" method="POST">
+    <form action="{% url 'register_company' %}" method="POST" class="form-container">
       {% csrf_token %}
       {{ form }}
       <br>
-      <input type="submit" value="Εγγραφη" class="btn btn-success">
-  </form>
+      <button type="submit" class="btn btn-primary">Εγγραφή</button>
+    </form>
 </div>
 
 {% endblock %}

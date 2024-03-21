@@ -10,31 +10,30 @@
     {% endfor %}
 </div>
  {% endif %}
- <main>
+ 
+ <div class="shadow p-4 mb-5 bg-body rounded">
     <h1 class="text-center">VacayVue Login User</h1>
     <br>
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <form action="" method="POST" class="form-container">
-                {% csrf_token %}
-                    <div class="form-group">
-                        <label for="id_user_type" class="form-label">User Type</label>
-                        {{ form.user_type }}
-                    </div>
-                    <div class="form-group">
-                        <label for="id_email" class="form-label">Email</label>
-                        {{ form.email }}
-                    </div>
-                    <div class="form-group">
-                        <label for="id_password" class="form-label">Password</label>
-                        {{ form.password }}
-                    </div>
-                    <button type="submit" class="btn btn-primary">Login</button>
-                </form>
-                
-
-</div>
-</div>
-</main>
-
+      
+              <form action="" method="POST" class="form-container">
+                  {% csrf_token %}
+                      <div class="form-group">
+                          <label for="id_user_type" class="form-label">User Type</label>
+                          {{ form.user_type }}
+                      </div>
+                      <div class="form-group">
+                          <label for="id_email" class="form-label">Email</label>
+                          {{ form.email }}
+                      </div>
+                      <div class="form-group">
+                          <label for="id_password" class="form-label">Password</label>
+                          {{ form.password }}
+                      </div>
+                      <br>
+                      <button type="submit" class="btn btn-primary">Σύνδεση</button>
+                  </form>
+                  
+  
+  
+  </div>
 {% endblock %}

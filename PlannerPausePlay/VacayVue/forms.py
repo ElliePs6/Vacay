@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from .models import Requests
+from .models import Requests,Employees
 
 class RequestForm(ModelForm):
     class Meta:
@@ -18,3 +18,6 @@ class RequestForm(ModelForm):
             'EndDate': forms.DateInput(attrs={'class': 'form-control datepicker', 'placeholder': 'Ημερομηνία Λήξης', 'id': 'end-date'}),
             'Comments': forms.TextInput(attrs={'class': 'form-control comments', 'placeholder': ''})
         }
+
+
+

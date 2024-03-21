@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .forms import  LoginForm, RegisterUserForm
+from .forms import  LoginForm, RegisterCompanyForm,RegisterEmployeeForm
 #from django.contrib.auth.models import User
 
 def login_user(request):
@@ -11,7 +11,6 @@ def login_user(request):
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
             user_type = form.cleaned_data['user_type']
-
             user = authenticate(request, email=email, password=password)
 
             if user is not None:
@@ -19,7 +18,6 @@ def login_user(request):
                 print(f'User type: {user.user_type}')
                 login(request, user)
                 if user.user_type == 'employee':
-                    print('Redirecting to employee_home')
                     return redirect('employee_home')
                 elif user.user_type == 'company':
                     print('Redirecting to company_home')
@@ -43,9 +41,9 @@ def logout_user(request):
     messages.success(request, 'Είσαι Αποσυνδεμένος')
     return redirect('home')
 
-def register_user(request):
+def register_company(request):
     if request.method == 'POST':
-        form = RegisterUserForm(request.POST)
+        form = RegisterCompanyForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
             user.user_type = 'company'  # Set user type to 'company'
@@ -53,8 +51,20 @@ def register_user(request):
             messages.success(request, 'Registration successful!')
             return redirect('home')
     else:
-        form = RegisterUserForm()
-    return render(request, 'authenticate/register_user.html', {'form': form})
+        form = RegisterCompanyForm()
+    return render(request, 'authenticate/register_company.html', {'form': form})
 
-def user_view(request):
-    return render(request, 'authenticate/user_view.html')
+
+def register_employee(request):
+    if request.method == 'POST':
+        form = RegisterEmployeeForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.user_type = 'employee'  # Set user type to 'company'
+            user.save()
+            messages.success(request, 'Registration successful!')
+            return redirect('company_home')
+    else:
+        form = RegisterEmployeeForm()
+    return render(request, 'authenticate/register_employee.html', {'form': form})
+

@@ -1,26 +1,19 @@
 <!-- Vertical Navbar -->
+
 <div class="nav flex-column" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+  <div class="container-fluid">
     <!-- Dashboard -->
-    <a class="nav-link active"  href="{% url 'calendar' %}" >Dashboard</a>
+    <a class="nav-link active" href="{% url 'calendar' %}">Dashboard</a>
     
     <!-- Add Request -->
     <a class="nav-link" href="{% url 'add-request' %}">Προσθήκη Αιτήσεων</a>
     
     <!-- View Request -->
-    <a class="nav-link" href="">Προβολή Αιτήσεων</a>
+    <a class="nav-link" href="{% url 'list-requests' %}">Προβολή Αιτήσεων</a>
     
-    <!-- Balance -->
+    <!-- Balance 
     <a class="nav-link" href="">Υπόλοιπο</a>
+    -->
+ 
   </div>
-  
-  <!-- Tab Content -->
-  <div class="tab-content" id="v-pills-tabContent">
-    <div class="tab-pane fade show active" id="v-pills-dashboard" role="tabpanel" aria-labelledby="v-pills-dashboard-tab">
-        <!-- Content for dashboard tab goes here -->
-        <div class="col-md-12"> 
-            <h2>Calendar</h2> 
-            <div id='calendar'></div> 
-        </div>
-    </div>
-    <!-- Add other tab panes here -->
-  </div>
+</div>

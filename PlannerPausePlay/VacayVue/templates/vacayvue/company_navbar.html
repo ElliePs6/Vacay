@@ -1,43 +1,21 @@
+<!-- Vertical Navbar -->
+<div class="nav flex-column" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+    <div class="container-fluid">
+      <!-- Dashboard -->
+      <a class="nav-link active" href="{% url 'calendar' %}">Dashboard</a>
+      
+      <!-- Add Request -->
+      <a class="nav-link" href="{% url 'add-request' %}">Προσθήκη Αιτήσεων</a>
+      <!-- View Request -->
+      <a class="nav-link" href="{% url 'list-requests' %}">Προβολή Αιτήσεων</a>
+      <!-- Add Employee -->
+      <a class="nav-link" href="{% url 'register_employee' %}">Προσθήκη Υπαλλήλου</a>
 
-{% block content %}
-
-
-
-    <!-- Vertical Nav Pills -->
-    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-     <!-- Button to toggle vertical nav pills -->
-    <button class="navbar-toggler" type="button" id="togglePillsButton" aria-controls="v-pills-tab" aria-expanded="false" aria-label="Toggle vertical pills">
-        VacayVue
-    </button>
-        <a class="nav-link active" id="v-pills-dashboard-tab" data-bs-toggle="pill" href="#v-pills-dashboard" role="tab" aria-controls="v-pills-dashboard" aria-selected="true">Dashboard</a>
-        <a class="nav-link" id="v-pills-addrequest-tab" data-bs-toggle="pill" href="#v-pills-addrequest" role="tab" aria-controls="v-pills-addrequest" aria-selected="false">Προσθήκη Αίτησης</a>
-        <a class="nav-link" id="v-pills-addemployee-tab" data-bs-toggle="pill" href="#v-pills-addemployee" role="tab" aria-controls="v-pills-addemployee" aria-selected="false">Προσθήκη Υπαλλήλου</a>
-        <a class="nav-link" id="v-pills-viewrequest-tab" data-bs-toggle="pill" href="#v-pills-viewrequest" role="tab" aria-controls="v-pills-viewrequest" aria-selected="false">View Request</a>
-        <a class="nav-link" id="v-pills-ballance-tab" data-bs-toggle="pill" href="#v-pills-ballance" role="tab" aria-controls="v-pills-ballance" aria-selected="false">ViewBalance</a>
+      <!-- View Employee-->
+      <a class="nav-link" href="{% url 'list-employees' %}">Προβολή Υπαλλήλων</a>    
+      
+      
+    
     </div>
-
-    <!-- Tab Content -->
-    <div class="tab-content" id="v-pills-tabContent">
-        <div class="tab-pane fade show active" id="v-pills-dashboard" role="tabpanel" aria-labelledby="v-pills-dashboard-tab">
-            <!-- Content for dashboard tab goes here -->
-            <div class="col-md-12"> 
-                <h2>Calendar</h2> 
-                <div id='calendar'></div> 
-            </div>
-        </div>
-        <div class="tab-pane fade" id="v-pills-addrequest" role="tabpanel" aria-labelledby="v-pills-addrequest-tab">
-            <!-- Content for AddRequest tab goes here -->
-            {% include 'add-request.html'%}
-        </div>
-        <div class="tab-pane fade" id="v-pills-addemployee" role="tabpanel" aria-labelledby="v-pills-addemployee-tab">
-            <!-- Content for ViewRequest tab goes here -->
-        </div>
-        <div class="tab-pane fade" id="v-pills-viewrequest" role="tabpanel" aria-labelledby="v-pills-viewrequest-tab">
-            <!-- Content for ΑddΕmployee tab goes here -->
-        </div>
-        <div class="tab-pane fade" id="v-pills-ballance" role="tabpanel" aria-labelledby="v-pills-ballance-tab">
-            <!-- Content for Balance tab goes here -->
-        </div>
-    </div>
-
-{% endblock %}
+  </div>
+  

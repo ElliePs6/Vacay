@@ -1,0 +1,24 @@
+{% extends 'vacayvue/base.html' %}
+
+{% block content %}
+
+{% if form.errors %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+  <p>Υπαρχει καποιο λαθος με τη φορμα σας</p>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+
+<div class="shadow p-4 mb-5 bg-body rounded">
+  <h1 class="text-center">VacayVue Register</h1>
+
+    <!-- Your form -->
+    <form action="{% url 'register_employee' %}" method="POST" class="form-container">
+      {% csrf_token %}
+      {{ form }}
+      <br>
+      <button type="submit" class="btn btn-primary">Εγγραφή</button>
+    </form>
+</div>
+
+{% endblock %}

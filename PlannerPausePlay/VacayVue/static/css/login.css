@@ -1,7 +1,11 @@
-
+.shadow {
+    margin: 0 ;
+    max-width: 600px; /* Adjust as needed */
+}
 .form-container {
     width:500px;
     border: 1px solid #ccc;
+    background-color: #f9faf8;
     border-radius: 5px;
   
   }
@@ -23,25 +27,27 @@
 
 /* Style the form labels */
 .form-label {
-    color: rgb(185, 16, 109);
     margin-bottom: 5px; /* Add spacing between labels and inputs */
 }
 
 /* Style the form submit button */
 .btn-primary {
-    background-color: #8e97da; /* Different shade  */
-    border-color: #8e97da; /* Different shade */
+    background-color: #3d3a50; /* Different shade  */
+    color: #fff ;
+    border-color: #48445f; /* Different shade */
     transition: background-color 0.3s ease; /* Smooth transition on hover */
 }
 
 /* Hover effect on the submit button */
 .btn-primary:hover {
-    background-color: #3c479b; /* Darker shade  */
+    background-color: #48445f;
+    color:#fff;
+    
 }
 
 /* Style the alert message */
 .alert {
-    background-color: #FFC300; /* Yellow background color */
+    background-color: #c59805; /* Yellow background color */
     color: black; /* Black text color */
     border-color: black; /* Black border color */
     width: 100%; /* Ensure alert takes full width */

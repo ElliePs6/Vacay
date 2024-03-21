@@ -2,7 +2,7 @@
 
 /* Main section styles */
 main {
-    background-color: white;
+    background-color: #f9faf8;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -62,7 +62,7 @@ main {
     margin-right: 10px;
     text-decoration: none;
     color: white;
-    background-color: #614add ;
+    background-color: #3d3a50 ;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -70,5 +70,5 @@ main {
 
 .button:hover {
     color: white;
-    background-color: #3c479b; 
+    background-color: #aab9bd; 
 }

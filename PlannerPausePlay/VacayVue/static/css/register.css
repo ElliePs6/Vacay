@@ -3,7 +3,9 @@
     margin: 0 auto;
     max-width: 600px; /* Adjust as needed */
 }
-
+/*.form-container {
+   
+  }**/
 /* Style the form inputs */
 .form-control {
     background-color: white;

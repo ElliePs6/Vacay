@@ -2,47 +2,64 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser
 
+from django.utils import timezone
+
 class CustomUser(AbstractUser):
     USER_TYPE_CHOICES = (
         ('employee', 'Employee'),
         ('company', 'Company'),
     )
-  
+
     email = models.EmailField(unique=True)
     user_type = models.CharField(max_length=20, choices=USER_TYPE_CHOICES)
 
-    USERNAME_FIELD = 'email'  # Set email as the USERNAME_FIELD for authentication
-    REQUIRED_FIELDS = ['username',]  # No additional fields required for registration
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username',]  # Make sure 'username' is required
 
     def __str__(self):
         return self.email
 
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            self.date_joined = timezone.now()  # Set 'date_joined' when a new user is created
+        if self.user_type == 'employee':
+            employee = Employees.objects.create(
+                user_type=self.user_type,
+                username=self.username,  # Include 'username'
+                Email=self.email,
+                join_date=self.date_joined,  # Set 'join_date' to 'date_joined' of CustomUser
+                CompanyID = None
+            )
+        elif self.user_type == 'company':
+            company = Companies.objects.create(
+                Email=self.email,
+                Companyname=self.username,
+            )
+        super().save(*args, **kwargs)
+
 
 class Companies(models.Model):
     CompanyID = models.AutoField(primary_key=True)
-  #  manager=models.ForeignKey(User,blank=True,null=True,on_delete=models.SET_NULL)
-    Email = models.EmailField()
+    users = models.ManyToManyField(CustomUser, related_name='companies', blank=True)
+    Email = models.EmailField(unique=True)
     Companyname = models.CharField(max_length=255)
 
-    #Εμφανιζει το ονομα στον admin και μπορουμε να δουμε ολα τα σχετικα
     def __str__(self):
         return self.Companyname
+
     
     
 #Καθε υποληλος θα ανηκει σε μια εταιρια
 class Employees(models.Model):
     EmployID = models.AutoField(primary_key=True)
-    Username = models.CharField(max_length=255, unique=True)
-    Firstname = models.CharField(max_length=255)
-    Lastname= models.CharField(max_length=25, blank=True)#Του λεμε οτι δεν ειναι αναγκαστικο να το συμπληρωσεις
-    Password = models.CharField(max_length=255)
-    Role = models.CharField(max_length=50)
+    user_type = models.CharField(max_length=20, choices=CustomUser.USER_TYPE_CHOICES, default='employee' )
     Email = models.EmailField(unique=True)
-   # Department = models.CharField(max_length=255)
-    CompanyID = models.ForeignKey(Companies,related_name='employees',blank=True,null=True, on_delete=models.CASCADE)
+    CompanyID = models.ForeignKey(Companies, related_name='employees', blank=True, null=True, on_delete=models.CASCADE)
+    join_date = models.DateTimeField(null=True, blank=True)
+    username = models.CharField(max_length=225,null=True)
     
     def __str__(self):
-        return self.Username
+        return self.Email
 
 #request ειναι 1:1 σχεση .Μια ετηση για καθε υπαλλοιλο
 class Requests(models.Model):
@@ -58,8 +75,8 @@ class Requests(models.Model):
 
     request_id = models.AutoField(primary_key=True)
     EmployID = models.ForeignKey(Employees,related_name='requests', blank=True, null=True, on_delete=models.CASCADE)
-    StartDate = models.DateField()
-    EndDate = models.DateField()
+    StartDate = models.DateTimeField(null=True, blank=True)
+    EndDate = models.DateTimeField(null=True, blank=True)
     Type = models.CharField(max_length=50)
     Status = models.CharField(max_length=50, choices=STATUS_CHOICES, default=PENDING)
     Comments = models.TextField(blank=True)

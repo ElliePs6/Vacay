@@ -7,7 +7,7 @@ html, body, header, footer, div, p, h1, h2, h3, h4, h5, h6 {
 /* Set default font and background color */
 body {
     font-family: Arial, sans-serif;
-    background-color: #d0d3ee;
+    background-color: white;
     display: flex;
    
     flex-direction: column;
@@ -28,15 +28,15 @@ body {
 
 /* Header styles */
 header {
-    background-color: #343a40;
+    background-color: #d16951;
     color: #ffffff;
-    padding: 10px 0;
+    padding: 5px 0;
     text-align: center;
 }
 
 /* Footer styles */
 footer {
-    background-color: #3c479b;
+    background-color: #3d3a50;
     color: #fff;
     height: 70px; /* Set the height of the footer */
     padding: 10px 0;

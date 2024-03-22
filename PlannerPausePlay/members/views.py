@@ -45,11 +45,9 @@ def register_company(request):
     if request.method == 'POST':
         form = RegisterCompanyForm(request.POST)
         if form.is_valid():
-            user = form.save(commit=False)
-            user.user_type = 'company'  # Set user type to 'company'
-            user.save()
+            form.save()
             messages.success(request, 'Registration successful!')
-            return redirect('home')
+            return redirect('admin:index')  # Redirect to the admin index page
     else:
         form = RegisterCompanyForm()
     return render(request, 'authenticate/register_company.html', {'form': form})

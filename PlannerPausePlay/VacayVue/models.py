@@ -1,11 +1,10 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
 from django.db import IntegrityError
-from django.db import models
-from django.contrib.auth.models import AbstractUser
-from django.utils import timezone
+from django.conf import settings
+
 
 class CustomUser(AbstractUser):
     USER_TYPE_CHOICES = (
@@ -15,6 +14,7 @@ class CustomUser(AbstractUser):
 
     email = models.EmailField(unique=True)
     user_type = models.CharField(max_length=20, choices=USER_TYPE_CHOICES)
+    company = models.ForeignKey('Companies', on_delete=models.CASCADE, related_name='employees', null=True, blank=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']  # 'username' is required
@@ -22,51 +22,26 @@ class CustomUser(AbstractUser):
     def __str__(self):
         return self.email
 
-    def save(self, *args, **kwargs):
-        if not self.pk:
-            self.date_joined = timezone.now()
-
-        if self.user_type == 'employee':
-            employee = Employees.objects.create(
-                user_type=self.user_type,
-                username=self.username,
-                email=self.email,
-                join_date=self.date_joined,
-            )
-        elif self.user_type == 'company':
-            try:
-                company = Companies.objects.create(
-                    email=self.email,
-                    companyname=self.companyname,  
-                    hrname=self.hrname
-                )
-            except IntegrityError:
-                error_message = "A company with the email '{}' already exists.".format(self.email)
-                raise ValueError(error_message)
-        super().save(*args, **kwargs)
 
 class Companies(models.Model):
     companyID = models.AutoField(primary_key=True)
-    users = models.ManyToManyField(CustomUser, related_name='companies', blank=True)
-    email = models.EmailField(unique=True)
-    companyname = models.CharField(max_length=255)
-    hrname = models.CharField(max_length=255,null=True, blank=True)  # Added HR name field
-
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='companies_profile', default=None)
+    companyname = models.CharField(max_length=255, null=True)
+    hrname = models.CharField(max_length=255, null=True)
 
     def __str__(self):
         return self.companyname
 
+
 class Employees(models.Model):
-    employID = models.AutoField(primary_key=True)
-    user_type = models.CharField(max_length=20, choices=CustomUser.USER_TYPE_CHOICES, default='employee')
-    email = models.EmailField(unique=True)
-    company = models.ForeignKey(Companies, related_name='employees', blank=True, null=True, on_delete=models.CASCADE)
+    employeeID = models.AutoField(primary_key=True)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='employee_profile', default=None)
+    company = models.ForeignKey(Companies, on_delete=models.CASCADE, related_name='employee_profiles', null=True)
     join_date = models.DateTimeField(null=True, blank=True)
     username = models.CharField(max_length=225, null=True)
     
     def __str__(self):
-        return self.email
-
+        return self.user.email
 
 #request ειναι 1:1 σχεση .Μια ετηση για καθε υπαλλοιλο
 class Requests(models.Model):

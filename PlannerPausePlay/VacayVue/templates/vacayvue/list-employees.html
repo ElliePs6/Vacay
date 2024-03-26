@@ -1,34 +1,33 @@
 {% extends 'vacayvue/base.html' %}
 
 {% block content %}
-{% if request.user.is_authenticated %}
-
-    <h1>Λιστα με υπαλλήλους</h1>
-
-{% for request in all_requests%}
-<br>
-<div class="card">
-    <div class="card-header">
-        {{request.Username}} 
-    </div><br>
-    <div class="card-body">
-      <h5 class="card-title">Ονοματεπώνυμο: {{request.Firstname}} {{request.Lastname}}</h5>
-      <p class="card-text"> 
-        <ul>
-            <li>Ρόλος: {{request.Role}}</li>
-            <li>Email:{{request.Email}} </li>
-            <li>Εταιρία: {{request.CompanyID.Companyname}}</li>      
-                     
-           
-            </ul>
-      </p>
+<div class="col-md-6">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">List of Employees</h5>
+            <div class="table-responsive">
+                <table id="employee-table" class="table">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Joining Date</th>
+                            <!-- Add more columns if needed -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for employee in employees %}
+                        <tr>
+                            <td>{{ employee.username }}</td>
+                            <td>{{ employee.email }}</td>
+                            <td>{{ employee.date_joined }}</td>
+                            <!-- Add more columns if needed -->
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-  </div>
-  {% endfor %}
-
-  {% else %}
-  <h1>Πρέπει να είστε συνδεδεμένος για να δείτε αυτη την σελίδα..</h1>
-   <a href="{% url 'login' %}">Συνδέσου εδώ</a>
-   {% endif %}
-
+</div>
 {% endblock %}

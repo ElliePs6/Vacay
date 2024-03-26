@@ -1,0 +1,22 @@
+/* Custom CSS for scrollable table */
+.table-responsive {
+    max-height: 400px; /* Adjust max-height as needed */
+    overflow-y: auto;
+}
+
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-right: 10px;
+    text-decoration: none;
+    color: white;
+    background-color: #3d3a50 ;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.button:hover {
+    color: white;
+    background-color: #aab9bd; 
+}

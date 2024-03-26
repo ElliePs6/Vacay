@@ -62,9 +62,9 @@ def remove(request):
     return JsonResponse(data)
  
 def list_employees(request):
-    all_requests=Employees.objects.all()
+    employees=Employees.objects.all()
     return render(request, 'vacayvue/list-employees.html',
-        { 'all_requests':all_requests})
+        { 'employees':employees})
 
 def add_request(request):
     submitted = False

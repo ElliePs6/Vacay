@@ -4,7 +4,7 @@
 
 {% if form.errors %}
 <div class="alert alert-warning alert-dismissible fade show" role="alert">
-  <p>Υπαρχει καποιο λαθος με τη φορμα σας</p>
+  <p>Υπάρχει κάποιο σφάλμα στη φόρμα σας.</p>
   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
 {% endif %}
@@ -15,7 +15,20 @@
     <!-- Your form -->
     <form action="{% url 'register_employee' %}" method="POST" class="form-container">
       {% csrf_token %}
-      {{ form }}
+      {{ form.email.label_tag }}
+      {{ form.email }}
+      <br>
+      {{ form.username.label_tag }}
+      {{ form.username }}
+      <br>
+      {{ form.date_joined.label_tag }}
+      {{ form.date_joined }}
+      <br>
+      {{ form.password1.label_tag }}
+      {{ form.password1 }}
+      <br>
+      {{ form.password2.label_tag }}
+      {{ form.password2 }}
       <br>
       <button type="submit" class="btn btn-primary">Εγγραφή</button>
     </form>

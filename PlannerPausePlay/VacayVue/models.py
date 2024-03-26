@@ -1,31 +1,29 @@
 from django.db import models
 from django.conf import settings
-from django.contrib.auth.models import AbstractUser
-from django.utils import timezone
-from django.db import IntegrityError
-from django.conf import settings
+from django.db import models
+from django.contrib.auth.models import AbstractUser, BaseUserManager, PermissionsMixin
 
 
 class CustomUser(AbstractUser):
     USER_TYPE_CHOICES = (
         ('employee', 'Employee'),
         ('company', 'Company'),
+        ('admin', 'Admin'),
     )
-
+    permissions = models.CharField(max_length=255, null=True, blank=True)  
     email = models.EmailField(unique=True)
     user_type = models.CharField(max_length=20, choices=USER_TYPE_CHOICES)
-    company = models.ForeignKey('Companies', on_delete=models.CASCADE, related_name='employees', null=True, blank=True)
+    role = models.CharField(max_length=100, null=True)  
+    is_staff = models.BooleanField(default=False)  
+    is_admin = models.BooleanField(default=False)
+    company = models.ForeignKey('Companies', on_delete=models.CASCADE, related_name='employee_profile', null=True, blank=True)
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username']  # 'username' is required
-
-    def __str__(self):
-        return self.email
-
+class Admins(models.Model):
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
 
 class Companies(models.Model):
     companyID = models.AutoField(primary_key=True)
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='companies_profile', default=None)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='company_profile', default=None)
     companyname = models.CharField(max_length=255, null=True)
     hrname = models.CharField(max_length=255, null=True)
 
@@ -35,7 +33,7 @@ class Companies(models.Model):
 
 class Employees(models.Model):
     employeeID = models.AutoField(primary_key=True)
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='employee_profile', default=None)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='employee_profile', default=None, unique=True)
     company = models.ForeignKey(Companies, on_delete=models.CASCADE, related_name='employee_profiles', null=True)
     join_date = models.DateTimeField(null=True, blank=True)
     username = models.CharField(max_length=225, null=True)

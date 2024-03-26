@@ -1,24 +1,40 @@
-{% extends 'vacayvue/base.html' %}
+{% extends 'authenticate/base.html' %}
 
 {% block content %}
-
-{% if form.errors %}
-<div class="alert alert-warning alert-dismissible fade show" role="alert">
-  <p>Υπαρχει καποιο λαθος με τη φορμα σας</p>
-  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-{% endif %}
 
 <div class="shadow p-4 mb-5 bg-body rounded">
   <h1 class="text-center">VacayVue Register</h1>
 
     <!-- Your form -->
-    <form action="{% url 'register_company' %}" method="POST" class="form-container">
+    <form action="{% url 'register_company' %}" method="POST">
       {% csrf_token %}
-      {{ form }}
+      {{ form.email.label_tag }}
+      {{ form.email }}
       <br>
-      <button type="submit" class="btn btn-primary">Εγγραφή</button>
-    </form>
+      {{ form.companyname.label_tag }}
+      {{ form.companyname }}
+      <br>
+      {{ form.hrname.label_tag }}
+      {{ form.hrname }}
+      <br>
+      {{ form.password1.label_tag }}
+      {{ form.password1 }}
+      <br>
+      {{ form.password2.label_tag }}
+      {{ form.password2 }}
+      <br>
+      {% if request.method == 'POST' %}
+      {% if form.errors %}
+      <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <p>Υπαρχει καποιο λαθος με τη φορμα σας</p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      {% endif %}
+    {% endif %}
+      <input type="submit" value="Εγγραφη" class="btn btn-success">
+  </form>
+ 
+
 </div>
 
 {% endblock %}

@@ -3,7 +3,7 @@ from  VacayVue import views
 
 #url config
 urlpatterns = [
-    path('', views.home, name='home'),
+    path('home/', views.home, name='home'),
     path('calendar/', views.calendar, name='calendar'),
     path('all_events/', views.all_events, name='all_events'), 
     path('add_event/', views.add_event, name='add_event'), 
@@ -13,7 +13,8 @@ urlpatterns = [
     path('add-request/',views.add_request,name='add-request'),
     path('list-employees/',views.list_employees,name="list-employees"),
     path('employee_navbar/', views.employee_navbar,name="employee_navbar"),
-    path('company_navbar/', views.company_navbar,name="company_navbar")
+   # path('error_template/', views.error_template,name="error_template")
+
 
 
     

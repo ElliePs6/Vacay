@@ -1,0 +1,51 @@
+{% extends 'authenticate/base.html' %}
+
+{% block content %}
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <!-- Register Company Form -->
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Register Company</h5>
+                        <a href="{% url 'register_company' %}" class="btn btn-primary">Add Company</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <!-- View Registered Companies -->
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Registered Companies</h5>
+                        <!-- Display list of registered companies here -->
+                        <div class="table-responsive">
+                            <table id="company-table" class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Company Name</th>
+                                        <th>HR Name</th>
+                                        <th>Company Email</th>
+                                        <!-- Add more columns if needed -->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for company in related_companies %}
+                                    <tr>
+                                        <td>{{ company.companyname }}</td>
+                                        <td>{{ company.hrname }}</td>
+                                        <td>{{ company.user.email }}</td>
+                                        <!-- Add more columns if needed -->
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

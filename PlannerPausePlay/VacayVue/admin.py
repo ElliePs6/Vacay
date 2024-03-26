@@ -1,7 +1,20 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import Employees, Companies, Requests, CustomUser
-from members.forms import RegisterCompanyForm
+from .models import Employees, Companies, Requests, CustomUser, Admins
+from members.forms import RegisterCompanyForm, AdminUserCreationForm, AdminUserChangeForm
+
+
+@admin.register(Admins)
+class AdminsAdmin(admin.ModelAdmin):
+    list_display = ('get_username',)
+    ordering = ('user__username',)
+
+    def get_username(self, obj):
+        return obj.user.username
+    get_username.short_description = 'Username'
+
+
+admin.site.register(CustomUser)
 
 
 class CompaniesAdmin(admin.ModelAdmin):
@@ -9,18 +22,8 @@ class CompaniesAdmin(admin.ModelAdmin):
     ordering = ('companyname',)
     search_fields = ('companyname', 'hrname')
 
-    def add_view(self, request, form_url='', extra_context=None):
-        self.form = RegisterCompanyForm
-        return super().add_view(request, form_url, extra_context)
-
-
-class CustomUserAdmin(UserAdmin):
-    list_display = ('user_type', 'company')
-
-
-admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(Companies, CompaniesAdmin)
-
+    
 
 @admin.register(Employees)
 class EmployeesAdmin(admin.ModelAdmin):

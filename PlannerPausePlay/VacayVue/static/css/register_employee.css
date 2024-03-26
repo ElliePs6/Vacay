@@ -1,0 +1,50 @@
+.text-center {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #C33A1A;
+}
+
+.custom-form-container {
+    padding: 30px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    position: relative; /* Change position to relative */
+  }
+  
+  /* Styles for form labels */
+  .custom-form-label {
+    font-weight: bold;
+  }
+  
+  /* Styles for form fields */
+.form-group {
+    margin-bottom: 20px;
+  }
+  
+  /* Styles for date fields */
+  .custom-form-group input[type="date"] {
+    width: 100%;
+  }
+  
+  /* Styles for color field */
+  .custom-form-group input[type="color"] {
+    width: 100%;
+  }
+  
+  /* Styles for calendar icon */
+  .custom-input-group-text {
+    background-color: #fff;
+    border: none;
+  }
+  
+  /* Additional styles for success alert */
+  .alert-success {
+    margin-top: 20px;
+  }
+  
+  /* Additional styles for comments textarea */
+  .custom-form-control.comments {
+    height: 150px; /* Adjust height as needed */
+    resize: vertical; /* Allow vertical resizing */
+  }
+  

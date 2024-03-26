@@ -3,26 +3,38 @@
 {% block content %}
 
 <div class="shadow p-4 mb-5 bg-body rounded">
-  <h1 class="text-center">VacayVue Register</h1>
-
-    <!-- Your form -->
-    <form action="{% url 'register_company' %}" method="POST">
+  <h4 class="text-center">Φόρμα Προσθήκης Εταιριών</h4>
+<br>
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <form action="{% url 'register_company' %}" method="POST" class="custom-form-container">
       {% csrf_token %}
-      {{ form.email.label_tag }}
+	  <div class="form-group">
+        <label for="id_Email" class="custom-form-label">Email</label>
       {{ form.email }}
-      <br>
-      {{ form.companyname.label_tag }}
-      {{ form.companyname }}
-      <br>
-      {{ form.hrname.label_tag }}
-      {{ form.hrname }}
-      <br>
-      {{ form.password1.label_tag }}
-      {{ form.password1 }}
-      <br>
-      {{ form.password2.label_tag }}
-      {{ form.password2 }}
-      <br>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="id_companynaem" class="custom-form-label">Όνομα Εταιρίας</label>
+				{{ form.companyname }}
+		</div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="id_hrname" class="custom-form-label">HR Όνομα</label>
+				{{ form.hrname }}
+		</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="id_password1" class="custom-form-label">Κωδικός</label>
+			{{ form.password1 }}
+      </div>
+	  <div class="form-group">
+	  <label for="id_password2" class="custom-form-label">Επιβεβαίωση Κωδικού</label>
+		{{ form.password2 }}
+      </div>
       {% if request.method == 'POST' %}
       {% if form.errors %}
       <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -30,11 +42,14 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
       {% endif %}
+    
     {% endif %}
-      <input type="submit" value="Εγγραφη" class="btn btn-success">
+      <input type="submit" value="Εγγραφη" class="button">
   </form>
- 
+  </div>
+</div>
 
 </div>
 
 {% endblock %}
+

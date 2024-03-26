@@ -1,0 +1,31 @@
+.text-center{
+    font-size: 1.25rem; /* Adjust the font size as needed */
+    font-weight: bold; /* Make the text bold */
+    color: #C33A1A; /* Set the text color */
+}
+.button {
+    background-color: #F84322; /* Different shade  */
+    color: #ffebb0 ;
+    border-color: #fd5e3a; /* Different shade */
+    transition: background-color 0.3s ease; /* Smooth transition on hover */
+}
+
+.button:hover {
+    background-color: #ff7551;
+    color:#ffebb0;
+    
+}
+
+/* Style the alert message */
+.alert {
+    background-color: #FF8A00; /* Yellow background color */
+    color: black; /* Black text color */
+    border-color: black; /* Black border color */
+    width: 100%; /* Ensure alert takes full width */
+    margin-bottom: 10px; /* Add spacing between alerts and form */
+}
+
+/* Close button in the alert message */
+.btn-close {
+    color: black; /* Black close button color */
+}

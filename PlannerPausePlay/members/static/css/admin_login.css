@@ -1,0 +1,63 @@
+.shadow {
+    margin: 0 ;
+    max-width:100% ; /* Adjust as needed */
+}
+.form-container {
+    width:500px;
+    height:200px;
+    border: 1px solid #ccc;
+    background-color: #f9faf8;
+    border-radius: 5px;
+    text-align: center;
+    align-content: center;
+  
+  }
+/* Style the form inputs */
+.form-control {
+    width: 100%; /* Ensure inputs take full width */
+    background-color: rgba(255, 255, 255, 0.993);
+    color: black;
+    border: 1px solid black; /* Add border */
+    margin-bottom: 10px; /* Add spacing between inputs */
+}
+
+
+
+/* Styles for date fields */
+.row .col input[type="date"] {
+    width: 100%;
+  }
+
+/* Style the form labels */
+.form-label {
+    margin-bottom: 30px; /* Add spacing between labels and inputs */
+}
+
+/* Style the form submit button */
+.button {
+    background-color: #F84322; /* Different shade  */
+    color: #ffebb0 ;
+    border-color: #fd5e3a; /* Different shade */
+    transition: background-color 0.3s ease; /* Smooth transition on hover */
+}
+
+/* Hover effect on the submit button */
+.button:hover {
+    background-color: #ff7551;
+    color:#ffebb0;
+    
+}
+
+/* Style the alert message */
+.alert {
+    background-color: #FF8A00; /* Yellow background color */
+    color: black; /* Black text color */
+    border-color: black; /* Black border color */
+    width: 100%; /* Ensure alert takes full width */
+    margin-bottom: 10px; /* Add spacing between alerts and form */
+}
+
+/* Close button in the alert message */
+.btn-close {
+    color: black; /* Black close button color */
+}

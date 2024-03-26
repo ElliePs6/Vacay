@@ -3,7 +3,7 @@ from  VacayVue import views
 
 #url config
 urlpatterns = [
-    path('home/', views.home, name='home'),
+    path('main_home/', views.main_home, name='main_home'),
     path('calendar/', views.calendar, name='calendar'),
     path('all_events/', views.all_events, name='all_events'), 
     path('add_event/', views.add_event, name='add_event'), 

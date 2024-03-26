@@ -1,60 +1,71 @@
-.shadow {
-    margin: 0 ;
-    max-width: 600px; /* Adjust as needed */
+.text-center {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #C33A1A;
 }
+
 .form-container {
-    width:500px;
+    padding: 30px;
     border: 1px solid #ccc;
-    background-color: #f9faf8;
     border-radius: 5px;
-  
-  }
-/* Style the form inputs */
-.form-control {
-    width: 100%; /* Ensure inputs take full width */
-    background-color: rgba(255, 255, 255, 0.993);
-    color: black;
-    border: 1px solid black; /* Add border */
-    margin-bottom: 10px; /* Add spacing between inputs */
+    background-color: #fff;
+    text-align: center; /* Align form fields in the center */
+
 }
 
-
-
-/* Styles for date fields */
-.row .col input[type="date"] {
-    width: 100%;
-  }
-
-/* Style the form labels */
 .form-label {
-    margin-bottom: 5px; /* Add spacing between labels and inputs */
+    font-weight: bold;
 }
 
-/* Style the form submit button */
-.btn-primary {
-    background-color: #3d3a50; /* Different shade  */
-    color: #fff ;
-    border-color: #48445f; /* Different shade */
-    transition: background-color 0.3s ease; /* Smooth transition on hover */
+.form-group {
+    margin-bottom: 20px;
 }
 
-/* Hover effect on the submit button */
-.btn-primary:hover {
-    background-color: #48445f;
-    color:#fff;
-    
+.button {
+    background-color: #F84322;
+    color: #ffebb0;
+    border-color: #fd5e3a;
+    transition: background-color 0.3s ease;
 }
 
-/* Style the alert message */
+.button:hover {
+    background-color: #ff7551;
+    color: #ffebb0;
+}
+
+.form-container select {
+    font-size: 16px;
+    padding:5px;
+    margin:5px;
+    color: #ffebb0; 
+    background-color: #F84322;
+}
+
+.form-container select:hover {
+    background-color: #ff7551; 
+}
+
+/* Style for when an option has been selected */
+.form-container select:focus {
+    border-color: #c5940d; 
+}
+
+/* Style for the dropdown options */
+.form-container select option {
+    color: #ffebb0; 
+    background-color: #ff7551; 
+    font-size: 16px;
+}
+
 .alert {
-    background-color: #c59805; /* Yellow background color */
-    color: black; /* Black text color */
-    border-color: black; /* Black border color */
-    width: 100%; /* Ensure alert takes full width */
-    margin-bottom: 10px; /* Add spacing between alerts and form */
+    background-color: #FF8A00;
+    color: black;
+    border-color: black;
+    width: 100%;
+    margin-bottom: 10px;
 }
 
-/* Close button in the alert message */
 .btn-close {
-    color: black; /* Black close button color */
+    color: black;
 }
+

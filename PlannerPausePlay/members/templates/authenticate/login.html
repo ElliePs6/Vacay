@@ -1,39 +1,38 @@
 {% extends 'vacayvue/base.html' %}
 
 {% block content %}
-
- {% if messages %}
- <div class="alert alert-warning alert-dismissible fade show" role="alert">
-    {% for message in messages %}
-    {{ message }}
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    {% endfor %}
-</div>
- {% endif %}
- 
- <div class="shadow p-4 mb-5 bg-body rounded">
-    <h1 class="text-center">VacayVue Login User</h1>
-    <br>
-      
-              <form action="" method="POST" class="form-container">
-                  {% csrf_token %}
-                      <div class="form-group">
-                          <label for="id_user_type" class="form-label">User Type</label>
-                          {{ form.user_type }}
-                      </div>
-                      <div class="form-group">
-                          <label for="id_email" class="form-label">Email</label>
-                          {{ form.email }}
-                      </div>
-                      <div class="form-group">
-                          <label for="id_password" class="form-label">Password</label>
-                          {{ form.password }}
-                      </div>
-                      <br>
-                      <button type="submit" class="btn btn-primary">Σύνδεση</button>
-                  </form>
-                  
-  
-  
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="shadow p-3 mb-4 bg-body rounded">
+        <h4 class="text-center">Είσοδος Χρήστη</h4>
+        <br>
+        <form action="{% url 'login' %}" method="POST" class="form-container">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="id_user_type" class="form-label">Είδος Χρήστη</label>
+            {{ form.user_type }}
+          </div>
+          <div class="form-group">
+            <label for="id_email" class="form-label">Email</label>
+            {{ form.email }}
+          </div>
+          <div class="form-group">
+            <label for="id_password" class="form-label">Κωδικός</label>
+            {{ form.password }}
+          </div>
+          {% if request.method == 'POST' %}
+          {% if form.errors %}
+          <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <p>Υπάρχει κάποιο λάθος με τη φόρμα σας</p>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          {% endif %}
+          {% endif %}
+          <button type="submit" class="button">Σύνδεση</button>
+        </form>
+      </div>
+    </div>
   </div>
+</div>
 {% endblock %}

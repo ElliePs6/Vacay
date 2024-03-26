@@ -1,41 +1,25 @@
-/* Navbar custom styles */
 .navbar {
-    background-color: #614add; /* Main background color */
-    padding: 20px 40px; /* Adjust padding as needed */
+    background-color: #FFB05A; 
+    padding: 20px 40px; 
 }
 
 .navbar-brand,
 .navbar-nav .nav-link {
-    color: white !important; /* Text color */
-    font-size: 18px; /* Adjust font size as needed */
+    color: #B31E00 !important;
+    font-size: 18px; 
 }
 
 .navbar-toggler-icon {
-    background-color: white; /* Toggler icon color */
-}
-
-.dropdown-menu {
-    background-color: #614add; /* Dropdown menu background color */
-}
-
-.dropdown-item {
-    color: white !important; /* Dropdown item text color */
+    background-color: #07e28e; 
 }
 
 .navbar-toggler {
-    border-color: white; /* Toggler border color */
+    border-color: white; 
 }
 
 .navbar-toggler:hover {
-    border-color: white; /* Toggler border color on hover */
+    border-color: #ffb96d;
 }
 
-.btn-outline-success {
-    color: white; /* Search button text color */
-    border-color: white; /* Search button border color */
-}
 
-.btn-outline-success:hover {
-    background-color: white; /* Search button background color on hover */
-    color: black; /* Search button text color on hover */
-}
+

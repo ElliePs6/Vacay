@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg">
+<nav class="navbar navbar-expand-lg "> <!-- Add bg-dark class for a dark background -->
   <div class="container-fluid">
     <a class="navbar-brand" href="{% url 'main_home' %}">VacayVue</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -8,9 +8,10 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ms-auto"> <!-- Change ml-auto to ms-auto for right alignment -->
         {% if request.user.is_authenticated %}
-          <li class="nav-item">
+        <li class="nav-item">
             <a class="nav-link" href="{% url 'logout' %}">Logout</a>
           </li>
+           
         {% else %}
           <li class="nav-item">
             <a class="nav-link" href="{% url 'login' %}">Login</a>

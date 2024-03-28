@@ -1,46 +1,55 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.conf import settings
-from django.db import models
-from django.contrib.auth.models import AbstractUser, BaseUserManager, PermissionsMixin
 
 
 class CustomUser(AbstractUser):
-    USER_TYPE_CHOICES = (
+    USER_TYPE_CHOICES = [
         ('employee', 'Employee'),
         ('company', 'Company'),
         ('admin', 'Admin'),
-    )
-    permissions = models.CharField(max_length=255, null=True, blank=True)  
-    email = models.EmailField(unique=True)
+    ]
+
+    permissions = models.CharField(max_length=255, null=True, blank=True)
     user_type = models.CharField(max_length=20, choices=USER_TYPE_CHOICES)
-    role = models.CharField(max_length=100, null=True)  
-    is_staff = models.BooleanField(default=False)  
+    role = models.CharField(max_length=100, null=True)
     is_admin = models.BooleanField(default=False)
-    company = models.ForeignKey('Companies', on_delete=models.CASCADE, related_name='employee_profile', null=True, blank=True)
+    is_company = models.BooleanField(default=False)  # New field to indicate if user is a company
+    is_employee = models.BooleanField(default=False)  # New field to indicate if user is an employee
+
+    company = models.ForeignKey('Company', on_delete=models.SET_NULL, null=True, blank=True, related_name='employees')
+
+    def save(self, *args, **kwargs):
+        if self.user_type == 'company':
+            self.is_company = True
+        elif self.user_type == 'employee':
+            self.is_employee = True
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.username
 
 class Admins(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
 
-class Companies(models.Model):
-    companyID = models.AutoField(primary_key=True)
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='company_profile', default=None)
-    companyname = models.CharField(max_length=255, null=True)
-    hrname = models.CharField(max_length=255, null=True)
+class Company(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='company_profile')
+    name = models.CharField(max_length=255)
+    hr_name = models.CharField(max_length=255)
 
     def __str__(self):
-        return self.companyname
+        return self.name
 
 
-class Employees(models.Model):
-    employeeID = models.AutoField(primary_key=True)
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='employee_profile', default=None, unique=True)
-    company = models.ForeignKey(Companies, on_delete=models.CASCADE, related_name='employee_profiles', null=True)
-    join_date = models.DateTimeField(null=True, blank=True)
-    username = models.CharField(max_length=225, null=True)
-    
+class Employee(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='employee_profile', unique=True)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='employees_company')
+    join_date = models.DateField(null=True, blank=True)
+    first_name = models.CharField(max_length=30, null=True)
+    last_name = models.CharField(max_length=150, null=True)
+
     def __str__(self):
         return self.user.email
-
 #request ειναι 1:1 σχεση .Μια ετηση για καθε υπαλλοιλο
 class Requests(models.Model):
     APPROVED = 'approved'
@@ -54,7 +63,7 @@ class Requests(models.Model):
     ]
 
     request_id = models.AutoField(primary_key=True)
-    EmployID = models.ForeignKey(Employees,related_name='requests', blank=True, null=True, on_delete=models.CASCADE)
+    EmployID = models.ForeignKey(Employee,related_name='requests', blank=True, null=True, on_delete=models.CASCADE)
     StartDate = models.DateTimeField(null=True, blank=True)
     EndDate = models.DateTimeField(null=True, blank=True)
     Type = models.CharField(max_length=50)

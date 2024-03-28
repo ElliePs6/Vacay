@@ -1,7 +1,5 @@
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
-from .models import Employees, Companies, Requests, CustomUser, Admins
-from members.forms import RegisterCompanyForm, AdminUserCreationForm, AdminUserChangeForm
+from .models import Employee, Company, Requests, CustomUser, Admins
 
 
 @admin.register(Admins)
@@ -17,18 +15,18 @@ class AdminsAdmin(admin.ModelAdmin):
 admin.site.register(CustomUser)
 
 
-class CompaniesAdmin(admin.ModelAdmin):
-    list_display = ('companyname', 'hrname')
-    ordering = ('companyname',)
-    search_fields = ('companyname', 'hrname')
+class CompanyAdmin(admin.ModelAdmin):
+    list_display = ('name', 'hr_name')
+    ordering = ('name',)
+    search_fields = ('name', 'hr_name')
 
-admin.site.register(Companies, CompaniesAdmin)
+admin.site.register(Company, CompanyAdmin)
     
 
-@admin.register(Employees)
+@admin.register(Employee)
 class EmployeesAdmin(admin.ModelAdmin):
-    list_display = ('username', 'join_date')  # Removed 'employe_email'
-    ordering = ('username',)
+    list_display = ('first_name','last_name','company', 'join_date') 
+    ordering = ('company',)
 
 
 @admin.register(Requests)

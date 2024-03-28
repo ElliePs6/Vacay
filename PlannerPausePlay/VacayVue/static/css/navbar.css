@@ -1,7 +1,11 @@
 .navbar {
-  position: fixed; 
+  position: fixed;
+  left:0;
+  top:0;
   background-color: #FFB05A; 
   padding: 20px 40px; 
+  width: 100%; /* Set the width to 100% */
+
 }
 
 .navbar-brand,

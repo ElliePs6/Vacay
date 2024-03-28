@@ -1,6 +1,6 @@
 $(document).ready(function() {
     // Get the current URL
-    var currentUrl = window.location.href;
+    var currentUrl = window.location.pathname;
 
     // Loop through each navbar link
     $('.nav-link').each(function() {
@@ -8,7 +8,7 @@ $(document).ready(function() {
         var linkUrl = $(this).attr('href');
 
         // Check if the link URL matches the current URL
-        if (currentUrl.indexOf(linkUrl) !== -1) {
+        if (currentUrl === linkUrl) {
             // Remove 'active' class from all navbar links
             $('.nav-link').removeClass('active');
 

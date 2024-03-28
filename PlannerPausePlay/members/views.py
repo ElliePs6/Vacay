@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .forms import  AdminLoginForm,AdminRegistrationForm,RegisterCompanyForm
 #from django.contrib.auth.models import User
-from VacayVue.models import Companies
+from VacayVue.models import Company
 from django.http import HttpResponse
 
 
@@ -53,7 +53,7 @@ def admin_register(request):
 def admin_home(request):
     if request.user.is_authenticated and request.user.is_admin:
         if request.user.user_type == 'admin':
-            related_companies = Companies.objects.all()
+            related_companies = Company.objects.all()
             return render(request, 'authenticate/admin_home.html', {'related_companies': related_companies})
         else:
             return HttpResponse("You do not have permission to access this page.")
@@ -79,11 +79,11 @@ def register_company(request):
         form = RegisterCompanyForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
-            user.user_type = 'company' 
-            user.companyname = form.cleaned_data['companyname']  # Assign companyname from form
-            user.hrname = form.cleaned_data['hrname']  # Assign hrname from form
+            user.user_type ='company' 
+            user.name = form.cleaned_data['name']  # Assign companyname from form
+            user.hr_name = form.cleaned_data['hr_name']  # Assign hrname from form
             user.save()
-            messages.success(request, f'Η Εταιρία {user.companyname} καταχωρηθηκε! ')
+            messages.success(request, f'Η Εταιρία {user.name} καταχωρηθηκε! ')
             return redirect('admin_home')  # Redirect to admin home page
         else:
             print(form.errors)

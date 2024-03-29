@@ -5,6 +5,10 @@ from django.http import JsonResponse
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from datetime import datetime
+from django.utils import timezone
+import pytz
+
+
 from django.contrib.auth.decorators import login_required
 from .forms import  LoginForm,RegisterEmployeeForm
 
@@ -89,48 +93,29 @@ def add_request(request):
 
     return render(request, 'vacayvue/add-request.html', {'form': form, 'submitted': submitted})
 
-@login_required
+
+def list_employees(request):
+    employees = Employee.objects.all()
+    return render(request, 'vacayvue/list-employees.html', {'employees': employees})
+
+
 def register_employee(request):
     if request.method == 'POST':
         form = RegisterEmployeeForm(request.POST)
         if form.is_valid():
-            # Generate a unique username based on email
-            email = form.cleaned_data['email']
-            username = email.split('@')[0]  # Example: Use the part before '@' as the username
-
-            # Check if the generated username is unique
-            if CustomUser.objects.filter(username=username).exists():
-                messages.error(request, 'Username already exists. Please choose a different email.')
-                return redirect('register_employee')
-
             user = form.save(commit=False)
-            user.username = username
             user.user_type = 'employee'
             user.join_date = form.cleaned_data['date_joined']
-
-            # Save the user object
+            user.first_name = form.cleaned_data['first_name']
+            user.last_name = form.cleaned_data['last_name']
             user.save()
-
-            # Check if the employee object is created
-            employee, created = Employee.objects.get_or_create(user=user, defaults={'first_name': user.first_name, 'last_name': user.last_name})
-            if created:
-                messages.success(request, 'Registration successful!')
-                return redirect('list-employees')
-            else:
-                messages.error(request, 'Failed to register employee.')
+            messages.success(request, 'Registration successful!')
+            return redirect('list-employees')
+        else:
+            print(form.errors)
     else:
-        # Assuming the logged-in user is a company
-        company = request.user.company  
-        initial_data = {'company': company}
-        form = RegisterEmployeeForm(initial=initial_data)
+            form = RegisterEmployeeForm()
     return render(request, 'vacayvue/register_employee.html', {'form': form})
-@login_required
-def list_employees(request):
-    # Filter employees belonging to the currently logged-in company
-    company = request.user.company
-    employees = Employee.objects.filter(company=company)
-    return render(request, 'vacayvue/list-employees.html', {'employees': employees})
-
 
 def employee_home(request):
     return render(request, 'vacayvue/employee_home.html')

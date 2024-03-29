@@ -44,7 +44,7 @@ class Company(models.Model):
 class Employee(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='employee_profile', unique=True)
     company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='employees_company')
-    join_date = models.DateField(null=True, blank=True)
+    join_date = models.DateTimeField(null=True, blank=True)
     first_name = models.CharField(max_length=30, null=True)
     last_name = models.CharField(max_length=150, null=True)
 

@@ -3,6 +3,8 @@ from django.forms import ModelForm
 from .models import Requests,Employee,CustomUser,Company
 from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.forms import UserCreationForm
+from django.utils import timezone
+
 
 
 class LoginForm(forms.Form):
@@ -12,7 +14,7 @@ class LoginForm(forms.Form):
 
 class RegisterEmployeeForm(UserCreationForm):
     email = forms.EmailField(widget=forms.TextInput(attrs={'autofocus': True, 'class': 'form-control'}))
-    date_joined = forms.DateField(widget=forms.DateInput(attrs={'class': 'form-control datepicker', 'placeholder': 'Joining Date', 'id': 'date_joined'}))
+    date_joined = forms.DateTimeField(widget=forms.DateInput(attrs={'class': 'form-control datepicker', 'placeholder': 'Joining Date', 'id': 'date_joined'}))
     password1 = forms.CharField(
         label='Password',
         widget=forms.PasswordInput(attrs={'class': 'form-control', 'data-toggle': 'tooltip', 'title': 'Your password must contain at least 8 characters and cannot be too similar to your other personal information.'})
@@ -28,16 +30,22 @@ class RegisterEmployeeForm(UserCreationForm):
     class Meta:
         model = CustomUser
         fields = ['email', 'date_joined', 'password1', 'password2', 'first_name', 'last_name','company']
+        
 
     def save(self, commit=True):
         user = super().save(commit=False)
+        user.username = user.email
         user.user_type = 'employee'
 
         if commit:
             user.save()
+
+
             Employee.objects.create(
                     user=user,
-                    join_date=self.cleaned_data['date_joined'],
+                    first_name=self.cleaned_data['first_name'],
+                    last_name=self.cleaned_data['last_name'],
+                    join_date=self.cleaned_data['date_joined'],  # Use the same date_joined as submitted
                     company = self.cleaned_data.get('company')
                 )
 

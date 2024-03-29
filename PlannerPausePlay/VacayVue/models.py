@@ -12,12 +12,9 @@ class CustomUser(AbstractUser):
 
     permissions = models.CharField(max_length=255, null=True, blank=True)
     user_type = models.CharField(max_length=20, choices=USER_TYPE_CHOICES)
-    role = models.CharField(max_length=100, null=True)
-    is_admin = models.BooleanField(default=False)
-    is_company = models.BooleanField(default=False)  # New field to indicate if user is a company
-    is_employee = models.BooleanField(default=False)  # New field to indicate if user is an employee
+    role = models.CharField(max_length=100, null=True,blank=True)
 
-    company = models.ForeignKey('Company', on_delete=models.SET_NULL, null=True, blank=True, related_name='employees')
+    company = models.ForeignKey('Company', on_delete=models.CASCADE, blank=True, related_name='employees')
 
     def save(self, *args, **kwargs):
         if self.user_type == 'company':
@@ -33,7 +30,7 @@ class Admins(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
 
 class Company(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='company_profile')
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='company_profile')
     name = models.CharField(max_length=255)
     hr_name = models.CharField(max_length=255)
 

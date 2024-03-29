@@ -26,7 +26,7 @@ class AdminRegistrationForm(UserCreationForm):
     def save(self, commit=True):
         user = super().save(commit=False)
         user.username = user.email  # Set username as email
-        user.is_admin = True  # Set is_admin flag to True
+        user.user_type = 'admin'
         if commit:
             user.save()
         return user

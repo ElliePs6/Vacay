@@ -51,10 +51,10 @@ def admin_register(request):
     return render(request, 'authenticate/admin_register.html', {'form': form})
 
 def admin_home(request):
-    if request.user.is_authenticated and request.user.is_admin:
+    if request.user.is_authenticated and request.user.user_type == 'admin':
         if request.user.user_type == 'admin':
-            related_companies = Company.objects.all()
-            return render(request, 'authenticate/admin_home.html', {'related_companies': related_companies})
+            companies = Company.objects.all()
+            return render(request, 'authenticate/admin_home.html', {'companies': companies})
         else:
             return HttpResponse("You do not have permission to access this page.")
     else:
@@ -75,15 +75,14 @@ def switch_to_company_login(request):
 
 def register_company(request):
     if request.method == 'POST':
-        print(request.POST)
         form = RegisterCompanyForm(request.POST)
         if form.is_valid():
-            user = form.save(commit=False)
-            user.user_type ='company' 
-            user.name = form.cleaned_data['name']  # Assign companyname from form
-            user.hr_name = form.cleaned_data['hr_name']  # Assign hrname from form
-            user.save()
-            messages.success(request, f'Η Εταιρία {user.name} καταχωρηθηκε! ')
+            company = form.save(commit=False)
+            company.user_type ='company' 
+            company.name = form.cleaned_data['name']  # Assign companyname from form
+            company.hr_name = form.cleaned_data['hr_name']  # Assign hrname from form
+            company.save()
+            messages.success(request, f'Η Εταιρία {company.name} καταχωρηθηκε! ')
             return redirect('admin_home')  # Redirect to admin home page
         else:
             print(form.errors)

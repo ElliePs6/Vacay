@@ -2,13 +2,13 @@
 <div class="nav flex-column" id="v-pills-tab" role="tablist" aria-orientation="vertical">
   <div class="container-fluid">
     <!-- Dashboard -->
-    <a class="nav-link active" href="{% url 'company_home' %}">Dashboard</a>
+    <a class="nav-link active" href="{% url 'company_home' pk=request.user.company_profile.pk %}">Dashboard</a>
     <!-- Add Request -->
     <a class="nav-link" href="{% url 'add-request' %}">Προσθήκη Αιτήσεων</a>
     <!-- View Request -->
     <a class="nav-link" href="{% url 'list-requests' %}">Προβολή Αιτήσεων</a>
     <!-- Add Employee -->
-    <a class="nav-link" href="{% url 'register_employee' company_id %}">Προσθήκη Υπαλλήλου</a>
+    <a class="nav-link" href="{% url 'register_employee' %}">Προσθήκη Υπαλλήλου</a>
     <!-- View Employee-->
     <a class="nav-link" href="{% url 'list-employees'  %}">Προβολή Υπαλλήλων</a>
   </div>

@@ -1,7 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.conf import settings
-
+from django.db.models.signals import post_save
 
 class CustomUser(AbstractUser):
     USER_TYPE_CHOICES = [
@@ -9,44 +8,38 @@ class CustomUser(AbstractUser):
         ('company', 'Company'),
         ('admin', 'Admin'),
     ]
-
-    permissions = models.CharField(max_length=255, null=True, blank=True)
+    email=models.EmailField(max_length=100,unique=True)
     user_type = models.CharField(max_length=20, choices=USER_TYPE_CHOICES)
-    role = models.CharField(max_length=100, null=True,blank=True)
+    USERNAME_FIELD= 'email'
+    REQUIRED_FIELDS =['username',]
 
-    company = models.ForeignKey('Company', on_delete=models.CASCADE, blank=True, related_name='employees')
-
-    def save(self, *args, **kwargs):
-        if self.user_type == 'company':
-            self.is_company = True
-        elif self.user_type == 'employee':
-            self.is_employee = True
-        super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.username
+        return self.email
 
-class Admins(models.Model):
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
 
 class Company(models.Model):
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='company_profile')
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE,related_name='company_profile')
     name = models.CharField(max_length=255)
     hr_name = models.CharField(max_length=255)
 
     def __str__(self):
-        return self.name
+        return self.user.username
+    
 
 
 class Employee(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='employee_profile', unique=True)
-    company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='employees_company')
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='employee_profile')
     join_date = models.DateTimeField(null=True, blank=True)
     first_name = models.CharField(max_length=30, null=True)
     last_name = models.CharField(max_length=150, null=True)
 
+
     def __str__(self):
         return self.user.email
+
+    
+
 #request ειναι 1:1 σχεση .Μια ετηση για καθε υπαλλοιλο
 class Requests(models.Model):
     APPROVED = 'approved'
@@ -59,8 +52,7 @@ class Requests(models.Model):
         (PENDING, 'Pending'),
     ]
 
-    request_id = models.AutoField(primary_key=True)
-    EmployID = models.ForeignKey(Employee,related_name='requests', blank=True, null=True, on_delete=models.CASCADE)
+    employeeID = models.ForeignKey(Employee,blank=True,null=True, on_delete=models.CASCADE)
     StartDate = models.DateTimeField(null=True, blank=True)
     EndDate = models.DateTimeField(null=True, blank=True)
     Type = models.CharField(max_length=50)
@@ -81,10 +73,10 @@ class Events(models.Model):
 
 
 
-
-
-
 '''
+
+
+
 class TeamMembers(models.Model):
     TeamMemberID = models.AutoField(primary_key=True)
     UserID = models.ForeignKey(Users, on_delete=models.CASCADE)

@@ -9,10 +9,10 @@
     <div class="col-md-6">
       <form action="{% url 'register_employee' %}" method="POST" class="custom-form-container">
         {% csrf_token %}
-        <div class="form-group">
+   <!--     <div class="form-group">
           <label for="id_company">Company:</label>
           {{ form.company }}
-      </div>
+      </div>-->
         <div class="form-group">
           <label for="id_Email" class="custom-form-label">Email</label>
           {{ form.email }}
@@ -28,7 +28,7 @@
         <div class="form-group">
           <label for="id_datejoined" class="custom-form-label">Ημερομηνία Έναρξης</label>
           <div class="input-group">
-            {{ form.date_joined }}
+            {{ form.join_date }}
             <button class="btn btn-outline-secondary" type="button" id="start-calendar-icon">
               <i class="bi bi-calendar"></i>
             </button>
@@ -42,7 +42,6 @@
           <label for="id_password2" class="custom-form-label">Επιβεβαίωση Κωδικού</label>
           {{ form.password2 }}
         </div>
-        {% if request.method == 'POST' %}
         {% if form.errors %}
         <div class="alert alert-warning alert-dismissible fade show" role="alert">
           <p>Υπάρχει κάποιο σφάλμα με τη φόρμα σας</p>
@@ -50,7 +49,6 @@
         </div>
         {% endif %}
 
-        {% endif %}
         <input type="submit" value="Εγγραφή" class="button">
       </form>
     </div>

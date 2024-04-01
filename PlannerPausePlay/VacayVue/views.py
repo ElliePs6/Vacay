@@ -91,61 +91,45 @@ def add_request(request):
 
 
 def list_employees(request):
-    employees = Employee.objects.filter(company=request.user.company) 
-    return render(request, 'vacayvue/list_employees.html', {'employees': employees})
+    employees = Employee.objects.all() 
+    return render(request, 'vacayvue/list-employees.html', {'employees': employees})
 
 
 
 
 def register_employee(request):
     if request.method == 'POST':
-        form = RegisterEmployeeForm(request.POST, request=request)
+        print(request.POST)  # Print form data
+
+        form = RegisterEmployeeForm(request.POST)
         if form.is_valid():
-            company_id = request.GET.get('company_id')  # Assuming company ID passed in URL parameter
-            employee = form.save(commit=False)  # Don't commit yet
-            employee.user_type = 'employee'  # Set user type explicitly (optional)
-
-            if company_id:
-                try:
-                    company = Company.objects.get(pk=company_id)
-                    employee.company = company
-                    employee.save()
-                    messages.success(request, 'Registration successful!')
-                    return redirect('list-employees')
-                except Company.DoesNotExist:
-                    messages.error(request, 'Invalid company provided!')
-                    # Re-render form with error message
-                    return render(request, 'vacayvue/register_employee.html', {'form': form})
-            else:
-                messages.error(request, 'Missing company information!')
-                # Re-render form with error message
-                return render(request, 'vacayvue/register_employee.html', {'form': form})
-
+            employee = form.save(commit=False)
+            if request.user.is_authenticated and request.user.user_type == 'company':
+                company = request.user.company_profile
+                employee.company_id = company.pk
+                employee.save()
+                messages.success(request, "Your employee was registered successfully!")
+                return redirect('list_employees')
+        else:
+           print('Form is invalid')
+           print(form.errors) 
     else:
-        form = RegisterEmployeeForm(request=request)
+        form = RegisterEmployeeForm()
     return render(request, 'vacayvue/register_employee.html', {'form': form})
 
 
 
-@login_required
 def employee_home(request):
-    employee = request.user.employee  # Directly access employee object
-    company = employee.company  # Retrieve associated company
-    return render(request, 'vacayvue/employee_home.html', {'employee': employee, 'company': company})
+    return render(request, 'vacayvue/employee_home.html')
 
 
-@login_required
-def company_home(request, company_id):
-  if company_id:  # Check if company_id is provided
-    company = get_object_or_404(Company, pk=company_id)  # Fetch company if available
-    employees = Employee.objects.filter(company=company)  # Filter employees
-  else:
-    # Handle case where company_id is not provided (optional)
-    messages.info(request, 'Company information not available.')
-    return redirect('login')  # Or some other action
-  return render(request, 'vacayvue/company_home.html', {'employees': employees})
-
-
+def company_home(request, pk):
+    if request.user.is_authenticated:
+        company = Company.objects.get(user_id=pk)
+        return render(request, 'vacayvue/company_home.html', {'company': company})
+    else:
+        messages.success(request, "You Must Be Logged In To View This Page...")
+        return redirect('main_home')
 
 
 
@@ -161,23 +145,15 @@ def login_user(request):
     if form.is_valid():
       email = form.cleaned_data['email']
       password = form.cleaned_data['password']
-      user_type = form.cleaned_data['user_type']
-
-      # Authenticate the user based on user_type
-      user = authenticate(request, email=email, password=password, user_type=user_type)
-
-      # Check if authentication is successful
+      user = authenticate(request, email=email, password=password)
       if user is not None:
         login(request, user)
-        # Redirect user based on user_type with company ID if applicable
         if user.user_type == 'company':
-           company_id = user.company.id if user.company else None
-           return redirect('company_home', company_id=company_id)
+           return redirect('company_home' , pk=company_profile.pk)
         else:
           return redirect('employee_home')  # Redirect employee to their home page
       else:
-        # Invalid email, password, or user_type
-        messages.error(request, 'Invalid email, password, or user type.')
+        messages.error(request, 'Invalid email, password')
         return redirect('login')
   else:
     form = LoginForm()

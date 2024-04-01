@@ -43,9 +43,9 @@ def admin_register(request):
         form = AdminRegistrationForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
-            user.user_type = 'admin' 
             user.save()
             return redirect('admin_login')  # Redirect to admin login page
+        
     else:
         form = AdminRegistrationForm()
     return render(request, 'authenticate/admin_register.html', {'form': form})
@@ -77,15 +77,10 @@ def register_company(request):
     if request.method == 'POST':
         form = RegisterCompanyForm(request.POST)
         if form.is_valid():
-            company = form.save(commit=False)
-            company.user_type ='company' 
-            company.name = form.cleaned_data['name']  # Assign companyname from form
-            company.hr_name = form.cleaned_data['hr_name']  # Assign hrname from form
-            company.save()
-            messages.success(request, f'Η Εταιρία {company.name} καταχωρηθηκε! ')
-            return redirect('admin_home')  # Redirect to admin home page
-        else:
-            print(form.errors)
+            form.save()
+            # No need to authenticate and login here, as it's handled by the form's save method
+            messages.success(request, 'Registration successful!')
+            return redirect('admin_home')  # Assuming 'admin_home' is the correct redirect URL
     else:
         form = RegisterCompanyForm()
     return render(request, 'authenticate/register_company.html', {'form': form})

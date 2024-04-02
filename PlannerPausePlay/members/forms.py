@@ -2,6 +2,8 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from VacayVue.models import CustomUser, Company
 from django.contrib.auth.forms import UserCreationForm
+from django.core.exceptions import ValidationError
+
 
 
 class AdminLoginForm(forms.Form):
@@ -31,8 +33,13 @@ class AdminRegistrationForm(UserCreationForm):
             user.save()
         return user
 
+
+def validate_afm_length(value):
+    if len(str(value)) != 9:
+        raise ValidationError('Το ΑΦΜ πρέπει να ειναι 9 ψηφία')
+    
 class RegisterCompanyForm(UserCreationForm):
-    email = forms.EmailField(widget=forms.TextInput(attrs={'autofocus': True,'class': 'form-control'}))
+    email = forms.EmailField(widget=forms.TextInput(attrs={'autofocus': True, 'class': 'form-control'}))
     name = forms.CharField(max_length=255, label='Company Name', widget=forms.TextInput(attrs={'class': 'form-control'}))
     hr_name = forms.CharField(max_length=255, label='HR Name', widget=forms.TextInput(attrs={'class': 'form-control'}))
     password1 = forms.CharField(
@@ -43,19 +50,29 @@ class RegisterCompanyForm(UserCreationForm):
         label='Confirm Password',
         widget=forms.PasswordInput(attrs={'class': 'form-control', 'data-toggle': 'tooltip', 'title': 'Please enter the same password for verification.'})
     )
+    afm = forms.IntegerField(label='ΑΦΜ', validators=[validate_afm_length],widget=forms.NumberInput(attrs={'class': 'form-control'}))
+    dou = forms.CharField(max_length=50, label='DOU', required=False, widget=forms.TextInput(attrs={'class': 'form-control'}))
 
     class Meta(UserCreationForm.Meta):
         model = CustomUser
-        fields = ('email', 'password1', 'password2', 'name', 'hr_name')
+        fields = ('email', 'password1', 'password2', 'name', 'hr_name', 'afm', 'dou')
 
     def save(self, commit=True):
         user = super().save(commit=False)
-        user.username = user.email  # Set username as email
+        user.username = user.email  
         user.user_type = 'company'
 
         if commit:
             user.save()
-            company_user=Company.objects.create(user=user, name=self.cleaned_data['name'], hr_name=self.cleaned_data['hr_name'])
+            Company.objects.create(
+                user=user, 
+                name=self.cleaned_data['name'],
+                hr_name=self.cleaned_data['hr_name'],
+                afm=self.cleaned_data['afm'],
+                dou=self.cleaned_data['dou']
+            )
 
         return user
+    
+
 

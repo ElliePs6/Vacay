@@ -4,9 +4,6 @@ import os
 BASE_DIR =Path(__file__).resolve().parent.parent
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
-
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-%ri+qjt7ybk=54euusv8l@t$%nw&37tl&%9^zt0nbbud72uv7a'
 
@@ -70,7 +67,7 @@ WSGI_APPLICATION = 'PlannerPausePlay.wsgi.application'
 
 
 # Database
-# https://docs.djangoproject.com/en/5.0/ref/settings/#databases
+
 
 DATABASES = {
     'default': {
@@ -122,15 +119,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = 'static/'
 # settings.py
 
 STATICFILES_DIRS = [
-    BASE_DIR / "static",  # Include project-level static files
+    #BASE_DIR / "static",  # Include project-level static files
+
     # Add static folders for each app
     os.path.join(BASE_DIR, 'members', 'static'),
     os.path.join(BASE_DIR, 'VacayVue', 'static'),
-    # Add more app static folders as needed
 ]
 
 # Default primary key field type

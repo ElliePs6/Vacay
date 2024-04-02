@@ -20,7 +20,7 @@ def admin_login(request):
             password = form.cleaned_data['password']
             # Authenticate admin user
             user = authenticate(request, email=email, password=password)
-            print(f"Email received in login view: {email}")  # Debugging statement
+            print(f"Email που λήφθηκε login view: {email}")  # Debugging statement
 
             if user is not None:
                 print(f'User authenticated: {user}')

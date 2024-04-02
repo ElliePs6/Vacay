@@ -11,7 +11,7 @@ class CustomUser(AbstractUser):
     email=models.EmailField(max_length=100,unique=True)
     user_type = models.CharField(max_length=20, choices=USER_TYPE_CHOICES)
     USERNAME_FIELD= 'email'
-    REQUIRED_FIELDS =['username',]
+    REQUIRED_FIELDS =['user_type',]
 
 
     def __str__(self):
@@ -22,6 +22,8 @@ class Company(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE,related_name='company_profile')
     name = models.CharField(max_length=255)
     hr_name = models.CharField(max_length=255)
+    afm = models.PositiveIntegerField(unique=True)  
+    dou = models.CharField(max_length=50,null=True, blank=True)  
 
     def __str__(self):
         return self.user.username
@@ -33,6 +35,7 @@ class Employee(models.Model):
     join_date = models.DateTimeField(null=True, blank=True)
     first_name = models.CharField(max_length=30, null=True)
     last_name = models.CharField(max_length=150, null=True)
+    company= models.ForeignKey(Company,blank=True,null=True, on_delete=models.CASCADE)
 
 
     def __str__(self):
@@ -44,7 +47,7 @@ class Employee(models.Model):
 class Requests(models.Model):
     APPROVED = 'approved'
     REJECTED = 'rejected'
-    PENDING = 'pending'  # Status when request is submitted
+    PENDING = 'pending'  
 
     STATUS_CHOICES = [
         (APPROVED, 'Approved'),
@@ -68,6 +71,7 @@ class Events(models.Model):
     name = models.CharField(max_length=255, null=True, blank=True)
     start = models.DateTimeField(null=True, blank=True)
     end = models.DateTimeField(null=True, blank=True)
+    
     class Meta:
         db_table = "tblevents"
 

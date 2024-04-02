@@ -41,11 +41,20 @@ def add_event(request):
     start = request.GET.get("start", None)
     end = request.GET.get("end", None)
     title = request.GET.get("title", None)
+    
+    print("Received request to add event:")
+    print("Title:", title)
+    print("Start:", start)
+    print("End:", end)
+    
     event = Events(name=str(title), start=start, end=end)
     event.save()
+    
+    print("Event saved successfully:", event)
+    
     data = {}
     return JsonResponse(data)
- 
+
 def update(request):
     start = request.GET.get("start", None)
     end = request.GET.get("end", None)
@@ -90,46 +99,56 @@ def add_request(request):
     return render(request, 'vacayvue/add-request.html', {'form': form, 'submitted': submitted})
 
 
-def list_employees(request):
-    employees = Employee.objects.all() 
-    return render(request, 'vacayvue/list-employees.html', {'employees': employees})
-
-
-
 
 def register_employee(request):
+    print("etrekse to register employee")
     if request.method == 'POST':
         print(request.POST)  # Print form data
-
         form = RegisterEmployeeForm(request.POST)
         if form.is_valid():
-            employee = form.save(commit=False)
-            if request.user.is_authenticated and request.user.user_type == 'company':
-                company = request.user.company_profile
-                employee.company_id = company.pk
-                employee.save()
-                messages.success(request, "Your employee was registered successfully!")
-                return redirect('list_employees')
+            print(f"Logged-in user: {request.user}")  # Debugging statement
+            print(f"Logged-in user type: {request.user.user_type}")  # Debugging statement
+            
+            employee = form.save()
+            print(f"Registered employee: {employee}")  # Debugging statement
+            
+            company = get_object_or_404(Company, user_id=request.user.pk)
+            print(f"Associated company: {company}")  # Debugging statement
+            
+            employee.company = company
+            employee.save()
+            print(employee.company)
+            messages.success(request, "Your employee was registered successfully!")
+            print('to ekana')
+            return redirect('list-employees')
         else:
-           print('Form is invalid')
-           print(form.errors) 
+            print('Form is invalid')
+            print(form.errors)
     else:
         form = RegisterEmployeeForm()
     return render(request, 'vacayvue/register_employee.html', {'form': form})
 
+def list_employees(request):
+    company = get_object_or_404(Company, user_id=request.user.pk)
+    print("Logged-in user:", request.user)  # Debugging statement
+    print("Associated company:", company)  # Debugging statement
+    
+    employees = Employee.objects.filter(company=company)
+    print("Employees:", employees)  # Debugging statement
+    
+    return render(request, 'vacayvue/list-employees.html', {'employees': employees})
+
 
 
 def employee_home(request):
-    return render(request, 'vacayvue/employee_home.html')
+    employee = get_object_or_404(Employee, user_id=request.user.pk)
+
+    return render(request, 'vacayvue/employee_home.html',{'employee': employee})
 
 
-def company_home(request, pk):
-    if request.user.is_authenticated:
-        company = Company.objects.get(user_id=pk)
-        return render(request, 'vacayvue/company_home.html', {'company': company})
-    else:
-        messages.success(request, "You Must Be Logged In To View This Page...")
-        return redirect('main_home')
+def company_home(request):
+        company = get_object_or_404(Company, user_id=request.user.pk)
+        return render(request, 'vacayvue/company_home.html',{'company': company})
 
 
 
@@ -140,24 +159,29 @@ def logout_user(request):
 
 
 def login_user(request):
-  if request.method == 'POST':
-    form = LoginForm(request.POST)
-    if form.is_valid():
-      email = form.cleaned_data['email']
-      password = form.cleaned_data['password']
-      user = authenticate(request, email=email, password=password)
-      if user is not None:
-        login(request, user)
-        if user.user_type == 'company':
-           return redirect('company_home' , pk=company_profile.pk)
-        else:
-          return redirect('employee_home')  # Redirect employee to their home page
-      else:
-        messages.error(request, 'Invalid email, password')
-        return redirect('login')
-  else:
-    form = LoginForm()
-  return render(request, 'vacayvue/login.html', {'form': form})
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+            user = authenticate(request, email=email, password=password)
+            print(f"Email received in login view: {email}")  # Debugging statement
+
+            if user is not None:
+                print(f'User authenticated: {user}')  # Debugging statement
+                print(f'User type: {user.user_type}')  # Debugging statement
+
+                login(request, user)
+                if user.user_type == 'company':
+                    return redirect('company_home')
+                else:
+                    return redirect('employee_home')  # Redirect employee to their home page
+            else:
+                messages.error(request, 'Invalid email, password')
+                return redirect('login')
+    else:
+        form = LoginForm()
+    return render(request, 'vacayvue/login.html', {'form': form})
 
 def main_home(request):
     #Get current year   
@@ -166,11 +190,3 @@ def main_home(request):
         'current_year':current_year,
         
     })
-
-
-
-
-
-
-
-

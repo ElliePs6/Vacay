@@ -5,7 +5,7 @@ $(document).ready(function () {
             center: 'title',
             right: 'month,agendaWeek,agendaDay'
         },
-        events: '/all_events',
+        events: '/all_events/',
         selectable: true,
         selectHelper: true,
         editable: true,
@@ -17,7 +17,7 @@ $(document).ready(function () {
                 var end = $.fullCalendar.formatDate(end, "Y-MM-DD HH:mm:ss");
                 $.ajax({
                     type: "GET",
-                    url: '/add_event',
+                    url: '/add_event/',
                     data: {'title': title, 'start': start, 'end': end},
                     dataType: "json",
                     success: function (data) {

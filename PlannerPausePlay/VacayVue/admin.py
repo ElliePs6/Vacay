@@ -9,9 +9,9 @@ admin.site.register(CustomUser)
 
 
 class CompanyAdmin(admin.ModelAdmin):
-    list_display = ('name', 'hr_name')
-    ordering = ('name',)
-    search_fields = ('name', 'hr_name')
+    list_display = ('name', 'hr_name','afm', 'dou')
+    ordering = ('afm',)
+    search_fields = ('name', 'afm')
 
 admin.site.register(Company, CompanyAdmin)
     

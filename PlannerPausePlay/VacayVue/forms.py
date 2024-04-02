@@ -4,6 +4,8 @@ from .models import Requests,CustomUser,Company,Employee
 from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
+from django.shortcuts import get_object_or_404
+
 
 
 CustomUser = get_user_model()
@@ -29,12 +31,9 @@ class RegisterEmployeeForm(UserCreationForm):
     )
     first_name = forms.CharField(max_length=30, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'First Name'}))
     last_name = forms.CharField(max_length=150, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Last Name'}))
-   # company = forms.ModelChoiceField(
-      #  queryset=Company.objects.none(),
-     #   empty_label=None,
-      #  widget=forms.TextInput(attrs={'class': 'form-control', 'readonly': True}),
-      #  required=False
-   # )
+    
+    
+   
 
     class Meta:
         model = CustomUser
@@ -46,14 +45,15 @@ class RegisterEmployeeForm(UserCreationForm):
         user.user_type = 'employee'
         if commit:
             user.save()
-            employee_user = Employee.objects.create(
+            employee=Employee.objects.create(
             user=user,#1 user is employee user
             first_name=self.cleaned_data['first_name'],
             last_name=self.cleaned_data['last_name'],
             join_date=self.cleaned_data['join_date'],
             )
+           
 
-        return user
+        return employee
 
 
 

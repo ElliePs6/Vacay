@@ -1,8 +1,110 @@
 {% extends 'vacayvue/base.html' %}
+
 {% block content %}
 <div class="col-md-12"> 
     <h4 class="text-center">Ημερολογίο</h4>
     <div id='calendar'></div> 
 </div>
+
+<!-- FullCalendar -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+        calendar = $('#calendar').fullCalendar({
+           header: {
+               left: 'prev,next today',
+               center: 'title',
+               right: 'month,agendaWeek,agendaDay'
+           },
+           events:'/all_events',
+           selectable: true,
+           selectHelper: true,
+           editable: true,
+           eventLimit: true,
+           select: function (start, end, allDay) {
+               var title = prompt("Enter Event Title");
+               if (title) {
+                   var startStr = start.toISOString();
+                   var endStr = end.toISOString();
+                   $.ajax({
+                       type: "GET",
+                       url:'/add_event',
+                       data: {'title': title, 'start': startStr, 'end': endStr},
+                       dataType: "json",
+                       success: function (data) {
+                           calendar.fullCalendar('refetchEvents');
+                           alert("Added Successfully");
+                       },
+                       error: function (jqXHR, textStatus, errorThrown) {
+                           console.error('Error adding event:', textStatus, errorThrown);
+                       }
+                   });
+               }
+           },
+           eventResize: function (event) {
+               var start = event.start.toISOString();
+               var end = event.end.toISOString();
+               var title = event.title;
+               var id = event.id;
+               $.ajax({
+                   type: "GET",
+                   url: '/update',
+                   data: {'title': title, 'start': start, 'end': end, 'id': id},
+                   dataType: "json",
+                   success: function (data) {
+                       calendar.fullCalendar('refetchEvents');
+                       alert('Event Updated');
+                   },
+                   error: function (jqXHR, textStatus, errorThrown) {
+                       console.error('Error updating event:', textStatus, errorThrown);
+                   }
+               });
+           },
+           eventDrop: function (event) {
+               var start = event.start.toISOString();
+               var end = event.end.toISOString();
+               var title = event.title;
+               var id = event.id;
+               $.ajax({
+                   type: "GET",
+                   url: '/update',
+                   data: {'title': title, 'start': start, 'end': end, 'id': id},
+                   dataType: "json",
+                   success: function (data) {
+                       calendar.fullCalendar('refetchEvents');
+                       alert('Event Updated');
+                   },
+                   error: function (jqXHR, textStatus, errorThrown) {
+                       console.error('Error updating event:', textStatus, errorThrown);
+                   }
+               });
+           },
+           eventClick: function (event) {
+               if (confirm("Are you sure you want to remove it?")) {
+                   var id = event.id;
+                   $.ajax({
+                       type: "GET",
+                       url: '/remove',
+                       data: {'id': id},
+                       dataType: "json",
+                       success: function (data) {
+                           calendar.fullCalendar('removeEvents', id);
+                           alert('Event Removed');
+                       },
+                       error: function (jqXHR, textStatus, errorThrown) {
+                           console.error('Error removing event:', textStatus, errorThrown);
+                       }
+                   });
+               }
+           }
+       });
+   });
+   
+
+</script>
 
 {% endblock %}

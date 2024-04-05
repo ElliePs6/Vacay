@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect
 from .models import Requests,Employee,Events,CustomUser,Company
 from .forms import RequestForm,LoginForm,RegisterEmployeeForm
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404, HttpResponseServerError
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from datetime import datetime
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
+from django.core.serializers import serialize
 
 
 
@@ -17,63 +18,60 @@ def employee_navbar(request):
 def company_navbar(request):
     return render(request, 'vacayvue/company_navbar.html')
 
-def calendar(request):  
+def calendar(request):
     all_events = Events.objects.all()
     context = {
         "events":all_events,
-    }
+    }   
     return render(request,'vacayvue/calendar.html',context)
  
-def all_events(request):                                                                                                 
-    all_events = Events.objects.all()                                                                                    
-    out = []                                                                                                             
-    for event in all_events:                                                                                             
-        out.append({                                                                                                     
-            'title': event.name, 
-            'id':event.id,                                                                                                                                                                                      
-            'start': event.start.strftime("%m/%d/%Y, %H:%M:%S"),                                                         
-            'end': event.end.strftime("%m/%d/%Y, %H:%M:%S"),                                                             
-        })                                                                                                               
-                                                                                                                      
-    return JsonResponse(out, safe=False) 
+def all_events(request):
+    try:
+        events = Events.objects.all()
+        # Serialize event objects into JSON format
+        event_data = serialize('json', events)
+        # Return serialized data as JsonResponse
+        return JsonResponse(event_data, safe=False)
+    except Exception as e:
+        # Log the error for debugging purposes
+        print(f'An error occurred in all_events view: {str(e)}')
+        # Return an appropriate HTTP response
+        return HttpResponseServerError('An error occurred while processing the request')
+    
 
 def add_event(request):
-    start = request.GET.get("start", None)
-    end = request.GET.get("end", None)
-    title = request.GET.get("title", None)
-    
-    print("Received request to add event:")
-    print("Title:", title)
-    print("Start:", start)
-    print("End:", end)
-    
-    event = Events(name=str(title), start=start, end=end)
-    event.save()
-    
-    print("Event saved successfully:", event)
-    
-    data = {}
-    return JsonResponse(data)
+    try:
+        title = request.GET.get("title")
+        start = request.GET.get("start")
+        end = request.GET.get("end")
+        
+        event = Events.objects.create(name=title, start=start, end=end)
+        return JsonResponse({'id': event.id})
+    except Exception as e:
+        print(f'An error occurred in add_event view: {str(e)}')
+        return HttpResponseServerError('An error occurred while adding the event')
 
 def update(request):
-    start = request.GET.get("start", None)
-    end = request.GET.get("end", None)
-    title = request.GET.get("title", None)
-    id = request.GET.get("id", None)
-    event = Events.objects.get(id=id)
-    event.start = start
-    event.end = end
-    event.name = title
-    event.save()
-    data = {}
-    return JsonResponse(data)
- 
+    try:
+        id = request.GET.get("id")
+        event = Events.objects.get(id=id)
+        event.title = request.GET.get("title")
+        event.start = request.GET.get("start")
+        event.end = request.GET.get("end")
+        event.save()
+        return JsonResponse({})
+    except Exception as e:
+        print(f'An error occurred in update view: {str(e)}')
+        return HttpResponseServerError('An error occurred while updating the event')
+
 def remove(request):
-    id = request.GET.get("id", None)
-    event = Events.objects.get(id=id)
-    event.delete()
-    data = {}
-    return JsonResponse(data)
+    try:
+        id = request.GET.get("id")
+        Events.objects.filter(id=id).delete()
+        return JsonResponse({})
+    except Exception as e:
+        print(f'An error occurred in remove view: {str(e)}')
+        return HttpResponseServerError('An error occurred while removing the event')
  
 
 def list_requests(request):

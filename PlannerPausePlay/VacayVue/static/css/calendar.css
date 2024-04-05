@@ -18,28 +18,28 @@
     margin-bottom: 20px;
   }
   
-  /* Styles for the event titles */
+  /* Styles for the event titles *
   .fc-event-title {
     font-weight: bold;
   }
   
-  /* Styles for the event blocks */
+  /* Styles for the event blocks *
   .fc-event {
     margin-bottom: 10px;
   }
   
-  /* Styles for the event information popover */
+  /* Styles for the event information popover *
   .popover {
     max-width: 300px;
   }
   
-  /* Styles for the event information popover title */
+  /* Styles for the event information popover title *
   .popover-title {
     font-weight: bold;
   }
   
-  /* Styles for the event information popover body */
+  /* Styles for the event information popover body 
   .popover-content {
     font-size: 14px;
   }
-  
+  */

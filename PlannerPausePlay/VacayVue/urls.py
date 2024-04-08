@@ -12,11 +12,12 @@ urlpatterns = [
     path('list-employees/',views.list_employees,name="list-employees"),
 
     path('calendar/', views.calendar, name='calendar'),
-    path('add_event/', views.add_event, name='add_event'), 
+    path('all_requests/', views.all_requests, name='all_requests'),
+    path('add_request/',views.add_request,name='add_request'),
+    
+
     path('update/', views.update, name='update'),
     path('remove/', views.remove, name='remove'), 
-    path('all_events/', views.all_events, name='all_events'),    
-    path('add-request/',views.add_request,name='add-request'),
     path('list-requests/',views.list_requests,name="list-requests"),
     path('employee_navbar/', views.employee_navbar,name="employee_navbar"),
    # path('error_template/', views.error_template,name="error_template")

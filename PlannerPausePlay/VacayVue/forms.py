@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from .models import Requests,CustomUser,Company,Employee
+from .models import Request,CustomUser,Company,Employee
 from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
@@ -58,19 +58,32 @@ class RegisterEmployeeForm(UserCreationForm):
 
 
 class RequestForm(ModelForm):
+    type = forms.ChoiceField(choices=Request.REQUEST_TYPES_CHOICES)
+
     class Meta:
-        model = Requests
-        fields = ('Type', 'StartDate', 'EndDate', 'Comments')
-        labels = { 
-            'Type': "",
-            'StartDate': "",
-            'EndDate': "",            
-            'Comments': ""
-        }
+        model = Request
+        fields = ["type", "start", "end", "description"]  # Include all fields here
         widgets = {
-            'Type': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Τύπος Άδειας'}),
-            'StartDate': forms.DateInput(attrs={'class': 'form-control datepicker', 'placeholder': 'Ημερομηνία Έναρξης', 'id': 'start-date'}),
-            'EndDate': forms.DateInput(attrs={'class': 'form-control datepicker', 'placeholder': 'Ημερομηνία Λήξης', 'id': 'end-date'}),
-            'Comments': forms.TextInput(attrs={'class': 'form-control comments', 'placeholder': ''})
+            "description": forms.Textarea(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Περιγραή Αιτήσεως",
+                }
+            ),
+            "start": forms.DateInput(
+                attrs={
+                    'class': 'form-control datepicker',
+                    'placeholder': 'Ημερομηνία Έναρξης',
+                    'id': 'id_start'
+                }
+            ),
+            "end": forms.DateInput(
+                attrs={
+                    'class': 'form-control datepicker',
+                    'placeholder': 'Ημερομηνία Λήξης',
+                    'id': 'id_end'
+                }
+            )
         }
+      
 

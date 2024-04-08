@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Employee, Company, Requests, CustomUser
+from .models import Employee, Company, Request, CustomUser
 
 
 
@@ -22,9 +22,8 @@ class EmployeesAdmin(admin.ModelAdmin):
     ordering = ('first_name',)
 
 
-@admin.register(Requests)
+@admin.register(Request)
 class RequestsAdmin(admin.ModelAdmin):
-    fields = ('employeeID', ('StartDate', 'EndDate'), 'Status', 'Type')
-    list_display = ('employeeID', 'StartDate', 'EndDate', 'Type', 'Status')
-    search_fields = ('Type', 'Status')
-    list_filter = ('StartDate', 'EndDate', 'Status')
+    list_display = ('user', 'start', 'end', 'type','description')
+    ordering = ('type',)
+    

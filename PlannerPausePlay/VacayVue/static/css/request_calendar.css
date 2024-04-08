@@ -1,13 +1,12 @@
-/* Styles for form container */
-.custom-form-container {
+/* Styles for modal container */
+.modal-content {
   padding: 30px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  position: relative; /* Change position to relative */
 }
 
-/* Styles for form labels */
-.custom-form-label {
+/* Styles for modal title */
+.modal-title {
   font-weight: bold;
 }
 
@@ -17,19 +16,9 @@
 }
 
 /* Styles for date fields */
-.custom-form-group input[type="date"] {
+#is_start input[type="date"],
+#id_end input[type="date"] {
   width: 100%;
-}
-
-/* Styles for color field */
-.custom-form-group input[type="color"] {
-  width: 100%;
-}
-
-/* Styles for calendar icon */
-.custom-input-group-text {
-  background-color: #fff;
-  border: none;
 }
 
 /* Additional styles for success alert */
@@ -38,7 +27,7 @@
 }
 
 /* Additional styles for comments textarea */
-.custom-form-control.comments {
+#id_comments {
   height: 150px; /* Adjust height as needed */
   resize: vertical; /* Allow vertical resizing */
 }

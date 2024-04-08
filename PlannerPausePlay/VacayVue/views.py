@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Requests,Employee,Events,CustomUser,Company
+from .models import Request,Employee,CustomUser,Company
 from .forms import RequestForm,LoginForm,RegisterEmployeeForm
 from django.http import JsonResponse, Http404, HttpResponseServerError
 from django.contrib import messages
@@ -8,6 +8,11 @@ from datetime import datetime
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from django.core.serializers import serialize
+from django.utils.timezone import is_aware
+from django.utils import timezone
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from django.core.exceptions import ObjectDoesNotExist
 
 
 
@@ -18,38 +23,61 @@ def employee_navbar(request):
 def company_navbar(request):
     return render(request, 'vacayvue/company_navbar.html')
 
-def calendar(request):
-    all_events = Events.objects.all()
-    context = {
-        "events":all_events,
-    }   
-    return render(request,'vacayvue/calendar.html',context)
- 
-def all_events(request):
-    try:
-        events = Events.objects.all()
-        # Serialize event objects into JSON format
-        event_data = serialize('json', events)
-        # Return serialized data as JsonResponse
-        return JsonResponse(event_data, safe=False)
-    except Exception as e:
-        # Log the error for debugging purposes
-        print(f'An error occurred in all_events view: {str(e)}')
-        # Return an appropriate HTTP response
-        return HttpResponseServerError('An error occurred while processing the request')
-    
 
-def add_event(request):
+def calendar(request):  
+    form = RequestForm()  # Create an instance of the form
+    all_requests = Request.objects.all()
+    context = {
+        "form": form,  # Pass the form to the context
+        "requests": all_requests,
+    }
+    return render(request, 'vacayvue/request_calendar.html', context)
+
+ 
+def all_requests(request):
+    all_requests = Request.objects.all()
+    out = []                                                                                                             
+    for request in all_requests:                                                                                             
+        out.append({                                                                                                     
+            'type': request.type,                                                                                         
+            'id': request.id,                                                                                              
+            'start': request.start.strftime("%Y-%m-%d %H:%M:%S"),                                                         
+            'end': request.end.strftime("%Y-%m-%d %H:%M:%S"),                                                            
+        })                                                                                                               
+                                                                                                                      
+    return JsonResponse(out, safe=False) 
+
+
+def add_request(request):
+    # Create a form instance and populate it with data from the request (binding)
+    form = RequestForm(request.POST)
+
+    # Check if the form is valid
+    if form.is_valid():
+        # Save the form data to the database
+        request_object = form.save(commit=False)  # Get the unsaved object
+        request_object.user = request.user  # Assuming you have a ForeignKey to User
+        request_object.save()  # Save the object
+
+        # Return success response
+        return JsonResponse({'success': True})
+
+    else:
+        # Return error response with form errors
+        errors = form.errors.as_json()
+        return JsonResponse({'success': False, 'errors': errors})
+
+
+def remove(request):
+    id = request.POST.get("id", None)
     try:
-        title = request.GET.get("title")
-        start = request.GET.get("start")
-        end = request.GET.get("end")
-        
-        event = Events.objects.create(name=title, start=start, end=end)
-        return JsonResponse({'id': event.id})
-    except Exception as e:
-        print(f'An error occurred in add_event view: {str(e)}')
-        return HttpResponseServerError('An error occurred while adding the event')
+        request = Request.objects.get(id=id)
+        request.delete()
+        data = {'success': True}
+    except ObjectDoesNotExist:
+        data = {'success': False, 'error': 'Request does not exist'}
+    return JsonResponse(data)
+
 
 def update(request):
     try:
@@ -64,37 +92,39 @@ def update(request):
         print(f'An error occurred in update view: {str(e)}')
         return HttpResponseServerError('An error occurred while updating the event')
 
-def remove(request):
-    try:
-        id = request.GET.get("id")
-        Events.objects.filter(id=id).delete()
-        return JsonResponse({})
-    except Exception as e:
-        print(f'An error occurred in remove view: {str(e)}')
-        return HttpResponseServerError('An error occurred while removing the event')
+
+    
+
+
+
  
 
 def list_requests(request):
-    all_requests=Requests.objects.all()
+    all_requests=Request.objects.all()
     return render(request, 'vacayvue/list-requests.html',
         { 'all_requests':all_requests})
 
-def add_request(request):
-    submitted = False
-    if request.method == "POST":
+def request_calendar(request):
+   if request.method == 'POST':
         form = RequestForm(request.POST)
         if form.is_valid():
-            form.save()
-            # Redirect to the same view with the 'submitted' parameter in the URL
-            return redirect('/add-request/?submitted=True')
-    else:
-        form = RequestForm()
-
-    # Check if the 'submitted' parameter is present in the URL
-    if 'submitted' in request.GET and request.GET['submitted'] == 'True':
-        submitted = True
-
-    return render(request, 'vacayvue/add-request.html', {'form': form, 'submitted': submitted})
+            type = form.cleaned_data["type"]
+            description = form.cleaned_data["description"]
+            start = form.cleaned_data["start"]
+            end = form.cleaned_data["end"]
+            comments = form.cleaned_data["comments"]  
+            Request.objects.create(
+                user=request.user,
+                type=type,
+                description=description,
+                start=start,
+                end=end,
+                comments=comments,  
+            )
+            return HttpResponseRedirect(reverse("calendar"))
+        else:
+            form = RequestForm()
+        return render(request, "request_calendar.html", {"form": form})
 
 
 

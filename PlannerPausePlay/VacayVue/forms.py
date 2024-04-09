@@ -20,7 +20,7 @@ class LoginForm(forms.Form):
 
 class RegisterEmployeeForm(UserCreationForm):
     email = forms.EmailField(widget=forms.TextInput(attrs={'autofocus': True, 'class': 'form-control'}))
-    join_date = forms.DateTimeField(widget=forms.DateInput(attrs={'class': 'form-control datepicker', 'placeholder': 'Joining Date', 'id': 'date_joined'}))
+    join_date = forms.DateTimeField(widget=forms.DateInput(attrs={'class': 'form-control datepicker', 'placeholder': 'Joining Date', 'id': 'join_date'}))
     password1 = forms.CharField(
         label='Password',
         widget=forms.PasswordInput(attrs={'class': 'form-control', 'data-toggle': 'tooltip', 'title': 'Your password must contain at least 8 characters and cannot be too similar to your other personal information.'})
@@ -67,7 +67,7 @@ class RequestForm(ModelForm):
             "description": forms.Textarea(
                 attrs={
                     "class": "form-control",
-                    "placeholder": "Περιγραή Αιτήσεως",
+                    "placeholder": "Περιγραφή Αιτήσεως",
                 }
             ),
             "start": forms.DateInput(

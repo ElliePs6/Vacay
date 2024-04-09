@@ -33,20 +33,22 @@ def calendar(request):
     }
     return render(request, 'vacayvue/request_calendar.html', context)
 
- 
+@login_required
 def all_requests(request):
-    all_requests = Request.objects.all()
+    user = request.user
+    user_requests = Request.objects.filter(user=user)  # Assuming there's a ForeignKey field named 'user' in your Request model
     out = []                                                                                                             
-    for request in all_requests:                                                                                             
+    for request_obj in user_requests:                                                                                             
         out.append({                                                                                                     
-            'type': request.type,                                                                                         
-            'id': request.id,                                                                                              
-            'start': request.start.strftime("%Y-%m-%d %H:%M:%S"),                                                         
-            'end': request.end.strftime("%Y-%m-%d %H:%M:%S"),                                                            
-        })                                                                                                               
+            'type': request_obj.type,                                                                                         
+            'id': request_obj.id,                                                                                              
+            'start': request_obj.start.strftime("%Y-%m-%d") if request_obj.start else None,
+            'end': request_obj.end.strftime("%Y-%m-%d") if request_obj.end else None, 
+            'description': request_obj.description,                                                 
+        })
+    print(out)                                                                                                               
                                                                                                                       
-    return JsonResponse(out, safe=False) 
-
+    return JsonResponse(out, safe=False)
 
 def add_request(request):
     # Create a form instance and populate it with data from the request (binding)
@@ -55,15 +57,13 @@ def add_request(request):
     # Check if the form is valid
     if form.is_valid():
         # Save the form data to the database
-        request_object = form.save(commit=False)  # Get the unsaved object
-        request_object.user = request.user  # Assuming you have a ForeignKey to User
-        request_object.save()  # Save the object
-
-        # Return success response
+        request_object = form.save(commit=False) 
+        request_object.user = request.user  
+        request_object.save() 
         return JsonResponse({'success': True})
 
     else:
-        # Return error response with form errors
+        
         errors = form.errors.as_json()
         return JsonResponse({'success': False, 'errors': errors})
 
@@ -81,50 +81,35 @@ def remove(request):
 
 def update(request):
     try:
-        id = request.GET.get("id")
-        event = Events.objects.get(id=id)
-        event.title = request.GET.get("title")
-        event.start = request.GET.get("start")
-        event.end = request.GET.get("end")
-        event.save()
-        return JsonResponse({})
+        if request.method == 'POST':
+            request_id = request.POST.get("id")
+            new_start = request.POST.get("start")
+            new_end = request.POST.get("end")
+            new_type = request.POST.get("type")
+            new_description = request.POST.get("description")
+
+            request_obj = Request.objects.get(id=request_id)
+            request_obj.start = new_start
+            request_obj.end = new_end
+            request_obj.type = new_type
+            request_obj.description = new_description
+            request_obj.save()
+
+            return JsonResponse({'success': True})
+        else:
+            return JsonResponse({'success': False, 'message': 'Method not allowed'}, status=405)
+    except Request.DoesNotExist:
+        return JsonResponse({'success': False, 'message': 'Request not found'}, status=404)
     except Exception as e:
-        print(f'An error occurred in update view: {str(e)}')
-        return HttpResponseServerError('An error occurred while updating the event')
+        print(f'An error occurred in update_request view: {str(e)}')
+        return HttpResponseServerError('An error occurred while updating the request')
 
 
-    
-
-
-
- 
 
 def list_requests(request):
     all_requests=Request.objects.all()
     return render(request, 'vacayvue/list-requests.html',
         { 'all_requests':all_requests})
-
-def request_calendar(request):
-   if request.method == 'POST':
-        form = RequestForm(request.POST)
-        if form.is_valid():
-            type = form.cleaned_data["type"]
-            description = form.cleaned_data["description"]
-            start = form.cleaned_data["start"]
-            end = form.cleaned_data["end"]
-            comments = form.cleaned_data["comments"]  
-            Request.objects.create(
-                user=request.user,
-                type=type,
-                description=description,
-                start=start,
-                end=end,
-                comments=comments,  
-            )
-            return HttpResponseRedirect(reverse("calendar"))
-        else:
-            form = RequestForm()
-        return render(request, "request_calendar.html", {"form": form})
 
 
 

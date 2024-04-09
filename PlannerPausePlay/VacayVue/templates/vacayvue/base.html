@@ -1,27 +1,26 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
-    {% load static %}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bootstrap demo</title>
+    <title>Vacations Managment</title>
+
+    <!--JQUERY-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    
     <!--Custom CSS-->
     <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/navbar.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/main_home.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/addrequest.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/calendar.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/employee_navbar.css' %}">
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
-    <!--JQUERY-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> 
+     
     <!--FULLCALENDAR-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.css" />        
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
@@ -54,8 +53,8 @@
                  {% include 'vacayvue/company_navbar.html' %}
              {% else %}
                  {% include 'vacayvue/navbar.html' %}
-             {% endif %}             
-         {% endif %}
+            {% endif %}             
+        {% endif %}
 
          <br><br><br>
          <div class="container">
@@ -66,6 +65,9 @@
                 {% endblock %}
             </div>
            </div>
+
+<!-- Bootstrap JS -->    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/js/bootstrap.min.js"></script>
     <script src="{% static 'js/activenav.js' %}"></script>
       
     <footer>

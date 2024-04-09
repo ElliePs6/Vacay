@@ -56,8 +56,8 @@ class Request(models.Model):
     ]
     
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="employee_request")
-    start = models.DateTimeField(null=True, blank=True)
-    end = models.DateTimeField(null=True, blank=True)
+    start = models.DateField(null=True, blank=True)
+    end = models.DateField(null=True, blank=True)
     type = models.CharField(max_length=50, choices=REQUEST_TYPES_CHOICES)
     description = models.TextField(blank=True)
     is_pending = models.BooleanField(default=True)

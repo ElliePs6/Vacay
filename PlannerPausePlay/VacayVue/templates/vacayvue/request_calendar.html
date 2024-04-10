@@ -14,7 +14,7 @@
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <form  method="post" >
+            <form method="post" >
               {% csrf_token %}
               <div class="modal-body">
                 <div class="form-group">
@@ -36,7 +36,7 @@
               </div>
               <div class="modal-footer">
                 <button class="btn btn-danger modalClose">Κλείσιμο</button>
-                <button type="submit" class="btn btn-primary submitRequestForm " id=>Υποβολή</button>
+                <button type="submit" class="btn btn-primary submitRequestForm">Υποβολή</button>
               </div>
             </form>
           </div>
@@ -72,9 +72,10 @@
                 </div>
               </div>
               <div class="modal-footer">
-                <button id="delete-request-button" data-request-id="" class="btn btn-danger">Διαγραφή</button>
-                <button id="edit-request-button" data-request-id="" class="btn btn-primary">Επεξεργασία</button>
-                <button id="save-request-button" data-request-id="" class="btn btn-primary">Αποθήκευση</button>
+                
+                <button class="delete-request-button btn btn-danger" data-request-id="34">Διαγραφή</button>
+                    
+              
               </div>
             </form>
           </div>
@@ -88,101 +89,5 @@
     <div id="calendar"></div>
 </div> 
   
-<script>
-  $(document).ready(function () {
-    var calendar = $('#calendar').fullCalendar({
-        header: {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'month,agendaWeek,agendaDay'
-        },
-        events: "/vacayvue/all_requests/",
-        selectable: true,
-        selectHelper: true,
-        editable: true,
-        
-        select: function(start, end) {
-            console.log("Selecting dates...");
-            $('#requestModal').modal('show');
-            $('#id_start').val(start.format('YYYY-MM-DD'));
-            $('#id_end').val(end.format('YYYY-MM-DD'));
-            calendar.fullCalendar('unselect');
-        },
-        eventClick: function(request) {
-            console.log("Clicked event:", request);
-            var modal = $('#detailModal');
-            modal.find('#type_request_detail').text(request.type);
-            modal.find('#start_request_detail').text(moment(request.start).format('YYYY-MM-DD'));
-            modal.find('#end_request_detail').text(moment(request.end).format('YYYY-MM-DD'));
-            modal.find('#description_request_detail').text(request.description || '');
-            modal.find('#delete-request-button').attr('data-request-id', request.id);
-            modal.modal('show'); 
-        },
-    });
 
-    $('.submitRequestForm').click(function() {
-      console.log("Submitting request form...");
-      var formData = $(this).closest('form').serialize();
-      
-      $.ajax({
-          url: "/vacayvue/add_request/",
-          type: 'POST', 
-          data: formData,
-          dataType: 'json',
-          success: function (response) {
-              console.log("Form submission response:", response);
-              if (response.success) {
-                  $('#requestModal').modal('hide');
-                  window.location.reload();
-              } else {
-                  console.log(response.errors);
-              }
-          },
-          error: function (xhr, status, error) {
-              console.error("Error submitting form:", xhr.responseText);
-              if (xhr.status === 404) {
-                  alert('The request does not exist.');
-              } else {
-                  alert('There was an error processing your request.');
-              }
-          }
-      });
-  });
-  
-    $('.modalClose').click(function() {
-        console.log("Closing modal...");
-        $(this).closest('.modal').modal('hide');
-    });
-
-    $('#delete-request-button').click(function() {
-        console.log("Deleting request...");
-        var requestId = $(this).attr('data-request-id');
-        if (confirm("Are you sure you want to remove it?")) {
-            $.ajax({
-                url: "/vacayvue/remove/",
-                type: 'POST',
-                data: {
-                    id: requestId, 
-                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
-                },
-                success: function(response) {
-                    console.log("Delete request response:", response);
-                    if (response.success) {
-                        $('#detailModal').modal('hide');
-                        window.location.reload();
-                    } else {
-                        alert('Η διαγραφή αντιμετωπίζει πρόβλημα!');
-                        console.log(response.errors);
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error("Error deleting request:", xhr.responseText);
-                    alert('Η διαγραφή αντιμετωπίζει πρόβλημα!');
-                }
-            });
-        }
-    });
-});
-
-</script>
 {% endblock %}

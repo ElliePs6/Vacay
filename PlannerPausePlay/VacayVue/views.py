@@ -1,19 +1,16 @@
 from django.shortcuts import render, redirect
-from .models import Request,Employee,CustomUser,Company
+from .models import Request,Company,CustomUser,Employee
 from .forms import RequestForm,LoginForm,RegisterEmployeeForm
-from django.http import JsonResponse, Http404, HttpResponseServerError
+from django.http import JsonResponse, Http404, HttpResponseServerError, HttpResponseRedirect
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
 from datetime import datetime
+from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from django.core.serializers import serialize
-from django.utils.timezone import is_aware
 from django.utils import timezone
-from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.core.exceptions import ObjectDoesNotExist
-
 
 
 
@@ -27,13 +24,15 @@ def company_navbar(request):
 def calendar(request):  
     form = RequestForm()  # Create an instance of the form
     all_requests = Request.objects.all()
+    print(all_requests)
     context = {
         "form": form,  # Pass the form to the context
         "requests": all_requests,
     }
+
     return render(request, 'vacayvue/request_calendar.html', context)
 
-@login_required
+
 def all_requests(request):
     user = request.user
     user_requests = Request.objects.filter(user=user)  # Assuming there's a ForeignKey field named 'user' in your Request model
@@ -53,7 +52,6 @@ def all_requests(request):
 def add_request(request):
     # Create a form instance and populate it with data from the request (binding)
     form = RequestForm(request.POST)
-
     # Check if the form is valid
     if form.is_valid():
         # Save the form data to the database
@@ -68,15 +66,25 @@ def add_request(request):
         return JsonResponse({'success': False, 'errors': errors})
 
 
+
+
 def remove(request):
-    id = request.POST.get("id", None)
-    try:
-        request = Request.objects.get(id=id)
-        request.delete()
-        data = {'success': True}
-    except ObjectDoesNotExist:
-        data = {'success': False, 'error': 'Request does not exist'}
+    if request.method == 'POST':  # Ensure it's a POST request
+        id = request.POST.get("id")  # Retrieve the request ID from POST data
+        if id is not None:  # Check if ID is provided
+            try:
+                request_obj = get_object_or_404(Request, id=id)  # Get the request object
+                request_obj.delete()  # Delete the request
+                data = {'success': True}  # Indicate success
+            except Exception as e:
+                data = {'success': False, 'error': str(e)}  # Indicate failure with error message
+        else:
+            data = {'success': False, 'error': 'ID not provided in request data'}  # ID is not provided
+    else:
+        data = {'success': False, 'error': 'Invalid request method'}  # Handle non-POST requests
+    
     return JsonResponse(data)
+
 
 
 def update(request):

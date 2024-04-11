@@ -46,12 +46,13 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header bg-primary">
-              <h5 class="modal-title text-white" id="title_request_detail"></h5>
+              
+              <h5 class="modal-title text-white" id="title_request_detail">Πληροφορίες Αιτήματος</h5>
               <button class="close modalClose" data-target="#detailModal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <form method="">
+            <form method="post">
               {% csrf_token %}
               <div class="modal-body">
                 <div class="form-group">
@@ -72,10 +73,14 @@
                 </div>
               </div>
               <div class="modal-footer">
-                
-                <button class="delete-request-button btn btn-danger" data-request-id="34">Διαγραφή</button>
-                    
-              
+                <button id="delete-request-button" data-request-id="" class="btn btn-danger">Διαγραφή</button>
+            
+            
+
+
+
+            </div>
+            
               </div>
             </form>
           </div>

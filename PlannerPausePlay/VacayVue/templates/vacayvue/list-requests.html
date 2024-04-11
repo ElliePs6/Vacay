@@ -9,7 +9,7 @@
 <br>
 <div class="card">
     <div class="card-header">
-      {{request.Status}}
+      {{request.status}}
     </div><br>
     <div class="card-body">
       <h5 class="card-title">Είδος άδειας: {{request.type}}</h5>
@@ -17,7 +17,7 @@
         <ul>
             <li>Αρχή άδειας: {{request.start}}/Λήξη άδειας: {{request.end}}</li>
             <li>Σχόλια: {{request.description}}</li>
-           <li>Υπάλληλος: {{request.EmployID.Firstname}} {{request.EmployID.Lastname}}</li>
+           <li>Υπάλληλος: {{request.user.first_name}} {{request.user.last_name}}</li>
 
                      
            

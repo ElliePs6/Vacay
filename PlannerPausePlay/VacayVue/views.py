@@ -24,10 +24,11 @@ def company_navbar(request):
 def calendar(request):  
     form = RequestForm()  # Create an instance of the form
     all_requests = Request.objects.all()
-    print(all_requests)
+
+    
     context = {
         "form": form,  # Pass the form to the context
-        "requests": all_requests,
+        "all_requests": all_requests,
     }
 
     return render(request, 'vacayvue/request_calendar.html', context)
@@ -45,7 +46,7 @@ def all_requests(request):
             'end': request_obj.end.strftime("%Y-%m-%d") if request_obj.end else None, 
             'description': request_obj.description,                                                 
         })
-    print(out)                                                                                                               
+                                                                                                             
                                                                                                                       
     return JsonResponse(out, safe=False)
 
@@ -67,57 +68,38 @@ def add_request(request):
 
 
 
-
-def remove(request):
-    if request.method == 'POST':  # Ensure it's a POST request
-        id = request.POST.get("id")  # Retrieve the request ID from POST data
-        if id is not None:  # Check if ID is provided
-            try:
-                request_obj = get_object_or_404(Request, id=id)  # Get the request object
-                request_obj.delete()  # Delete the request
-                data = {'success': True}  # Indicate success
-            except Exception as e:
-                data = {'success': False, 'error': str(e)}  # Indicate failure with error message
-        else:
-            data = {'success': False, 'error': 'ID not provided in request data'}  # ID is not provided
+def delete_request(request, request_id):
+    event = get_object_or_404(Request, id=request_id)
+    if request.method == 'POST':
+        event.delete()
+        return JsonResponse({'message': 'Event sucess delete.'})
     else:
-        data = {'success': False, 'error': 'Invalid request method'}  # Handle non-POST requests
+        return JsonResponse({'message': 'Error!'}, status=400)
+
+
+
     
-    return JsonResponse(data)
+def edit_request(request, request_id):
+    request_obj = get_object_or_404(Request, id=request_id)
+    if request.method == 'GET':
+        context = {'form': RequestForm(instance=request_obj), 'request_id': request_id}
+        return render(request,'vacayvue/edit_request.html',context)
 
-
-
-def update(request):
-    try:
-        if request.method == 'POST':
-            request_id = request.POST.get("id")
-            new_start = request.POST.get("start")
-            new_end = request.POST.get("end")
-            new_type = request.POST.get("type")
-            new_description = request.POST.get("description")
-
-            request_obj = Request.objects.get(id=request_id)
-            request_obj.start = new_start
-            request_obj.end = new_end
-            request_obj.type = new_type
-            request_obj.description = new_description
-            request_obj.save()
-
-            return JsonResponse({'success': True})
-        else:
-            return JsonResponse({'success': False, 'message': 'Method not allowed'}, status=405)
-    except Request.DoesNotExist:
-        return JsonResponse({'success': False, 'message': 'Request not found'}, status=404)
-    except Exception as e:
-        print(f'An error occurred in update_request view: {str(e)}')
-        return HttpResponseServerError('An error occurred while updating the request')
 
 
 
 def list_requests(request):
-    all_requests=Request.objects.all()
-    return render(request, 'vacayvue/list-requests.html',
+     company = get_object_or_404(Company, user_id=request.user.pk)
+     all_requests=Request.objects.filter(company=company)
+     return render(request, 'vacayvue/list-requests.html',
         { 'all_requests':all_requests})
+'''
+def list_requests(request):
+     employee = get_object_or_404(Employee, user_id=request.user.pk)
+     all_requests=Request.objects.filter(employee=employee)
+     return render(request, 'vacayvue/list-requests.html',
+        { 'all_requests':all_requests})
+        '''
 
 
 

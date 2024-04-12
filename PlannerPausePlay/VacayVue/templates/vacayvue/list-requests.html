@@ -1,35 +1,58 @@
 {% extends 'vacayvue/base.html' %}
 
-{% block content %}
-{% if request.user.is_authenticated %}
+{% block title %}Λίστα Αιτήσεων{% endblock title %}
 
-    <h1>Λιστα με αιτήσεις</h1>
-
-{% for request in all_requests%}
-<br>
-<div class="card">
-    <div class="card-header">
-      {{request.status}}
-    </div><br>
-    <div class="card-body">
-      <h5 class="card-title">Είδος άδειας: {{request.type}}</h5>
-      <p class="card-text"> 
-        <ul>
-            <li>Αρχή άδειας: {{request.start}}/Λήξη άδειας: {{request.end}}</li>
-            <li>Σχόλια: {{request.description}}</li>
-           <li>Υπάλληλος: {{request.user.first_name}} {{request.user.last_name}}</li>
-
-                     
-           
-            </ul>
-      </p>
+{% block breadcrumb %}
+    <div>
+        <h1><i class="fa fa-dashboard"></i> Dashboard</h1>
+        <p>Λίστα Αιτήσεων</p>
     </div>
-  </div>
-  {% endfor %}
+    <ul class="app-breadcrumb breadcrumb">
+        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+        <li class="breadcrumb-item"><a href="#">Λίστα Αιτήσεων</a></li>
+    </ul>
+{% endblock breadcrumb %}
 
-  {% else %}
-  <h1>Πρέπει να είστε συνδεδεμένος για να δείτε αυτη την σελίδα..</h1>
-   <a href="{% url 'login' %}">Συνδέσου εδώ</a>
-   {% endif %}
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="tile">
+            <div class="tile-body">
+                <div class="table-responsive">
+                    <div id="sampleTable_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table class="table table-hover table-bordered dataTable no-footer" id="sampleTable" role="grid" aria-describedby="sampleTable_info">
+                                    <thead>
+                                        <tr role="row">
+                                            <th class="sorting_asc" tabindex="0" aria-controls="sampleTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 261.641px;">SL</th>
+                                            <th class="sorting" tabindex="0" aria-controls="sampleTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 417.312px;">Τύπος Άδειας</th>
+                                            <th class="sorting" tabindex="0" aria-controls="sampleTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 189.281px;">Έναρξη Άδειας</th>
+                                            <th class="sorting" tabindex="0" aria-controls="sampleTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 102.141px;">Λήξη Άδειας</th>
+                                            <th class="sorting" tabindex="0" aria-controls="sampleTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 102.141px;">Περιγραφή</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for request in requests %}
+                                            <tr role="row" class="odd">
+                                                <td class="sorting_1">{{ forloop.counter }}</td>
+                                                <td>{{ request.type }}</td>
+                                                <td>{{ request.start }}</td>
+                                                <td>{{ request.end }}</td>
+                                                <td>{{ request.description }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
 
 {% endblock %}

@@ -77,29 +77,53 @@ def delete_request(request, request_id):
         return JsonResponse({'message': 'Error!'}, status=400)
 
 
-
+def update(request):
+    print("Request method:", request.method)  # Debugging: Print request method
     
-def edit_request(request, request_id):
-    request_obj = get_object_or_404(Request, id=request_id)
     if request.method == 'GET':
-        context = {'form': RequestForm(instance=request_obj), 'request_id': request_id}
-        return render(request,'vacayvue/edit_request.html',context)
-
-
+        # Extract data from the GET request
+        start = request.GET.get("start")
+        end = request.GET.get("end")
+        request_type = request.GET.get("type")
+        request_id = request.GET.get("id")
+        
+        print("Received data:")
+        print("Start:", start)  # Debugging: Print start
+        print("End:", end)  # Debugging: Print end
+        print("Type:", request_type)  # Debugging: Print type
+        print("ID:", request_id)  # Debugging: Print ID
+        
+        # Check if all required data is present
+        if start and end and request_type and request_id:
+            try:
+                # Get the request object from the database
+                request_obj = Request.objects.get(pk=request_id)
+                
+                # Update the request fields
+                request_obj.start = start
+                request_obj.end = end
+                request_obj.type = request_type
+                
+                # Save the updated request
+                request_obj.save()
+                
+                # Respond with a success message
+                return JsonResponse({'message': 'Request updated successfully'})
+            except Request.DoesNotExist:
+                # Handle the case where the request with the provided ID does not exist
+                return JsonResponse({'error': 'Request does not exist'}, status=404)
+        else:
+            # Handle the case where some data is missing in the request
+            return JsonResponse({'error': 'Missing required data'}, status=400)
+    else:
+        # Handle the case where the request method is not GET
+        return JsonResponse({'error': 'Only GET requests are allowed'}, status=405)
 
 
 def list_requests(request):
-     company = get_object_or_404(Company, user_id=request.user.pk)
-     all_requests=Request.objects.filter(company=company)
-     return render(request, 'vacayvue/list-requests.html',
-        { 'all_requests':all_requests})
-'''
-def list_requests(request):
-     employee = get_object_or_404(Employee, user_id=request.user.pk)
-     all_requests=Request.objects.filter(employee=employee)
-     return render(request, 'vacayvue/list-requests.html',
-        { 'all_requests':all_requests})
-        '''
+     employee = get_object_or_404(CustomUser, email=request.user.email)
+     requests=Request.objects.filter(user_id=employee)
+     return render(request, 'vacayvue/list-requests.html', { 'requests':requests} )
 
 
 

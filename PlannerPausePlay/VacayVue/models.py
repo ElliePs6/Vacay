@@ -1,6 +1,5 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.db.models.signals import post_save
 
 class CustomUser(AbstractUser):
     USER_TYPE_CHOICES = [
@@ -32,7 +31,7 @@ class Company(models.Model):
 
 class Employee(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='employee_profile')
-    join_date = models.DateTimeField(null=True, blank=True)
+    join_date = models.DateField(null=True, blank=True)
     first_name = models.CharField(max_length=30, null=True)
     last_name = models.CharField(max_length=150, null=True)
     company= models.ForeignKey(Company,blank=True,null=True, on_delete=models.CASCADE)
@@ -64,48 +63,12 @@ class Request(models.Model):
     is_approved = models.BooleanField(default=False)
     is_rejected = models.BooleanField(default=False)
 
-
 '''
-class Events(models.Model):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=255, null=True, blank=True)
-    start = models.DateTimeField(null=True, blank=True)
-    end = models.DateTimeField(null=True, blank=True)
-    
-    class Meta:
-        db_table = "tblevents"
 
 
 
 
 
-
-class TeamMembers(models.Model):
-    TeamMemberID = models.AutoField(primary_key=True)
-    UserID = models.ForeignKey(Users, on_delete=models.CASCADE)
-    TeamLeadID = models.ForeignKey(Users, on_delete=models.CASCADE, related_name='team_lead')
-    CalendarViewPermission = models.BooleanField()
-
-
-class AuditTrail(models.Model):
-    ACTION_CHOICES = [
-        ('approve', 'Approve'),
-        ('reject', 'Reject'),
-    ]
-    AuditTrailID = models.AutoField(primary_key=True)
-    RequestID = models.ForeignKey(Requests, on_delete=models.CASCADE)
-    ActionTimestamp = models.DateTimeField(auto_now_add=True)
-    ApproverID = models.ForeignKey(Users, on_delete=models.CASCADE)
-    Action = models.CharField(max_length=50)
-    Comments = models.TextField()
-
-class Calendar(models.Model):
-    STATUS_CHOICES = [
-        ('holiday', 'Holiday'),
-        ('day_off', 'Day Off'),
-    ]
-    Date = models.DateField(primary_key=True)
-    Status = models.CharField(max_length=50)
 
 class Holidays(models.Model):
     HolidayID = models.AutoField(primary_key=True)
@@ -124,11 +87,6 @@ class CustomHolidays(models.Model):
     HolidayName = models.CharField(max_length=255)
     Date = models.DateField()
 
-class Permissions(models.Model):
-    PermissionID = models.AutoField(primary_key=True)
-    Role = models.CharField(max_length=50)
-    Feature = models.CharField(max_length=255)
-    Allowed = models.BooleanField()
 
 class TimeOffBalances(models.Model):
     BalanceID = models.AutoField(primary_key=True)
@@ -138,6 +96,14 @@ class TimeOffBalances(models.Model):
     #OtherLeaveBalance = models.IntegerField()
     Year = models.IntegerField()
 
+class Permissions(models.Model):
+    PermissionID = models.AutoField(primary_key=True)
+    Role = models.CharField(max_length=50)
+    Feature = models.CharField(max_length=255)
+    Allowed = models.BooleanField()
+
+
+
 class ApprovalWorkflow(models.Model):
     WorkflowID = models.AutoField(primary_key=True)
     Role = models.CharField(max_length=50)
@@ -145,17 +111,25 @@ class ApprovalWorkflow(models.Model):
     MinimumApprovalLevel = models.IntegerField()
 
 
+class AuditTrail(models.Model):
+    ACTION_CHOICES = [
+        ('approve', 'Approve'),
+        ('reject', 'Reject'),
+    ]
+    AuditTrailID = models.AutoField(primary_key=True)
+    RequestID = models.ForeignKey(Requests, on_delete=models.CASCADE)
+    ActionTimestamp = models.DateTimeField(auto_now_add=True)
+    ApproverID = models.ForeignKey(Users, on_delete=models.CASCADE)
+    Action = models.CharField(max_length=50)
+    Comments = models.TextField()
 
 
-
-
-
-#class Notification(models.Model):
-#   NotificationID = models.AutoField(primary_key=True)
-#    UserID = models.ForeignKey(Users, on_delete=models.CASCADE)
-#    Message = models.TextField()
-#    Timestamp = models.DateTimeField(auto_now_add=True)
-#    Status = models.CharField(max_length=50)
+class Notification(models.Model):
+   NotificationID = models.AutoField(primary_key=True)
+    UserID = models.ForeignKey(Users, on_delete=models.CASCADE)
+    Message = models.TextField()
+    Timestamp = models.DateTimeField(auto_now_add=True)
+    Status = models.CharField(max_length=50)
 
 
 '''

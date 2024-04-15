@@ -31,8 +31,16 @@
         <div class="col">
           <div class="form-group">
             <label for="id_afm" class="custom-form-label">ΑΦΜ</label>
-				{{ form.afm }}
-		</div>
+            {{ form.afm }}
+            {% if form.afm.errors %}
+              <div class="alert alert-danger">
+                {% for error in form.afm.errors %}
+                  <p>{{ error }}</p>
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
         </div>
         <div class="col">
           <div class="form-group">
@@ -66,4 +74,3 @@
 </div>
 
 {% endblock %}
-

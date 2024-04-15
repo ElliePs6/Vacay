@@ -3,15 +3,42 @@ html, body, header, footer, div, p, h1, h2, h3, h4, h5, h6 {
     margin: 0;
     padding: 0;
     color: #B31E00;
-
 }
+
+.navbar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    background-color: #FFB05A; 
+    padding: 1.5% 5%; /* Adjusted padding for smaller height */
+    width: 100%; 
+  }
+  
+  .navbar-brand,
+  .navbar-nav .nav-link {
+    color: #B31E00 !important;
+    font-size: 1.2vw; /* Adjusted font size for smaller height */
+  }
+  
+  .navbar-toggler-icon {
+    background-color: #07e28e; 
+  }
+  
+  .navbar-toggler {
+    border-color: white; 
+  }
+  
+  .navbar-toggler:hover {
+    border-color: #ffb96d;
+  }
+  
+
 
 /* Set default font and background color */
 body {
     font-family: Arial, sans-serif;
     background-color: #FFEBB0;
     display: flex;
-   
     flex-direction: column;
     min-height: 100vh; /* Ensure the body takes up the full height of the viewport */
 }
@@ -21,21 +48,144 @@ body {
     flex: 1; /* Take up remaining vertical space */
     align-items: center;
     justify-content: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 5px solid #0000;
-    
+    max-width: 95%; /* Changed from 1200px to a percentage */
+    margin: 10% auto 0; /* Added 20px top margin, and removed bottom margin */
+    padding: 1.66667%; /* Changed from 20px to a percentage */
+    border: 0.41667% solid #0000; /* Changed from 5px to a percentage */
 }
-
 
 /* Footer styles */
 footer {
     background-color: #B31E00;
     color: #ffd4a1;
-    height: 70px; /* Set the height of the footer */
-    padding: 10px 0;
+    height: 8.33333%; /* Changed from 70px to a percentage */
+    padding: 1.66667% 0; /* Changed from 10px to a percentage */
     text-align: center;
     position: relative; /* Change position to relative */
     z-index: 2; /* Ensure the footer appears above the calendar */
+}
+
+
+
+
+
+/* Custom styles for the shadowed container */
+.shadow {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15); /* Added box-shadow */
+    
+}
+
+/* Custom styles for padding and margin */
+.p-3 {
+    padding: 1.25rem; /* Changed from 3rem to 1.25rem */
+}
+
+.mb-4 {
+    margin-bottom: 1rem; /* Changed from 4rem to 1rem */
+}
+
+.bg-body {
+    background-color: #fff; /* Changed from body background color */
+}
+
+.rounded {
+    border-radius: 5px; /* Rounded corners */
+}
+
+/* Custom styles for the centered heading */
+.text-center {
+    text-align: center;
+}
+
+/* Custom styles for the heading */
+h4 {
+    font-size: 1.5rem; /* Increased font size */
+    font-weight: bold; /* Added font weight */
+    color: #C33A1A; /* Heading color */
+}
+
+/* Adjusted spacing for the heading */
+h4.text-center {
+    margin-top: 1rem; /* Changed from 2rem to 0.5rem */
+    
+}
+
+/* Custom styles for form container */
+.form-container {
+    padding: 2%; /* Changed from 30px to a percentage */
+    border: 0.10417% solid #ccc; /* Changed from 1px to a percentage */
+    border-radius: 5px;
+    background-color: #fff;
+    text-align: center;
+   
+}
+
+/* Custom styles for form labels */
+.form-label {
+    font-weight: bold;
+}
+
+/* Custom styles for form groups */
+.form-group {
+    margin-bottom: 2.08333%; /* Changed from 20px to a percentage */
+}
+
+/* Custom styles for buttons */
+.button {
+    background-color: #F84322;
+    color: #ffebb0;
+    border-color: #fd5e3a;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: #ff7551;
+    color: #ffebb0;
+}
+
+/* Custom styles for select elements */
+.form-container select {
+    font-size: 16px;
+    padding: 0.41667%; /* Changed from 5px to a percentage */
+    margin: 0.41667%; /* Changed from 5px to a percentage */
+    color: #ffebb0;
+    background-color: #F84322;
+}
+
+.form-container select:hover {
+    background-color: #ff7551;
+}
+
+/* Custom styles for selected options */
+.form-container select:focus {
+    border-color: #c5940d;
+}
+
+/* Custom styles for dropdown options */
+.form-container select option {
+    color: #ffebb0;
+    background-color: #ff7551;
+    font-size: 16px;
+}
+
+
+.alert {
+    background-color: #FF8A00; /* Yellow background color */
+    color: black; /* Black text color */
+    border-color: black; /* Black border color */
+    width: 70%; /* Adjust the width */
+    margin: 1% auto; /* Center the alert horizontally and add spacing between alerts and form */
+    opacity: 0.8; /* Adjust opacity to make it fainter */
+    padding: 1%; /* Adjust padding */
+    position: relative; /* Set position to relative for positioning the close button */
+}
+
+.btn-close {
+    color: black; /* Black close button color */
+    position: absolute; /* Set position to absolute for custom positioning */
+    top: -5%; /* Move the button up */
+    right: -5%; /* Move the button right */
+    font-size: 0.6em; /* Adjust font size of the close button */
+    padding: 0; /* Remove padding */
+    line-height: 1; /* Set line-height to 1 to vertically center the button */
 }

@@ -50,21 +50,33 @@ def all_requests(request):
                                                                                                                       
     return JsonResponse(out, safe=False)
 
-def add_request(request):
-    # Create a form instance and populate it with data from the request (binding)
-    form = RequestForm(request.POST)
-    # Check if the form is valid
-    if form.is_valid():
-        # Save the form data to the database
-        request_object = form.save(commit=False) 
-        request_object.user = request.user  
-        request_object.save() 
-        return JsonResponse({'success': True})
 
+
+def add_request(request):
+    if request.method == 'POST':
+        print("Received POST request for adding a request.")
+        # Create a form instance and populate it with data from the request (binding)
+        form = RequestForm(request.POST)
+        print("Form data received:", request.POST)  # Print the received form data
+        # Check if the form is valid
+        if form.is_valid():
+            print("Form is valid.")
+            # Save the form data to the database
+            request_object = form.save(commit=False)
+            request_object.user = request.user
+            request_object.save()
+            print("Request object saved successfully.")
+            return JsonResponse({'success': True})
+        else:
+            print("Form validation failed. Errors:", form.errors)
+            # Check the format of errors returned
+            errors = form.errors.as_json()
+            return JsonResponse({'success': False, 'errors': errors})
     else:
-        
-        errors = form.errors.as_json()
-        return JsonResponse({'success': False, 'errors': errors})
+        print("Received non-POST request. Method:", request.method)
+        # Handle non-POST requests appropriately
+        return JsonResponse({'error': 'Only POST requests are allowed'}, status=405)
+
 
 
 
@@ -191,24 +203,26 @@ def login_user(request):
         if form.is_valid():
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
+            user_type = form.cleaned_data['user_type']
+
+            if not CustomUser.objects.filter(email=email, user_type=user_type).exists():
+                messages.error(request, f'Το email δεν ανήκει σε κανέναν λογιαριασμό {user_type} ')
+                return redirect('login')
+
             user = authenticate(request, email=email, password=password)
-            print(f"Email received in login view: {email}")  # Debugging statement
-
             if user is not None:
-                print(f'User authenticated: {user}')  # Debugging statement
-                print(f'User type: {user.user_type}')  # Debugging statement
-
                 login(request, user)
                 if user.user_type == 'company':
                     return redirect('company_home')
                 else:
-                    return redirect('employee_home')  # Redirect employee to their home page
+                    return redirect('employee_home')
             else:
-                messages.error(request, 'Invalid email, password')
+                messages.error(request, 'Λάθος email ή κωδικός')
                 return redirect('login')
     else:
         form = LoginForm()
-    return render(request, 'vacayvue/login.html', {'form': form})
+    return render(request, 'vacayvue/login.html', {'form': form, 'messages': messages.get_messages(request)})
+
 
 def main_home(request):
     #Get current year   

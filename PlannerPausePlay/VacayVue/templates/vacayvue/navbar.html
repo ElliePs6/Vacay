@@ -3,18 +3,18 @@
     <a class="navbar-brand" href="{% url 'main_home' %}">VacayVue</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
+      <span class="navbar-toggler-icon fas fa-bars"></span> <!-- Use Font Awesome icon -->
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ms-auto"> <!-- Change ml-auto to ms-auto for right alignment -->
         {% if request.user.is_authenticated %}
         <li class="nav-item">
-            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+            <button class="nav-link btn" onclick="window.location.href='{% url 'logout' %}'">Έξοδος</button>
           </li>
            
         {% else %}
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'login' %}">Login</a>
+            <button class="nav-link btn" onclick="window.location.href='{% url 'login' %}'">Σύνδεση</button>
           </li>
         {% endif %}
       </ul>

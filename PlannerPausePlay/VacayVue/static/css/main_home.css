@@ -1,6 +1,4 @@
-/* styles.css */
 
-/* Main section styles */
 main {
     background-color: #f9faf8;
     padding: 20px;
@@ -57,19 +55,3 @@ main {
     color: #555;
 }
 
-.button {
-    display: inline-block;
-    padding: 10px 20px;
-    margin-right: 10px;
-    text-decoration: none;
-    color: #FFEBB0;
-    background-color: #F84322 ;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.button:hover {
-    color: #FFEBB0;
-    background-color: #ff7551; 
-}

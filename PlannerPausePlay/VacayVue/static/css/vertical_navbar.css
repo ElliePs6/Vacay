@@ -1,24 +1,19 @@
 #v-pills-tab {
     position: fixed; /* Fix the navbar position */
-    bottom: 7vh; /* Distance from the bottom (adjust as needed) */
-    margin-bottom: 1%;
-    top:8vh;
-    margin-top: 3%;
+    bottom: 7%; /* Position it above the footer */
+    top: 10%; /* Position it below the horizontal navbar */
     left: 0; /* Align navbar to the left */
     width: 15%; /* Set the width of the navbar */
-    /*height: calc(100vh - 16%);  Set the height of the navbar */
     background-color: #c0401e; /* Navbar background color */
     padding-top: 1%; /* Add padding to the top */
     overflow-y: auto; /* Enable vertical scrolling if content exceeds viewport height */
     padding-left: 1%; /* Add padding to the left */
-    z-index: 1000; /* Ensure it's above other content */
+    font-size:1vw;
+    line-height: 2;
+    
 }
 
-.navbar-brand {
-    color: #3d3a50 !important; /* Text color */
-    font-size: 1.2vw; /* Adjust font size as needed */
-    line-height: 2;
-}
+
 
 .nav-link {
     color: #e1e2e0; /* Set color for nav links */
@@ -40,18 +35,3 @@
     color: #fff; /* Change text color on hover */
     text-decoration: none; /* Remove underline on hover */
 }
-@media (max-width: 768px) {
-    #v-pills-tab {
-      position: fixed; /* Fix the navbar position */
-      bottom: 1vh; /* Distance from the bottom (adjust as needed) */
-      left: 0; /* Align navbar to the left */
-      width: 20%; /* Set the width of the navbar */
-      height: calc(100vh - 110px); /* Set the height of the navbar */
-      background-color: #c0401e; /* Navbar background color */
-      padding-top: 1%; /* Add padding to the top */
-      overflow-y: auto; /* Enable vertical scrolling if content exceeds viewport height */
-      padding-left: 1%; /* Add padding to the left */
-      z-index: 1000; /* Ensure it's above other content */
-    }
-  }
-  

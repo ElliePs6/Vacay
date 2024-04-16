@@ -1,37 +1,45 @@
 {% extends 'vacayvue/base.html' %}
 
 {% block content %}
-<div class="col-md-6">
-    <div class="card">
-        <div class="card-body">
-            <h2 class="card-title">List of Employees</h2>
-            <div class="table-responsive">
-                <table id="employee-table" class="table">
-                    <thead>
-                        <tr>
-                            <th>'Ονομα</th>
-                            <th>Επώνυμο</th>
-                            <th>Email</th>
-                            <th>Joining Date</th>
-                            <!-- Add more columns if needed -->
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <h4>Employees added by {{ request.user.email }}:</h4>
-                        {% for employee in employees %}                      
-                        <tr>
-                            <td>{{ employee.first_name }}</td>
-                            <td>{{ employee.last_name }}</td>                    
-                            
-                            <td>{{ employee.user.email }}</td>
-                            <td>{{ employee.join_date }}</td>
-                            <!-- Add more columns if needed -->
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+<div class="row">
+    <div class="col-md-2">
+        <!-- This column is empty -->
+    </div>
+    <div class="col-md-5">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title">List of Employees</h2>
+                <div class="table-responsive">
+                    <table id="employee-table" class="table">
+                        <thead>
+                            <tr>
+                                <th>'Ονομα</th>
+                                <th>Επώνυμο</th>
+                                <th>Email</th>
+                                <th>Joining Date</th>
+                                <!-- Add more columns if needed -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <h4>Employees added by {{ request.user.email }}:</h4>
+                            {% for employee in employees %}                      
+                            <tr>
+                                <td>{{ employee.first_name }}</td>
+                                <td>{{ employee.last_name }}</td>                    
+                                
+                                <td>{{ employee.user.email }}</td>
+                                <td>{{ employee.join_date }}</td>
+                                <!-- Add more columns if needed -->
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
+    </div>
+    <div class="col-md-5">
+        <!-- This column is empty -->
     </div>
 </div>
 {% endblock %}

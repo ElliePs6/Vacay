@@ -1,12 +1,10 @@
-.tile {
-    margin-bottom: 20px;
-}
 
 /* Table styles */
 .table {
     width: 100%;
     border-collapse: collapse;
-    margin-top:100px;
+   
+ 
 }
 
 .table th,
@@ -57,27 +55,6 @@
     background-color: #db955cb9;
 }
 
-/* Breadcrumb styles */
-.app-breadcrumb {
-    margin-bottom: 20px;
-    padding: 0;
-    list-style: none;
-}
-
-.app-breadcrumb li {
-    display: inline-block;
-    margin-right: 5px;
-}
-
-.app-breadcrumb li:last-child {
-    font-weight: bold;
-    color: #B31E00;
-}
-
-.app-breadcrumb li:last-child:before {
-    content: '\00BB';
-    margin-right: 5px;
-}
 
 /* Responsive styles */
 @media (max-width: 767.98px) {

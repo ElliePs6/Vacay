@@ -1,0 +1,127 @@
+.col-md-6 {
+    padding: 0;
+    margin: 0;
+}
+
+.text-center {
+    text-align: center;
+    margin-bottom: 10px; /* Adjust the value as needed */
+    padding-top: 5%;
+}
+.form-group {
+    padding: 10% 0;
+}
+
+.input-group {
+    position: relative;
+}
+
+.input-group-text {
+    background-color: transparent; /* Transparent background */
+    border: none; /* Remove border */
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #B31E00; /* Icon color */
+}
+
+.input-group input,
+.input-group label {
+    width: 100%; /* Make the input and label tags responsive to container width */
+    height: 3rem; /* Adjust the height as needed */
+    font-size: 1rem; /* Adjust the font size as needed */
+    padding: 0.5rem; /* Adjust the padding as needed */
+   color:rgb(24, 24, 24)
+}
+
+
+
+/* Align email field with user type checkboxes */
+.form-group.align-items-start {
+    align-items: flex-start;
+}
+
+/* Additional CSS for checkboxes alignment */
+.form-check-inline {
+    margin-right: 5%; /* Adjusted margin */
+}
+
+/* To ensure checkboxes are mutually exclusive */
+.form-check-input[type="checkbox"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: 1px solid #851212;
+    border-radius: 2px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.form-check-input[type="checkbox"]:checked {
+    background-color: #c24723;
+    border-color: #fd5e3a;
+}
+
+/* Hide the default checkbox */
+.form-check-input[type="checkbox"]::before {
+    content: "";
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-color: #faf2f2;
+}
+
+.form-check-input[type="checkbox"]:checked::before {
+    content: "\2713";
+    font-size: 14px;
+    color: #dd3a11;
+    text-align: center;
+    line-height: 25px;
+}
+
+.button {
+    background-color: #fff;
+    color: #b31e00;
+    border: 2px solid #b31e00;
+    transition: background-color 0.3s ease;
+    border-radius: 10px;
+    padding: 0.5em 0.8em; /* Adjusted padding */
+    font-size: 1em; /* Adjusted font size */
+    display: inline-flex; /* Use flexbox for vertical centering */
+    align-items: center; /* Align text vertically */
+    justify-content: center; /* Align text horizontally */
+    width: 50%;
+    margin-bottom: 30px;
+    
+}
+
+.button:hover {
+    color: rgba(250, 48, 8, 0.7);
+    border-color: rgba(250, 48, 8, 0.7);
+}
+
+.img-fluid {
+    height: 100%;
+    width:100%;
+    float: right; /* Align the image to the right */
+    padding-right: 0; /* Remove padding to eliminate space between image and form */
+}
+
+/* Media queries for responsive design */
+@media (max-width: 768px) {
+    .input-group input {
+        padding-left: 5%; /* Adjusted padding for smaller screens */
+    }
+    .img-fluid {
+        height: auto; /* Make the image height auto for smaller screens */
+        margin-top: 2rem; /* Add margin to separate image from form */
+    }
+}
+
+@media (max-width: 576px) {
+    .input-group input {
+        padding-left: 2%; /* Further adjusted padding for extra small screens */
+    }
+}

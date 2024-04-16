@@ -1,183 +1,127 @@
-/* Reset default margin and padding */
-html, body, header, footer, div, p, h1, h2, h3, h4, h5, h6 {
+* {
     margin: 0;
     padding: 0;
-    color: #B31E00;
+    
 }
-
+/* Navbar style */
 .navbar {
     position: fixed;
     left: 0;
     top: 0;
     background-color: #FFB05A; 
-    padding: 1.5% 5%; /* Adjusted padding for smaller height */
+    padding: 1.5% 5%; 
     width: 100%; 
-  }
-  
-  .navbar-brand,
-  .navbar-nav .nav-link {
-    color: #B31E00 !important;
-    font-size: 1.2vw; /* Adjusted font size for smaller height */
-  }
-  
-  .navbar-toggler-icon {
-    background-color: #07e28e; 
-  }
-  
-  .navbar-toggler {
-    border-color: white; 
-  }
-  
-  .navbar-toggler:hover {
-    border-color: #ffb96d;
-  }
-  
+    height: 10%; 
+}
+.navbar-brand {
+    color:  #c0401e !important; /* Text color */
+    font-size:1.5vw; /* Adjust font size as needed */
+    line-height: 2;
+}
+/* Increase the size of the navbar toggler icon */
+.navbar-toggler-icon {
+    font-size: 1.5rem; /* Adjust the size as needed */
+    color: #000; /* Set the color of the icon */
+}
 
+/* Remove the border from the navbar toggler button */
+.navbar-toggler {
+    border: none;
+}
 
-/* Set default font and background color */
+/* Add space between the icon and the content */
+.navbar-toggler + .collapse {
+    margin-top: 1rem; /* Adjust the margin as needed */
+}
+
+.navbar-nav .nav-link.btn {
+    color: #B31E00; 
+    background-color: transparent; 
+    border: 2px solid #B31E00; 
+    border-radius: 5px; 
+    font-size: 16px; 
+    cursor: pointer;
+    padding: 0.5em 1em; 
+}
+.navbar-nav .nav-link.btn:hover {
+    color:rgba(250, 48, 8, 0.7);
+    border-color: rgba(250, 48, 8, 0.7);
+}
+.navbar-brand:hover {
+    color: #dba80f; 
+}
+
+/* base styles */
 body {
     font-family: Arial, sans-serif;
     background-color: #FFEBB0;
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* Ensure the body takes up the full height of the viewport */
+    min-height: 100vh; 
 }
-
-/* Container styles */
 .container {
-    flex: 1; /* Take up remaining vertical space */
+    flex: 1; 
     align-items: center;
     justify-content: center;
-    max-width: 95%; /* Changed from 1200px to a percentage */
-    margin: 10% auto 0; /* Added 20px top margin, and removed bottom margin */
-    padding: 1.66667%; /* Changed from 20px to a percentage */
-    border: 0.41667% solid #0000; /* Changed from 5px to a percentage */
+    max-width: 95%; 
+    margin: 10% auto 0; 
+    padding: 2%; 
+    border: 0.41667% solid #0000; 
 }
 
 /* Footer styles */
 footer {
     background-color: #B31E00;
     color: #ffd4a1;
-    height: 8.33333%; /* Changed from 70px to a percentage */
-    padding: 1.66667% 0; /* Changed from 10px to a percentage */
+    height: 10%; 
+    padding: 2% 0; 
     text-align: center;
-    position: relative; /* Change position to relative */
-    z-index: 2; /* Ensure the footer appears above the calendar */
+    position: relative; 
+    z-index: 2; 
 }
 
-
-
-
-
-/* Custom styles for the shadowed container */
-.shadow {
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15); /* Added box-shadow */
-    
-}
-
-/* Custom styles for padding and margin */
-.p-3 {
-    padding: 1.25rem; /* Changed from 3rem to 1.25rem */
-}
-
-.mb-4 {
-    margin-bottom: 1rem; /* Changed from 4rem to 1rem */
-}
-
-.bg-body {
-    background-color: #fff; /* Changed from body background color */
-}
-
-.rounded {
-    border-radius: 5px; /* Rounded corners */
-}
-
-/* Custom styles for the centered heading */
-.text-center {
-    text-align: center;
-}
-
-/* Custom styles for the heading */
-h4 {
-    font-size: 1.5rem; /* Increased font size */
-    font-weight: bold; /* Added font weight */
-    color: #C33A1A; /* Heading color */
-}
-
-/* Adjusted spacing for the heading */
-h4.text-center {
-    margin-top: 1rem; /* Changed from 2rem to 0.5rem */
-    
-}
-
-/* Custom styles for form container */
+/* Form style */
 .form-container {
-    padding: 2%; /* Changed from 30px to a percentage */
-    border: 0.10417% solid #ccc; /* Changed from 1px to a percentage */
+    padding: 2%; 
+    border: 2% solid #ccc; 
     border-radius: 5px;
-    background-color: #fff;
+    background-color: rgba(179, 30, 0, 0.8);
     text-align: center;
+    color: #ffebb0;
+    height: auto; /* Change height to auto */
+    max-height: 100%; /* Set max-height to 70% */
+    overflow: hidden; /* Hide overflow content */
+}
+
+.form-container form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%; /* Fill the height of the container */
+}
+
+.form-container form .form-group {
+    margin-bottom: 2rem; /* Adjust margin bottom as needed */
+}
+
+.form-container form .button {
+    width: 100%;
+    max-width: 100%; 
    
-}
-
-/* Custom styles for form labels */
-.form-label {
-    font-weight: bold;
-}
-
-/* Custom styles for form groups */
-.form-group {
-    margin-bottom: 2.08333%; /* Changed from 20px to a percentage */
-}
-
-/* Custom styles for buttons */
-.button {
-    background-color: #F84322;
-    color: #ffebb0;
-    border-color: #fd5e3a;
-    transition: background-color 0.3s ease;
-}
-
-.button:hover {
-    background-color: #ff7551;
-    color: #ffebb0;
-}
-
-/* Custom styles for select elements */
-.form-container select {
-    font-size: 16px;
-    padding: 0.41667%; /* Changed from 5px to a percentage */
-    margin: 0.41667%; /* Changed from 5px to a percentage */
-    color: #ffebb0;
-    background-color: #F84322;
-}
-
-.form-container select:hover {
-    background-color: #ff7551;
-}
-
-/* Custom styles for selected options */
-.form-container select:focus {
-    border-color: #c5940d;
-}
-
-/* Custom styles for dropdown options */
-.form-container select option {
-    color: #ffebb0;
-    background-color: #ff7551;
-    font-size: 16px;
+  
 }
 
 
+/* Alert style */
 .alert {
-    background-color: #FF8A00; /* Yellow background color */
-    color: black; /* Black text color */
-    border-color: black; /* Black border color */
-    width: 70%; /* Adjust the width */
-    margin: 1% auto; /* Center the alert horizontally and add spacing between alerts and form */
-    opacity: 0.8; /* Adjust opacity to make it fainter */
-    padding: 1%; /* Adjust padding */
-    position: relative; /* Set position to relative for positioning the close button */
+    background-color: #FF8A00;
+    color: black; 
+    border-color: black;
+    width: 70%; 
+    margin: 1% auto; 
+    opacity: 0.8; 
+    padding: 1%; 
+    position: relative; 
 }
 
 .btn-close {

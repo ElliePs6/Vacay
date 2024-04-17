@@ -197,6 +197,8 @@ def logout_user(request):
     return redirect('main_home')
 
 
+from django.contrib import messages
+
 def login_user(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -217,11 +219,12 @@ def login_user(request):
                 else:
                     return redirect('employee_home')
             else:
-                messages.error(request, 'Λάθος email ή κωδικός')
+                messages.error(request, 'Λάθος email ή κωδικός', )
                 return redirect('login')
     else:
         form = LoginForm()
-    return render(request, 'vacayvue/login.html', {'form': form, 'messages': messages.get_messages(request)})
+    return render(request, 'vacayvue/login.html', {'form': form})
+
 
 
 def main_home(request):

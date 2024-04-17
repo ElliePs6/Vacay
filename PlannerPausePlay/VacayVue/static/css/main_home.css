@@ -1,17 +1,15 @@
-
 main {
     background-color: #f9faf8;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin: 20px auto;
+    /* Updated margin with percentages */
     max-width: 800px;
-
 }
 
 /* Hero section styles */
 .hero {
-    margin-bottom: 30px;
+    margin-bottom: 3%;
     text-align: center;
 }
 
@@ -25,7 +23,7 @@ main {
 
 /* Features section styles */
 .features {
-    margin-bottom: 30px;
+    margin-bottom: 3%;
 }
 
 .features h2 {
@@ -39,7 +37,7 @@ main {
 
 .features li {
     color: #555;
-    margin-bottom: 10px;
+    margin-bottom: 2%;
 }
 
 /* Get Started section styles */
@@ -54,4 +52,3 @@ main {
 .get-started p {
     color: #555;
 }
-

@@ -19,7 +19,7 @@
 
         <!--Custom CSS-->
         <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
-        <!--<link rel="stylesheet" type="text/css" href="{% static 'css/navbar.css' %}">-->
+        <link rel="stylesheet" type="text/css" href="{% static 'css/register.css' %}">  
         <link rel="stylesheet" type="text/css" href="{% static 'css/main_home.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'css/calendar.css' %}">
@@ -45,32 +45,31 @@
 </head>
 <body>
 
-
-    
     {% include 'vacayvue/navbar.html' %}
-        {% if request.user.is_authenticated %}
-        <!-- User is authenticated.-->
-            {% if request.user.user_type == 'employee' %}
-                {% include 'vacayvue/employee_navbar.html' %}
-             {% elif request.user.user_type == 'company' %}
-                 {% include 'vacayvue/company_navbar.html' %}
-             {% else %}
-                 {% include 'vacayvue/navbar.html' %}
-            {% endif %}             
-        {% endif %}
 
-         <br><br><br>
-         <div class="container">
-            
-               
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                {% if request.user.is_authenticated %}
+                    <!-- User is authenticated.-->
+                    {% if request.user.user_type == 'employee' %}
+                        {% include 'vacayvue/employee_navbar.html' %}
+                    {% elif request.user.user_type == 'company' %}
+                        {% include 'vacayvue/company_navbar.html' %}
+                    {% else %}
+                        {% include 'vacayvue/navbar.html' %}
+                    {% endif %}             
+                {% endif %}
+            </div>
+        </div>
     
-               {% block content %}
-                {% endblock %}
-                {%block calendar%}
-                {%endblock calendar%}
-           
-           </div>
-
+        <div class="row">
+            {% block content %}
+            {% endblock %}
+            {% block calendar %}
+            {% endblock calendar %}
+        </div>
+    </div>
 
     <footer>
         Copyright (c) {{current_year}}

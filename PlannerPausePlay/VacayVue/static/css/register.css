@@ -1,0 +1,68 @@
+/* Form container styles */
+.register-emp-form {
+    padding: 10%;
+    border: 5px solid #000;
+    border-radius: 5px;
+    background-color: rgba(250, 247, 246, 0.8);
+    color: #630604;
+    height: 150%;
+
+    overflow: scroll;
+    display: flex;
+    flex-direction: column;
+    
+}
+
+/* Form group styles */
+.register-emp-form .form-group {
+    margin-bottom: 20px;
+}
+
+/* Form input styles */
+.register-emp-form input[type="text"],
+.register-emp-form input[type="email"],
+.register-emp-form input[type="password"],
+.register-emp-form select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #630604;
+    border-radius: 5px;
+}
+
+/* Form label styles */
+.register-emp-form label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+/* Submit button styles */
+.register-emp-form input[type="submit"] {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    background-color: #B31E00;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.register-emp-form input[type="submit"]:hover {
+    background-color: rgba(250, 48, 8, 0.7);
+}
+
+/* Alert message styles */
+.alert {
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+.alert-warning {
+    background-color: #FFEBB0;
+    color: #630604;
+    border: 1px solid #630604;
+}

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Request,Company,CustomUser,Employee
-from .forms import RequestForm,LoginForm,RegisterEmployeeForm
+from .forms import RequestForm,LoginForm,RegisterEmployeeForm,EditEmployeeForm
 from django.http import JsonResponse, Http404, HttpResponseServerError, HttpResponseRedirect
 from django.contrib import messages
 from datetime import datetime
@@ -11,71 +11,8 @@ from django.core.serializers import serialize
 from django.utils import timezone
 from django.urls import reverse
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.decorators import login_required
 
-
-
-def employee_navbar(request):
-    return render(request, 'vacayvue/employee_navbar.html')
-
-def company_navbar(request):
-    return render(request, 'vacayvue/company_navbar.html')
-
-
-def calendar(request):  
-    form = RequestForm()  # Create an instance of the form
-    all_requests = Request.objects.all()
-
-    
-    context = {
-        "form": form,  # Pass the form to the context
-        "all_requests": all_requests,
-    }
-
-    return render(request, 'vacayvue/request_calendar.html', context)
-
-
-def all_requests(request):
-    user = request.user
-    user_requests = Request.objects.filter(user=user)  # Assuming there's a ForeignKey field named 'user' in your Request model
-    out = []                                                                                                             
-    for request_obj in user_requests:                                                                                             
-        out.append({                                                                                                     
-            'type': request_obj.type,                                                                                         
-            'id': request_obj.id,                                                                                              
-            'start': request_obj.start.strftime("%Y-%m-%d") if request_obj.start else None,
-            'end': request_obj.end.strftime("%Y-%m-%d") if request_obj.end else None, 
-            'description': request_obj.description,                                                 
-        })
-                                                                                                             
-                                                                                                                      
-    return JsonResponse(out, safe=False)
-
-
-
-def add_request(request):
-    if request.method == 'POST':
-        print("Received POST request for adding a request.")
-        # Create a form instance and populate it with data from the request (binding)
-        form = RequestForm(request.POST)
-        print("Form data received:", request.POST)  # Print the received form data
-        # Check if the form is valid
-        if form.is_valid():
-            print("Form is valid.")
-            # Save the form data to the database
-            request_object = form.save(commit=False)
-            request_object.user = request.user
-            request_object.save()
-            print("Request object saved successfully.")
-            return JsonResponse({'success': True})
-        else:
-            print("Form validation failed. Errors:", form.errors)
-            # Check the format of errors returned
-            errors = form.errors.as_json()
-            return JsonResponse({'success': False, 'errors': errors})
-    else:
-        print("Received non-POST request. Method:", request.method)
-        # Handle non-POST requests appropriately
-        return JsonResponse({'error': 'Only POST requests are allowed'}, status=405)
 
 
 
@@ -91,20 +28,12 @@ def delete_request(request, request_id):
 
 def update(request):
     print("Request method:", request.method)  # Debugging: Print request method
-    
     if request.method == 'GET':
         # Extract data from the GET request
         start = request.GET.get("start")
         end = request.GET.get("end")
         request_type = request.GET.get("type")
         request_id = request.GET.get("id")
-        
-        print("Received data:")
-        print("Start:", start)  # Debugging: Print start
-        print("End:", end)  # Debugging: Print end
-        print("Type:", request_type)  # Debugging: Print type
-        print("ID:", request_id)  # Debugging: Print ID
-        
         # Check if all required data is present
         if start and end and request_type and request_id:
             try:
@@ -130,13 +59,132 @@ def update(request):
     else:
         # Handle the case where the request method is not GET
         return JsonResponse({'error': 'Only GET requests are allowed'}, status=405)
+    
+
+def add_request(request):
+    if request.method == 'POST':
+        print("Received POST request for adding a request.")
+        # Create a form instance and populate it with data from the request (binding)
+        form = RequestForm(request.POST)
+        print("Form data received:", request.POST)  # Print the received form data
+        # Check if the form is valid
+        if form.is_valid():
+            print("Form is valid.")
+            # Save the form data to the database
+            request_object = form.save(commit=False)
+            request_object.user = request.user
+            request_object.save()
+            print("Request object saved successfully.")
+            return JsonResponse({'success': True})
+        else:
+            print("Form validation failed. Errors:", form.errors)
+            # Check the format of errors returned
+            errors = form.errors.as_json()
+            return JsonResponse({'success': False, 'errors': errors})
+    else:
+        print("Received non-POST request. Method:", request.method)
+        # Handle non-POST requests appropriately
+        return JsonResponse({'error': 'Only POST requests are allowed'}, status=405)
+    
+
+def all_requests(request):
+    user = request.user
+    user_requests = Request.objects.filter(user=user)  # Assuming there's a ForeignKey field named 'user' in your Request model
+    out = []                                                                                                             
+    for request_obj in user_requests:                                                                                             
+        out.append({                                                                                                     
+            'type': request_obj.type,                                                                                         
+            'id': request_obj.id,                                                                                              
+            'start': request_obj.start.strftime("%Y-%m-%d") if request_obj.start else None,
+            'end': request_obj.end.strftime("%Y-%m-%d") if request_obj.end else None, 
+            'description': request_obj.description,                                                 
+        })
+                                                                                                             
+                                                                                                                      
+    return JsonResponse(out, safe=False)
+    
+
+    
+def calendar(request):  
+    form = RequestForm()  # Create an instance of the form
+    all_requests = Request.objects.all()
+
+    
+    context = {
+        "form": form,  # Pass the form to the context
+        "all_requests": all_requests,
+    }
+
+    return render(request, 'vacayvue/request_calendar.html', context)
+    
+    
+def employee_navbar(request):
+    return render(request, 'vacayvue/employee_navbar.html')
 
 
-def list_requests(request):
+def company_navbar(request):
+    return render(request, 'vacayvue/company_navbar.html')  
+
+@login_required
+def delete_employee(request, employee_id):
+    employee = Employee.objects.get(pk=employee_id)
+    employee.delete()
+    return redirect('list-employees')  # Redirect to the employee list page after successful deletion
+
+
+@login_required
+def edit_employee(request, employee_id):
+    
+    employee = Employee.objects.get(pk=employee_id)
+    form =EditEmployeeForm(request.POST or None, instance=employee)
+    if form.is_valid():
+            form.save()
+            return redirect('list-employees')    
+    return render(request, 'vacayvue/edit_employee.html', {'employee':employee,'form': form})
+
+
+def show_employee(request, employee_id):
+    employee =Employee.objects.get(pk=employee_id)
+    return render(request, 'vacayvue/show_employee.html',{'employee':employee} )
+
+
+def list_employees(request):
+    company = get_object_or_404(Company, user_id=request.user.pk)
+    print("Logged-in user:", request.user)  # Debugging statement
+    print("Associated company:", company)  # Debugging statement
+    
+    employees_list = Employee.objects.filter(company=company)
+    print("Employees_list:", employees_list)  # Debugging statement
+    
+    return render(request, 'vacayvue/list-employees.html', {'employees_list': employees_list})
+
+
+def self_requests(request):
      employee = get_object_or_404(CustomUser, email=request.user.email)
      requests=Request.objects.filter(user_id=employee)
-     return render(request, 'vacayvue/list-requests.html', { 'requests':requests} )
+     return render(request, 'vacayvue/self-requests.html', { 'requests':requests} )
 
+
+def list_all_requests(request):
+    company = get_object_or_404(Company, user=request.user)
+    employees = Employee.objects.filter(company=company)
+    user_ids = employees.values_list('user_id', flat=True)
+    requests = Request.objects.filter(user_id__in=user_ids)
+    return render(request, 'vacayvue/self-requests.html', {'requests': requests})
+
+
+
+
+
+def employee_home(request):
+    employee = get_object_or_404(Employee, user_id=request.user.pk)
+
+    return render(request, 'vacayvue/employee_home.html',{'employee': employee})
+
+
+def company_home(request):
+        company = get_object_or_404(Company, user_id=request.user.pk)
+        return render(request, 'vacayvue/company_home.html',{'company': company})
 
 
 def register_employee(request):
@@ -167,37 +215,12 @@ def register_employee(request):
         form = RegisterEmployeeForm()
     return render(request, 'vacayvue/register_employee.html', {'form': form})
 
-def list_employees(request):
-    company = get_object_or_404(Company, user_id=request.user.pk)
-    print("Logged-in user:", request.user)  # Debugging statement
-    print("Associated company:", company)  # Debugging statement
-    
-    employees = Employee.objects.filter(company=company)
-    print("Employees:", employees)  # Debugging statement
-    
-    return render(request, 'vacayvue/list-employees.html', {'employees': employees})
-
-
-
-def employee_home(request):
-    employee = get_object_or_404(Employee, user_id=request.user.pk)
-
-    return render(request, 'vacayvue/employee_home.html',{'employee': employee})
-
-
-def company_home(request):
-        company = get_object_or_404(Company, user_id=request.user.pk)
-        return render(request, 'vacayvue/company_home.html',{'company': company})
-
-
 
 def logout_user(request):
     logout(request)
     messages.success(request, 'Είσαι Αποσυνδεμένος')
     return redirect('main_home')
 
-
-from django.contrib import messages
 
 def login_user(request):
     if request.method == 'POST':

@@ -1,46 +1,54 @@
 {% extends 'vacayvue/base.html' %}
-
 {% block content %}
 
-
-    <div class="col-md-2">
-    </div>
-    <div class="col-md-7">
-        <div class="card">
-            <div class="card-body">
-                <h2 class="card-title">List of Employees</h2>
-                <div class="table-responsive">
-                    <table id="employee-table" class="table">
-                        <thead>
-                            <tr>
-                                <th>'Ονομα</th>
-                                <th>Επώνυμο</th>
-                                <th>Email</th>
-                                <th>Joining Date</th>
-                                <!-- Add more columns if needed -->
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <h4>Employees added by {{ request.user.email }}:</h4>
-                            {% for employee in employees %}                      
-                            <tr>
-                                <td>{{ employee.first_name }}</td>
-                                <td>{{ employee.last_name }}</td>                    
-                                
-                                <td>{{ employee.user.email }}</td>
-                                <td>{{ employee.join_date }}</td>
-                                <!-- Add more columns if needed -->
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+<div class="col-md-2">
+</div>
+<div class="col-md-7">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Καταχωρημένοι Υπάλληλοι</h5>
+            <div class="table-responsive">
+                <table id="employee-table" class="table">
+                    <thead>
+                        <tr>
+                            <th>'Ονομα</th>
+                            <th>Επώνυμο</th>
+                            <th>Email</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <h4>Employees added by {{ request.user.email }}:</h4>
+                        {% for employee in employees_list %}
+                        <tr>
+                            
+                            <td>{{ employee.first_name }}</td>
+                            <td>{{ employee.last_name }}</td>
+                            <td><a href="{% url 'show_employee' employee.id %}" >{{ employee }}</a></td>
+                            <td><a href= "{% url 'edit_employee' employee.id %}"role="button" class="btn btn-secondary">Edit</button></td>
+                                <td><a href= "{% url 'delete_employee' employee.id %}"role="button" class="btn btn-danger">Delete</button></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
-    <div class="col-md-3">
-        <h1 class="text-center">Balance</h1>
-    </div>
+</div>
+<div class="col-md-3">
+    <h1 class="text-center">Υπάλληλοι</h1>
+</div>
+
+
+
+<script>
+    $(document).ready(function() {
+        $('#employee-table').DataTable();
+       
+    });
+</script>
 
 
 {% endblock %}

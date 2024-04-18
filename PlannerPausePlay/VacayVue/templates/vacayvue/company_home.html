@@ -4,36 +4,53 @@
 
  
         <div class="col-md-2">
+            <div class="nav flex-column" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <div class="container-fluid">
+                  <!-- Dashboard -->
+                  <a class="nav-link active" href="#" onclick="loadPage('{% url 'vacayvue/company_home'  %}')">
+                    <i class="fas fa-home"></i> Dashboard
+                  </a>
+                  <!-- View Request -->
+                  <a class="nav-link" href="#" onclick="loadPage('{% url 'vacayvue/list_all_requests' %}')">
+                    <i class="fas fa-list"></i> Προβολή Αιτήσεων
+                  </a>
+                  <!-- Add Employee -->
+                  <a class="nav-link" href="#" onclick="loadPage('{% url 'vacayvue/register_employee' %}')">
+                    <i class="fas fa-user-plus"></i> Προσθήκη Υπαλλήλου
+                  </a>
+                  <!-- View Employee-->
+                  <a class="nav-link" href="#" onclick="loadPage('{% url 'vacayvue/list-employees'  %}')">
+                    <i class="fas fa-users"></i> Προβολή Υπαλλήλων
+                  </a>
+                </div>
+              </div>
+              
 
         </div>
         <div class="col-md-7">
             <h1 >Company Home Page</h1>
             <h3 >Welcome: {{ company.name }}</h3>
-            <section class="hero">
-                <h2>Welcome to the Employee Day Off Manager!</h2>
-                <p>This app helps you manage your employees' day off requests efficiently.</p>
-            </section>
-            <section class="features">
-                <h2>Key Features</h2>
-                <ul>
-                    <li>Submit and manage day off requests.</li>
-                    <li>View employee schedules and availability.</li>
-                    <li>Intuitive calendar interface for scheduling.</li>
-                    <li>Real-time notifications for request status updates.</li>
-                </ul>
-            </section>
-
-            <section class="get-started">
-                <h2>Get Started</h2>
-                <p>Start managing your employees' day off requests today!</p>
-            </section>
-        </main>
-        </div>
+            <div id="page-content"></div>
         <div class="col-md-3">
             <h1 class="text-center">Balance</h1>
             
             <!-- Add your content for balance here -->
         </div>
     </div>
+
+
+    <script>
+        function loadPage(url) {
+            // Send an AJAX request to the specified URL
+            fetch(url)
+              .then(response => response.text())
+              .then(html => {
+                // Replace the content of the page-content div with the loaded HTML
+                document.getElementById('page-content').innerHTML = html;
+              })
+              .catch(error => console.error('Error:', error));
+          }
+          
+    </scipt>
 
 {% endblock %}

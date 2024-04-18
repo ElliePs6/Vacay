@@ -1,7 +1,7 @@
 .col-md-6 {
     padding: 0;
     margin: 0;
-    height: 50vh;
+    
 }
 
 .login-form {
@@ -32,12 +32,12 @@
 .login-form .input-group input{
     color:rgb(119, 30, 160);
     width: 100%;
-    font-size: 1rem;
+    font-size: 1vw;
     line-height: 2;   
 }
 
 .login-form .input-group-text {
-    background-color:#b31e00 ;
+    background-color:#7D0A0A ;
     position: absolute;
     left: 0;
     top: 0;
@@ -58,7 +58,7 @@
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    border: 1px solid #851212;
+    border: 1px solid #7D0A0A;
     border-radius: 2px;
     width: 20px;
     height: 20px;
@@ -93,14 +93,14 @@
     font-size: 14px;
     border: none;
     border-radius: 5px;
-    background-color: #B31E00;
+    background-color: #7D0A0A;
     color: #fff;
     cursor: pointer;
     transition: background-color 0.3s;
 }
 
 .login-form button[type="submit"]:hover {
-    background-color: rgba(250, 48, 8, 0.7);
+    background-color: #B80000;
 }
 
 /* Checkbox styles */

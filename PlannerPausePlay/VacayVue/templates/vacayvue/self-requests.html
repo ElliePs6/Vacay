@@ -1,0 +1,56 @@
+{% extends 'vacayvue/base.html' %}
+
+{% block content %}
+
+
+    <div class="col-md-2">
+    </div>
+    <div class="col-md-7">
+        <div class="table-responsive">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Οι Αιτήσεις Μου</h5>
+                    <!-- Display list of registered companies here -->
+                    <div class="table-responsive">
+                        <table id="sampleTable" class="table">
+                            <thead>
+                                <tr>
+                                    <th>Τύπος</th>
+                                    <th>Έναρξη</th>
+                                    <th>Λήξη</th>
+                                    <th>Περιγραφή</th>  
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <h4>Requests added by {{ request.user.email }}:</h4>
+                                
+                                {% for request in requests %}
+                                <tr>                 
+                    
+                                <td>{{ request.type }}</td>
+                                <td>{{ request.start }}</td>
+                                <td>{{ request.end }}</td>
+                                <td>{{ request.description }}</td>
+                                </tr>
+                                {% endfor %}
+
+                            </tbody>
+                        </table>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <h1 class="text-center">Balance</h1>
+    </div>
+
+<script>
+    $(document).ready(function() {
+        $('#sampleTable').DataTable();
+       
+    });
+</script>
+
+{% endblock %}

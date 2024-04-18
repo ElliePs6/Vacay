@@ -56,6 +56,10 @@ class RegisterEmployeeForm(UserCreationForm):
 
         return employee
 
+class EditEmployeeForm(forms.ModelForm):
+    class Meta:
+        model = Employee
+        fields = ['first_name', 'last_name', 'join_date']
 
 
 class RequestForm(ModelForm):

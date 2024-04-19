@@ -1,4 +1,4 @@
-    // Get all the checkboxes
+$(document).ready(function() {
     const checkboxes = document.querySelectorAll('input[type="checkbox"]');
 
     // Add event listener to each checkbox
@@ -11,4 +11,6 @@
                 }
             });
         });
-    });
+    }); 
+})
+

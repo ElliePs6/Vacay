@@ -1,4 +1,5 @@
 {% extends 'vacayvue/base.html' %}
+{% load static %}
 
 {% block content %}
 
@@ -46,11 +47,9 @@
         <h1 class="text-center">Balance</h1>
     </div>
 
-<script>
-    $(document).ready(function() {
-        $('#sampleTable').DataTable();
-       
-    });
-</script>
+{% block script%}
+<script src="{% static 'js/datatable.js' %}"></script>
+
+{% endblock script %}
 
 {% endblock %}

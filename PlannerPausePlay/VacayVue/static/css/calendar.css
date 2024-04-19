@@ -7,7 +7,7 @@
   border: 1px solid #ddd;
   border-radius: 5px;
   position: relative; /* Ensure relative positioning */
-  z-index: 1; /* Ensure the calendar stays above the footer */
+  /* z-index: 1; //Ensure the calendar stays above the footer */
   height: 600px; 
    overflow: auto;/*Add scrollbars if necessary */
   margin-left:20%;

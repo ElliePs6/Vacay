@@ -84,3 +84,4 @@ def register_company(request):
     else:
         form = RegisterCompanyForm()
     return render(request, 'authenticate/register_company.html', {'form': form})
+

@@ -1,4 +1,5 @@
 {% extends 'vacayvue/base.html' %}
+{% load static %}
 
 {% block content %}
 
@@ -18,7 +19,9 @@
                                     <th>Τύπος</th>
                                     <th>Έναρξη</th>
                                     <th>Λήξη</th>
-                                    <th>Περιγραφή</th>  
+                                    <th>Περιγραφή</th>
+                                    <th>Έγγριση</th>
+                                    <th>Απόρριψη</th>  
                                 </tr>
                             </thead>
                             <tbody>
@@ -31,6 +34,9 @@
                                 <td>{{ request.start }}</td>
                                 <td>{{ request.end }}</td>
                                 <td>{{ request.description }}</td>
+                                <td><button class="btn btn-secondary approve-btn" data-request-id="{{ request.id }}">Έγγριση</button></td>
+                                <td><button class="btn btn-danger reject-btn" data-request-id="{{ request.id }}">Απόρριψη</button></td>
+
                                 </tr>
                                 {% endfor %}
 
@@ -46,11 +52,42 @@
         <h1 class="text-center">Balance</h1>
     </div>
 
+
+{% endblock %}
+{% block script%}
 <script>
-    $(document).ready(function() {
-        $('#sampleTable').DataTable();
-       
+$(document).ready(function() {
+    $('#sampleTable').DataTable();  });
+
+    $('.approve-btn').click(function() {
+        var requestId = $(this).data('request-id');
+        $.ajax({
+            type: 'POST',
+            url: "/vacayvue/approve-request",
+            data: {
+                'request_id': requestId,
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            success: function(data) {
+                // Handle success response, maybe show a notification
+            }
+        });
+    });
+
+    $('.reject-btn').click(function() {
+        var requestId = $(this).data('request-id');
+        $.ajax({
+            type: 'POST',
+            url: "/vacayvue/reject-request/",
+            data: {
+                'request_id': requestId,
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            success: function(data) {
+                // Handle success response, maybe show a notification
+            }
+        });
     });
 </script>
 
-{% endblock %}
+{% endblock script %}

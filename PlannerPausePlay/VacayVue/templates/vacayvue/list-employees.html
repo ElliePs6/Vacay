@@ -1,4 +1,5 @@
 {% extends 'vacayvue/base.html' %}
+{% load static %}
 {% block content %}
 
 <div class="col-md-2">
@@ -11,24 +12,18 @@
                 <table id="employee-table" class="table">
                     <thead>
                         <tr>
-                            <th>'Ονομα</th>
-                            <th>Επώνυμο</th>
                             <th>Email</th>
                             <th>Edit</th>
                             <th>Delete</th>
-                            
                         </tr>
                     </thead>
                     <tbody>
                         <h4>Employees added by {{ request.user.email }}:</h4>
                         {% for employee in employees_list %}
                         <tr>
-                            
-                            <td>{{ employee.first_name }}</td>
-                            <td>{{ employee.last_name }}</td>
-                            <td><a href="{% url 'show_employee' employee.id %}" >{{ employee }}</a></td>
-                            <td><a href= "{% url 'edit_employee' employee.id %}"role="button" class="btn btn-secondary">Edit</button></td>
-                                <td><a href= "{% url 'delete_employee' employee.id %}"role="button" class="btn btn-danger">Delete</button></td>
+                            <td><a href="#" class="employee-detail-link" data-employee-id="{{ employee.id }}" data-url="{% url 'employee_details' employee.id %}">{{ employee }}</a></td>
+                            <td><a href= "{% url 'edit_employee' employee.id %}" role="button" class="btn btn-secondary">Edit</button></td>
+                            <td><a href= "{% url 'delete_employee' employee.id %}" role="button" class="btn btn-danger">Delete</button></td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -43,12 +38,46 @@
 
 
 
+{% endblock %}
+
+{% block script %}
 <script>
     $(document).ready(function() {
         $('#employee-table').DataTable();
-       
+
+        $('.employee-detail-link').click(function(e) {
+            e.preventDefault();
+            console.log("Employee detail link clicked.");
+        
+            var employeeId = $(this).data('employee-id');
+            console.log("Employee ID:", employeeId);
+        
+            var url = $(this).data('url');
+            console.log("URL:", url);
+        
+            // AJAX request to fetch employee details
+            $.ajax({
+                url: url,
+                type: 'GET',
+                async: true, // Make the AJAX request asynchronous
+                data: {
+                    employee_id: employeeId
+                },
+                success: function(response) {
+                    console.log("AJAX request successful.");
+                    // Populate modal content with response
+                    $('#employeeDetailModal .modal-content').html(response);
+                    console.log("Modal content populated.");
+        
+                    // Show modal
+                    $('#employeeDetailModal').modal('show');
+                    console.log("Modal shown.");
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching employee details:', error);
+                }
+            });
+        });
     });
 </script>
-
-
 {% endblock %}

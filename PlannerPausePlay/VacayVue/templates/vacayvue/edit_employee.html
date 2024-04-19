@@ -6,11 +6,25 @@
 <div class="col-md-7">
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Update employee</h5>
+            <h5 class="card-title">Ενημέρωση Στοιχείων</h5>
             <form action="" method=POST>
                  {% csrf_token %} 
-                {{ form.as_p }}
-                <br/>
+                 <div class="form-group">
+                    <label for="id_first_name">Όνομα:</label>
+                    {{ form.first_name }}
+                  </div>
+                  <div class="form-group">
+                    <label for="id_last_name">Επίθετο:</label>
+                    {{ form.last_name }} 
+                  </div>
+                  <div class="form-group">
+                    <label for="id_datejoined" >Ημερομηνία Πρόσληψης:</label>
+                    {{ form.join_date }}
+                  </div>
+                  <div class="form-group">
+                    <label for="id_email" >Email:</label>
+                    {{ form.user.email }}
+                  </div>
                 <input type="submit" value="Update" class="btn btn-secondary">
             
         </div>
@@ -18,5 +32,5 @@
 </div>
 <div class="col-md-3">
 </div>
-                         
-                       {% endblock %}
+{% endblock %}
+

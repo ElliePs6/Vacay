@@ -6,13 +6,21 @@ urlpatterns = [
     path('main_home/', views.main_home, name='main_home'),
     path('login/', views.login_user, name="login"),
     path('logout_user/', views.logout_user, name="logout"),
-    path('company_home/', views.company_home, name='company_home'),  
+   
+   
+
+
     path('employee_home/',views.employee_home,name="employee_home"),
-    path('register_employee/', views.register_employee, name="register_employee"),  
+
+     path('register_employee/', views.register_employee, name="register_employee"),  
     path('list-employees/',views.list_employees,name="list-employees"),
-     path('show-employee/<int:employee_id>/', views.show_employee, name='show_employee'),
+    path('show-employee/<int:employee_id>/', views.employee_details, name='employee_details'),
     path('edit-employee/<int:employee_id>/', views.edit_employee, name='edit_employee'),
     path('delete-employee/<int:employee_id>/', views.delete_employee, name='delete_employee'),
+
+    path('company_home/', views.company_home, name='company_home'),
+    path('approve-request/', views.approve_request, name='approve_request'),
+    path('reject-request/', views.reject_request, name='reject_request'),
 
     path('calendar/', views.calendar, name='calendar'),
     path('all_requests/', views.all_requests, name='all_requests'),
@@ -22,7 +30,7 @@ urlpatterns = [
     path('self-requests/',views.self_requests,name="self-requests"),
     path('list-all-requests/',views.list_all_requests,name='list_all_requests'),
     
-    path('employee_navbar/', views.employee_navbar,name="employee_navbar"),
+    #path('dashboard/', views.dashboard,name="dashboard"),
    # path('error_template/', views.error_template,name="error_template")
 
 

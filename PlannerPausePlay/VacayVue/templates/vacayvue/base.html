@@ -22,9 +22,10 @@
         <link rel="stylesheet" type="text/css" href="{% static 'css/register.css' %}">  
         <link rel="stylesheet" type="text/css" href="{% static 'css/main_home.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'css/calendar.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/company_home.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'css/vertical_navbar.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'css/list-requests.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/calendar.css' %}">
         <!--IMAGES-->
         <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.png' %}" >
 
@@ -45,26 +46,18 @@
     {% include 'vacayvue/navbar.html' %}
 
     <div class="container-fluid">
-        <div class="row">
-            <div class="col">
-                {% include 'vacayvue/vertical_navbar.html' %}
-            </div>
-        </div>
-    
-        <div class="row">
+        {% include 'vacayvue/vertical_navbar.html' %}
             {% block content %}
             {% endblock %}
-            {% block calendar %}
-            {% endblock calendar %}
-        </div>
+
+     
     </div>
 
-    <!-- EmployeeModal structure -->
-    <div class="modal fade" id="employeeDetailModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    
+    <div class="modal fade" id="DetailModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-
-                <!--Modal COntent from employee_details.html-->
+                <!--Modal for showing details-->               
             </div>
         </div>
     </div>

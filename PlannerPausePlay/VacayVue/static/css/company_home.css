@@ -1,0 +1,21 @@
+/* Custom CSS for styling the container */
+
+.container {
+    background-color: #fff; /* White background color */
+    padding: 20px; /* Add padding around the container */
+
+
+  
+  }
+  
+  /* Style for the balance container */
+  .right-container {
+    border-left: 1px solid #303030; /* Add divider line */
+    padding: 20px; /* Add padding */
+  }
+  
+
+
+
+
+  

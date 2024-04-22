@@ -1,0 +1,58 @@
+{% extends 'vacayvue/base.html' %}
+
+{%block content%}
+<div class="container">
+	<div class="row">
+		<div class="col-md-7 left-container">
+			<h4 class="text-center">Προσθήκη Αιτήματος στη Βάση</h4>
+				<div class="row justify-content-center">
+					<div class="col-md-6">
+						{% if submitted %}
+						<div class="alert alert-success" role="alert">
+						Η Αίτηση σας καταχωρήθηκε επιτυχώς!!!
+						</div>
+						{% else %}
+						<form action="" method="POST" class="form-container">
+						{% csrf_token %}
+						<div class="form-group">
+							<label for="id_Type" class="form-label">Τύπος Άδειας</label>
+								{{ form.type }}
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="form-group">
+									<label for="id_start" class="form-label">Ημερομηνία Έναρξης</label>
+										<div class="input-group">
+										{{ form.start }}
+
+									</div>
+								</div>
+							</div>
+							<div class="col">
+								<div class="form-group">
+									<label for="id_end" class="form-label">Ημερομηνία Λήξης</label>
+										<div class="input-group">
+											{{ form.end }}
+                          
+										</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="id_description" class="form-label">Περιγραφή</label>
+								{{ form.description}}
+						</div>
+						<br>
+						<input type="hidden" name="submitted" value="True">
+						<button type="submit" class="btn btn-secondary">Υποβολή</button>
+						</form>
+						{% endif %}
+					</div>
+                </div>
+        </div>
+		<div class="col-md-5">
+			<h1 class="text-center right-container">Image</h1>
+        </div>
+    </div>
+</div>
+{%endblock%}

@@ -1,18 +1,17 @@
 {% extends 'vacayvue/base.html' %}
-
+{% load static %}
 {% block content %} 
-        <div class="col-md-2"> 
-        </div>
-        <div class="col-md-7">
-            <h1 class="text-center">Employee Home Page</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 left-container">
 
                 <h1>Welcome {{ employee.first_name}}</h1>
                 <p>Belongs to Company: {{ employee.company }}</p>
-                
+                <div id="calendar"></div>
                 
         </div>
-        <div class="col-md-3">
-            <h1 class="text-center">Ειδοποιήσεις</h1>
+        <div class="col-md-4 right-container">
+            <h1 >Balance</h1>
             {% if messages %}
             <ul class="messages">
                 {% for message in messages %}
@@ -21,8 +20,14 @@
              </ul>
             {% endif %}
 
-            <!-- Add your content for balance here -->
+            
         </div>
+    </div>
+</div>
   
 
 {% endblock %}
+{% block script%}
+<script src="{% static 'js/calendar.js' %}"></script>
+
+{% endblock  %}

@@ -9,9 +9,10 @@
                 <a class="nav-link active" href="{% url 'employee_home' %}">
                     <i class="fas fa-tachometer-alt"></i> Dashboard
                 </a> 
-                <!-- Add Request -->
-                <a class="nav-link" href="{% url 'calendar' %}">
-                    <i class="fas fa-calendar-plus"></i> Προσθήκη Αιτήσεων
+    
+                 <!-- Add Request -->
+                 <a class="nav-link" href="{% url 'add_request' %}">
+                    <i class="fas fa-calendar-plus"></i> Προσθήκη Αίτησης
                 </a>
                 <!-- View Request -->
                 <a class="nav-link" href="{% url 'self-requests' %}">
@@ -39,6 +40,7 @@
                 <a class="nav-link" href="{% url 'list_all_requests' %}">
                     <i class="fas fa-list"></i> Προβολή Αιτήσεων
                 </a>
+                
                 <!-- Add Employee -->
                 <a class="nav-link" href="{% url 'register_employee' %}">
                     <i class="fas fa-user-plus"></i> Προσθήκη Υπαλλήλου

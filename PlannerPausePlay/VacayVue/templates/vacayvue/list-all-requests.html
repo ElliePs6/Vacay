@@ -3,10 +3,9 @@
 
 {% block content %}
 
-
-    <div class="col-md-2">
-    </div>
-    <div class="col-md-7">
+<div class="container">
+    <div class="row">
+    <div class="col-md-7 left-container">
         <div class="table-responsive">
             <div class="card">
                 <div class="card-body">
@@ -16,26 +15,27 @@
                         <table id="sampleTable" class="table">
                             <thead>
                                 <tr>
+                                    <th>Υπάλληλος</th>
                                     <th>Τύπος</th>
                                     <th>Έναρξη</th>
                                     <th>Λήξη</th>
                                     <th>Περιγραφή</th>
-                                    <th>Έγγριση</th>
-                                    <th>Απόρριψη</th>  
+                                    <th>Κατάσταση</th>
+                                      
                                 </tr>
                             </thead>
                             <tbody>
                                 
                                 
                                 {% for request in requests %}
-                                <tr>                 
+                                <tr>
+                                <td>{{ request.user.last_name }}</td>                 
                     
                                 <td>{{ request.type }}</td>
                                 <td>{{ request.start }}</td>
                                 <td>{{ request.end }}</td>
                                 <td>{{ request.description }}</td>
-                                <td><button class="btn btn-secondary approve-btn" data-request-id="{{ request.id }}">Έγγριση</button></td>
-                                <td><button class="btn btn-danger reject-btn" data-request-id="{{ request.id }}">Απόρριψη</button></td>
+                                <td>{{ request.status}}</td>
 
                                 </tr>
                                 {% endfor %}
@@ -48,45 +48,20 @@
             </div>
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-5 right-container">
         <h1 class="text-center">Balance</h1>
     </div>
+</div>
+</div>
 
 
 {% endblock %}
 {% block script%}
 <script>
 $(document).ready(function() {
-    $('#sampleTable').DataTable();  });
-
-    $('.approve-btn').click(function() {
-        var requestId = $(this).data('request-id');
-        $.ajax({
-            type: 'POST',
-            url: "/vacayvue/approve-request",
-            data: {
-                'request_id': requestId,
-                'csrfmiddlewaretoken': '{{ csrf_token }}'
-            },
-            success: function(data) {
-                // Handle success response, maybe show a notification
-            }
-        });
-    });
-
-    $('.reject-btn').click(function() {
-        var requestId = $(this).data('request-id');
-        $.ajax({
-            type: 'POST',
-            url: "/vacayvue/reject-request/",
-            data: {
-                'request_id': requestId,
-                'csrfmiddlewaretoken': '{{ csrf_token }}'
-            },
-            success: function(data) {
-                // Handle success response, maybe show a notification
-            }
-        });
+    $('#sampleTable').DataTable(); 
+    
+   
     });
 </script>
 

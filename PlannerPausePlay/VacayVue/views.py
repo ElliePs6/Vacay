@@ -13,86 +13,56 @@ from datetime import datetime
 #from django.urls import reverse
 #from django.core.exceptions import ObjectDoesNotExist
 
+import logging
 
+logger = logging.getLogger(__name__)
 
 
 #-----------------Συναρτήσεις για το ημερολογιο----------------------------------------------------
 
-def delete_request(request, request_id):
-    event = get_object_or_404(Request, id=request_id)
-    if request.method == 'POST':
-        event.delete()
-        return JsonResponse({'message': 'Event sucess delete.'})
-    else:
-        return JsonResponse({'message': 'Error!'}, status=400)
 
-
-def update(request):
-    if request.method == 'GET':
-        start = request.GET.get("start")
-        end = request.GET.get("end")
-        request_type = request.GET.get("type")
-        request_id = request.GET.get("id")
-        # Check if all required data is present
-        if start and end and request_type and request_id:
-            try:
-                request_obj = Request.objects.get(pk=request_id)
-                # Update the request fields
-                request_obj.start = start
-                request_obj.end = end
-                request_obj.type = request_type
-                request_obj.save()
-                return JsonResponse({'message': 'Request updated successfully'})
-            except Request.DoesNotExist:
-                return JsonResponse({'error': 'Request with id  does not exist'}, status=404)
-        else:
-            return JsonResponse({'error': 'Missing required data'}, status=400)
-    else:
-        return JsonResponse({'error': 'Only GET requests are allowed'}, status=405)
     
 
-def add_request(request):
-    if request.method == 'POST':
-        form = RequestForm(request.POST)
-        if form.is_valid():
-            print("Form is valid.")
-            request_object = form.save(commit=False)
-            request_object.user = request.user
-            request_object.save()
-            print("Request object saved successfully.")
-            return JsonResponse({'success': True})
-        else:
-            print("Form validation failed. Errors:", form.errors)
-            errors = form.errors.as_json()
-            return JsonResponse({'success': False, 'errors': errors})
-    else:
-        print("Received non-POST request. Method:", request.method)
-        return JsonResponse({'error': 'Only POST requests are allowed'}, status=405)
-    
 @login_required
 def all_requests(request):
-    user = request.user
-    user_requests = Request.objects.filter(user=user)  
-    out = []                                                                                                             
-    for request_obj in user_requests:                                                                                             
-        out.append({                                                                                                     
-            'type': request_obj.type,                                                                                         
-            'id': request_obj.id,                                                                                              
-            'start': request_obj.start.strftime("%Y-%m-%d") if request_obj.start else None,
-            'end': request_obj.end.strftime("%Y-%m-%d") if request_obj.end else None, 
-            'description': request_obj.description,                                                 
-        })
-    return JsonResponse(out, safe=False)    
+    company = get_object_or_404(Company, user=request.user)
+    employees = Employee.objects.filter(company=company)
+    user_ids = employees.values_list('user_id', flat=True)
+    approved_requests = Request.objects.filter(user_id__in=user_ids,is_approved=True)
+
+    # Prepare data in the required format for FullCalendar
+    events = []
+    for request in approved_requests:
+        event = {
+            'title': request.type,  # Display the type of request as the event title
+            'start': request.start.strftime('%Y-%m-%d'),  # Start date of the request
+            'end': request.end.strftime('%Y-%m-%d'),      # End date of the request
+            'color': get_color_for_request(request.type)  # Get color based on request type
+        }
+        events.append(event)
+
+    return JsonResponse(events, safe=False)
+
+def get_color_for_request(request_type):
+    # Define colors for different request types
+    color_map = {
+        'κανονική άδεια': '#7d0a0a',  # Red for regular leave
+        'άδεια εξετάσεων εργαζόμενων σπουδαστών': '#00ff00',  # Green for student exams leave
+        'άδεια εξετάσεων μεταπτυχιακών φοιτητών': '#0000ff',  # Blue for postgraduate exams leave
+        'αιμοδοτική άδεια': '#ffff00',  # Yellow for blood donation leave
+        'άδεια άνευ αποδοχών': '#ff00ff',  # Magenta for unpaid leave
+        'άδεια μητρλοτητας': '#00ffff',  # Cyan for maternity leave
+        'άδεια πατρότητας': '#ff9900'   # Orange for paternity leave
+    }
+    return color_map.get(request_type, '#000000')  # Default color is black if type not found
 
     
 def calendar(request):  
-    form = RequestForm()  
     all_requests = Request.objects.all()
     context = {
-        "form": form,  # Pass the form to the context
         "all_requests": all_requests,
     }
-    return render(request, 'vacayvue/request_calendar.html', context)   
+    return render(request, 'vacayvue/company_home.html', context)   
 
 
 #-------------Συναρτήσεις για υπαλλήλους----------------------------------------------------------
@@ -109,7 +79,7 @@ def delete_employee(request, employee_id):
 @login_required
 def edit_employee(request, employee_id):
     employee = Employee.objects.get(pk=employee_id)
-    form =EditEmployeeForm(request.POST or None, instance=employee)
+    form =RegisterEmployeeForm(request.POST or None, instance=employee)
     if form.is_valid():
             form.save()
             return redirect('list-employees')    
@@ -157,11 +127,45 @@ def register_employee(request):
 
 
 #---------------Συναρτήσεις για αιτήσεις----------------------------------------------
+
+
 @login_required
-def self_requests(request):
-     employee = get_object_or_404(CustomUser, email=request.user.email)
-     requests=Request.objects.filter(user_id=employee)
-     return render(request, 'vacayvue/self-requests.html', { 'requests':requests} )
+def add_request(request):
+    if request.method == "POST":
+        form = RequestForm(request.POST)
+        if form.is_valid():
+            request_obj = form.save(commit=False)  # Don't save to database yet
+            request_obj.user = request.user  # Associate the current user
+            request_obj.save()  # Now save to database
+            # Redirect to a success page or URL
+            return redirect('employee_home')  # Replace 'employee_home' with the actual URL name
+    else:
+        form = RequestForm()
+    return render(request, 'vacayvue/add_request.html', {'form': form})
+
+def leave_request_success(request):
+    return render(request, 'leave_request_success.html')
+
+def leave_request_rejected(request):
+    return render(request, 'leave_request_rejected.html')
+
+@login_required
+def approve_leave_request(request, request_id):  
+        leave_request = Request.objects.get(id=request_id)
+        leave_request.is_approved = True
+        leave_request.is_rejected = False
+        leave_request.is_pending = False
+        leave_request.save()
+        return redirect('list_all_requests') 
+    
+@login_required
+def reject_leave_request(request, request_id):
+        leave_request = Request.objects.get(id=request_id)
+        leave_request.is_approved = False
+        leave_request.is_rejected = True
+        leave_request.is_pending = False
+        leave_request.save()
+        return redirect('list_all_requests')
 
 @login_required
 def list_all_requests(request):
@@ -171,39 +175,38 @@ def list_all_requests(request):
     requests = Request.objects.filter(user_id__in=user_ids)
     return render(request, 'vacayvue/list-all-requests.html', {'requests': requests})
 
-#-----------------HomePage Company-------------------------------------------------------
-
-def approve_request(request):
-    if request.method == 'POST' and request.is_ajax():
-        request_id = request.POST.get('request_id')
-        try:
-            req = Request.objects.get(pk=request_id)
-            req.is_approved = True
-            req.is_pending = False
-            req.save()
-            messages.success(request, 'Request has been approved successfully.')
-            return JsonResponse({'success': True})
-        except Request.DoesNotExist:
-            return JsonResponse({'success': False})
-
-def reject_request(request):
-    if request.method == 'POST' and request.is_ajax():
-        request_id = request.POST.get('request_id')
-        try:
-            req = Request.objects.get(pk=request_id)
-            req.is_rejected = True
-            req.is_pending = False
-            req.save()
-            messages.warning(request, 'Request has been rejected.')
-            return JsonResponse({'success': True})
-        except Request.DoesNotExist:
-            return JsonResponse({'success': False})
 
 
 @login_required
+def self_requests(request):
+     employee = get_object_or_404(CustomUser, email=request.user.email)
+     requests=Request.objects.filter(user_id=employee)
+     return render(request, 'vacayvue/self-requests.html', { 'requests':requests} )
+
+
+@login_required
+def request_details(request, request_id):
+     request_obj = get_object_or_404(Request, pk=request_id)
+     return render(request, 'vacayvue/request_details.html', {'request': request_obj})
+
+#-----------------HomePage Company συναρτήσεις-------------------------------------------------------
 def company_home(request):
-        company = get_object_or_404(Company, user_id=request.user.pk)
-        return render(request, 'vacayvue/company_home.html',{'company': company})
+    company = get_object_or_404(Company, user_id=request.user.pk)
+    
+    employee_count =Employee.objects.filter(company=company).count()
+
+    # Fetch all pending requests
+    pending_requests = Request.objects.filter(is_pending=True)
+
+    context = {
+        'employee_count': employee_count,
+        'pending_requests': pending_requests,
+        'company': company
+    }
+
+    return render(request, 'vacayvue/company_home.html', context)
+
+
 
 #-----------------Συναρτήσεις για users----------------------------------------------------
 
@@ -246,3 +249,4 @@ def main_home(request):
         'current_year':current_year,
         
     })
+

@@ -1,17 +1,28 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
 .navbar {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     background-color:#C08261;
-    padding: 0.2% 2%;
-    z-index: 1000; /* Ensure the navbar stays on top of other content */
+    padding: 1% 2%;
+    z-index: 1000; 
+    margin: 0 auto;
+    box-shadow: 2px 2px 2px 2px #af8873;
 }
 
-.navbar-brand {
-    color: #7D0A0A !important;
+.navbar-brand  {
+    color: #7D0A0A ;
     font-size: 1.3vw;
     line-height: 2;
+}
+.navbar-brand:hover {
+    color: #dba80f;
 }
 
 .navbar-toggler-icon {
@@ -26,7 +37,7 @@
 .navbar-nav .nav-link.btn {
     color: #7D0A0A;
     background-color: transparent;
-    border: 2px solid #7D0A0A;
+    border-bottom: 2px solid #7D0A0A;
     border-radius: 5px;
     font-size: 1vw;
     cursor: pointer;
@@ -38,26 +49,22 @@
     border-color: #B80000;
 }
 
-.navbar-brand:hover {
-    color: #dba80f;
-}
+
 
 /* Base styles */
 body {
     font-family: Arial, sans-serif;
-    background-color: #ececec;
-    min-height: 100vh; /* Ensure the body takes up at least the height of the viewport */
-    margin: 10% auto 5%;
-    padding: 0;
-    height:100%
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    height: 100vh;
+    
 }
 
-.container-fluid {
-    width: 100%;
-     padding: 20px;
-    
-     
- }
+
+
 
 /* Footer styles */
 footer {

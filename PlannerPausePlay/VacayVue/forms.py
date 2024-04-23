@@ -21,7 +21,10 @@ class LoginForm(forms.Form):
 class RegisterEmployeeForm(UserCreationForm):
     email = forms.EmailField(widget=forms.TextInput(attrs={'autofocus': True, 'class': 'form-control','placeholder': 'Email'}))
     join_date = forms.DateField(
-        widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date','placeholder': 'Ημερομηνία Πρόσληψης', 'id': 'join_date'}))
+        widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date','placeholder': 'Ημερομηνία Πρόσληψης', 'id': 'join_date'}),
+        input_formats=['%Y/%m/%d']  
+        )
+    
     
     password1 = forms.CharField(
         widget=forms.PasswordInput(attrs={'class': 'form-control', 'data-toggle': 'tooltip', 'placeholder': 'Κωδικός','title': 'Your password must contain at least 8 characters and cannot be too similar to your other personal information.'})
@@ -64,10 +67,18 @@ class EditEmployeeForm(forms.ModelForm):
 
 class RequestForm(ModelForm):
     type = forms.ChoiceField(choices=Request.REQUEST_TYPES_CHOICES)
+    start = forms.DateField(
+        widget=forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'YYYY/MM/DD', 'type': 'date'}),
+        input_formats=['%Y-%m-%d']  # Specify the input format as YYYY-MM-DD
+    )
+    end = forms.DateField(
+        widget=forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'YYYY/MM/DD', 'type': 'date'}),
+        input_formats=['%Y-%m-%d']  # Specify the input format as YYYY-MM-DD
+    )
 
     class Meta:
         model = Request
-        fields = ["type", "start", "end", "description"]  # Include all fields here
+        fields = ["type", "start", "end", "description"]
         widgets = {
             "description": forms.Textarea(
                 attrs={
@@ -75,20 +86,6 @@ class RequestForm(ModelForm):
                     "placeholder": "Περιγραφή Αιτήσεως",
                 }
             ),
-            "start": forms.DateInput(
-                attrs={
-                    'class': 'form-control datepicker',
-                    'placeholder': 'Ημερομηνία Έναρξης',
-                    'type': 'date'
-                }
-            ),
-            "end": forms.DateInput(
-                attrs={
-                    'class': 'form-control datepicker',
-                    'placeholder': 'Ημερομηνία Λήξης',
-                    'type': 'date'
-                }
-            )
         }
       
 

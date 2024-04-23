@@ -3,30 +3,25 @@
 {% block content %} 
 <div class="container">
     <div class="row">
-        <div class="col-md-8 left-container">
-
-                <h1>Welcome {{ employee.first_name}}</h1>
-                <p>Belongs to Company: {{ employee.company }}</p>
-                <div id="calendar"></div>
-                
+        <div class="col-md-6 leftEmp-container">
+            <h3>Καλωσήρθες {{ employee.first_name}}</h3>
+            <p>Belongs to Company: {{ employee.company }}</p>
+            <div id="calendar"></div>
         </div>
-        <div class="col-md-4 right-container">
-            <h1 >Balance</h1>
+        <div class="col-md-6 balance-container">
+            <h3 >Balance</h3>
             {% if messages %}
             <ul class="messages">
                 {% for message in messages %}
-                    <li>{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                <li>{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
                 {% endfor %}
-             </ul>
+            </ul>
             {% endif %}
-
-            
         </div>
     </div>
 </div>
-  
-
 {% endblock %}
+
 {% block script%}
 <script src="{% static 'js/calendar.js' %}"></script>
 

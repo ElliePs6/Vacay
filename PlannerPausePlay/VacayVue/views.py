@@ -18,130 +18,70 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-#-----------------Συναρτήσεις για το ημερολογιο----------------------------------------------------
-
-
-    
-
+#-----------------Συναρτήσεις για το ημερολογιο---------------------------------------------------- 
 @login_required
 def all_requests(request):
-    company = get_object_or_404(Company, user=request.user)
-    employees = Employee.objects.filter(company=company)
-    user_ids = employees.values_list('user_id', flat=True)
-    approved_requests = Request.objects.filter(user_id__in=user_ids,is_approved=True)
-
-    # Prepare data in the required format for FullCalendar
+    
+    approved_requests = Request.objects.filter(is_approved=True)
     events = []
     for request in approved_requests:
+        employee = Employee.objects.get(user=request.user) 
         event = {
-            'title': request.type,  # Display the type of request as the event title
-            'start': request.start.strftime('%Y-%m-%d'),  # Start date of the request
-            'end': request.end.strftime('%Y-%m-%d'),      # End date of the request
-            'color': get_color_for_request(request.type)  # Get color based on request type
+            'title': f"{employee.user.get_full_name()} - {request.type}",  # Display the type of request as the event title
+            'start': request.start.strftime('%Y-%m-%d'),  
+            'end': request.end.strftime('%Y-%m-%d'),      
+            'color': get_color_for_request(request.type)  
         }
         events.append(event)
 
     return JsonResponse(events, safe=False)
 
 def get_color_for_request(request_type):
-    # Define colors for different request types
     color_map = {
-        'κανονική άδεια': '#7d0a0a',  # Red for regular leave
-        'άδεια εξετάσεων εργαζόμενων σπουδαστών': '#00ff00',  # Green for student exams leave
-        'άδεια εξετάσεων μεταπτυχιακών φοιτητών': '#0000ff',  # Blue for postgraduate exams leave
-        'αιμοδοτική άδεια': '#ffff00',  # Yellow for blood donation leave
-        'άδεια άνευ αποδοχών': '#ff00ff',  # Magenta for unpaid leave
-        'άδεια μητρλοτητας': '#00ffff',  # Cyan for maternity leave
-        'άδεια πατρότητας': '#ff9900'   # Orange for paternity leave
+        'κανονική άδεια': '#7d0a0a', 
+        'άδεια εξετάσεων εργαζόμενων σπουδαστών': '#00ff00',  
+        'άδεια εξετάσεων μεταπτυχιακών φοιτητών': '#0000ff', 
+        'αιμοδοτική άδεια': '#ffff00',  
+        'άδεια άνευ αποδοχών': '#ff00ff', 
+        'άδεια μητρλοτητας': '#00ffff',  
+        'άδεια πατρότητας': '#ff9900'   
     }
-    return color_map.get(request_type, '#000000')  # Default color is black if type not found
+    return color_map.get(request_type, '#000000')  
 
-    
+
 def calendar(request):  
     all_requests = Request.objects.all()
     context = {
         "all_requests": all_requests,
     }
-    return render(request, 'vacayvue/company_home.html', context)   
-
-
-#-------------Συναρτήσεις για υπαλλήλους----------------------------------------------------------
-
-@login_required
-def delete_employee(request, employee_id):
-    employee = Employee.objects.get(pk=employee_id)
-    custom_user = employee.user
-    employee.delete()
-    custom_user.delete()
-    return redirect('list-employees')  # Redirect to the employee list page after successful deletion
-
-
-@login_required
-def edit_employee(request, employee_id):
-    employee = Employee.objects.get(pk=employee_id)
-    form =RegisterEmployeeForm(request.POST or None, instance=employee)
-    if form.is_valid():
-            form.save()
-            return redirect('list-employees')    
-    return render(request, 'vacayvue/edit_employee.html', {'employee':employee,'form': form})
-
-@login_required
-def employee_details(request, employee_id):
-    employee_id = request.GET.get('employee_id')
-    employee = get_object_or_404(Employee, pk=employee_id)
-    return render(request, 'vacayvue/employee_details.html',{'employee':employee} )
-
-@login_required
-def list_employees(request):
-    company = get_object_or_404(Company, user_id=request.user.pk)
-    print("Logged-in user:", request.user)  # Debugging statement
-    print("Associated company:", company)  # Debugging statement
-    
-    employees_list = Employee.objects.filter(company=company)
-    print("Employees_list:", employees_list)  # Debugging statement
-    
-    return render(request, 'vacayvue/list-employees.html', {'employees_list': employees_list})
-
-@login_required
-def employee_home(request):
-    employee = get_object_or_404(Employee, user_id=request.user.pk)
-
-    return render(request, 'vacayvue/employee_home.html',{'employee': employee})
-
-@login_required
-def register_employee(request):
-    if request.method == 'POST':
-        form = RegisterEmployeeForm(request.POST)
-        if form.is_valid():        
-            employee = form.save()
-            company = get_object_or_404(Company, user_id=request.user.pk)
-            employee.company = company
-            employee.save()
-            messages.success(request, "Your employee was registered successfully!")
-            return redirect('list-employees')
-        else:
-            print(form.errors)
-    else:
-        form = RegisterEmployeeForm()
-    return render(request, 'vacayvue/register_employee.html', {'form': form})
-
+    return render(request, 'vacayvue/company_home.html', context)
 
 #---------------Συναρτήσεις για αιτήσεις----------------------------------------------
-
 
 @login_required
 def add_request(request):
     if request.method == "POST":
         form = RequestForm(request.POST)
         if form.is_valid():
-            request_obj = form.save(commit=False)  # Don't save to database yet
-            request_obj.user = request.user  # Associate the current user
-            request_obj.save()  # Now save to database
+            start_date_str = form.cleaned_data['start']
+            end_date_str = form.cleaned_data['end']
+            start_date = datetime.strptime(start_date_str, '%Y-%m-%d').date()
+            end_date = datetime.strptime(end_date_str, '%Y-%m-%d').date()
+            
+            # Associate the parsed dates with the form fields
+            form.instance.start = start_date
+            form.instance.end = end_date
+            form.instance.user = request.user
+            
+            # Save the form data to the database
+            form.save()
+            
             # Redirect to a success page or URL
             return redirect('employee_home')  # Replace 'employee_home' with the actual URL name
     else:
         form = RequestForm()
     return render(request, 'vacayvue/add_request.html', {'form': form})
+
 
 def leave_request_success(request):
     return render(request, 'leave_request_success.html')
@@ -180,14 +120,85 @@ def list_all_requests(request):
 @login_required
 def self_requests(request):
      employee = get_object_or_404(CustomUser, email=request.user.email)
-     requests=Request.objects.filter(user_id=employee)
-     return render(request, 'vacayvue/self-requests.html', { 'requests':requests} )
+     
+     pending_requests = Request.objects.filter(user_id=employee,is_pending=True)
+     rejected_requests = Request.objects.filter(user_id=employee,is_rejected=True)
+     approved_requests = Request.objects.filter(user_id=employee,is_approved=True)
+
+     context = {
+        'approved_requests':approved_requests,
+        'rejected_requests':rejected_requests,
+        'pending_requests': pending_requests,
+        'employee': employee,
+        
+     }
+
+     return render(request, 'vacayvue/self-requests.html', context)
 
 
 @login_required
 def request_details(request, request_id):
      request_obj = get_object_or_404(Request, pk=request_id)
      return render(request, 'vacayvue/request_details.html', {'request': request_obj})
+
+
+
+#-------------Συναρτήσεις για υπαλλήλους----------------------------------------------------------
+
+@login_required
+def delete_employee(request, employee_id):
+    employee = Employee.objects.get(pk=employee_id)
+    custom_user = employee.user
+    employee.delete()
+    custom_user.delete()
+    return redirect('list-employees')  # Redirect to the employee list page after successful deletion
+
+
+@login_required
+def edit_employee(request, employee_id):
+    employee = Employee.objects.get(pk=employee_id)
+    form =RegisterEmployeeForm(request.POST or None, instance=employee)
+    if form.is_valid():
+            form.save()
+            return redirect('list-employees')    
+    return render(request, 'vacayvue/edit_employee.html', {'employee':employee,'form': form})
+
+@login_required
+def employee_details(request, employee_id):
+    employee_id = request.GET.get('employee_id')
+    employee = get_object_or_404(Employee, pk=employee_id)
+    return render(request, 'vacayvue/employee_details.html',{'employee':employee} )
+
+@login_required
+def list_employees(request):
+    company = get_object_or_404(Company, user_id=request.user.pk)    
+    employees_list = Employee.objects.filter(company=company)
+    print("Employees_list:", employees_list)  # Debugging statement
+    return render(request, 'vacayvue/list-employees.html', {'employees_list': employees_list})
+
+@login_required
+def register_employee(request):
+    if request.method == 'POST':
+        form = RegisterEmployeeForm(request.POST)
+        if form.is_valid():        
+            employee = form.save()
+            company = get_object_or_404(Company, user_id=request.user.pk)
+            employee.company = company
+            employee.save()
+            messages.success(request, "Your employee was registered successfully!")
+            return redirect('list-employees')
+        else:
+            print(form.errors)
+    else:
+        form = RegisterEmployeeForm()
+    return render(request, 'vacayvue/register_employee.html', {'form': form})
+
+@login_required
+def employee_home(request):
+    employee = get_object_or_404(Employee, user_id=request.user.pk)
+    return render(request, 'vacayvue/employee_home.html',{'employee':employee})
+
+
 
 #-----------------HomePage Company συναρτήσεις-------------------------------------------------------
 def company_home(request):

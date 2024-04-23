@@ -4,69 +4,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vacations Managment</title>
-        <!--JQUERY-->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-        <!--FULLCALENDAR-->        
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/6.1.11/index.global.js"></script>
-       
+    <title>Vacations Management</title>
+    <!-- External Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/6.1.11/index.global.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/dataTables.bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/js/bootstrap.bundle.min.js"></script>
     
-        <!-- Bootstrap CSS -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"  />
-
-
-        <!--Custom CSS-->
-        <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'css/register.css' %}">  
-        <link rel="stylesheet" type="text/css" href="{% static 'css/main_home.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'css/company_home.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'css/vertical_navbar.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'css/list-requests.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'css/calendar.css' %}">
-        <!--IMAGES-->
-        <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.png' %}" >
-
-        <!-- DataTables -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/jquery.dataTables.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/dataTables.bootstrap.min.js"></script>
-       
+    <!-- Bootstrap and Font Awesome CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     
-        <!-- Bootstrap JS -->    
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/js/bootstrap.min.js"></script>
-        <script>
-            /*to prevent Firefox FOUC, this must be here*/
-            let FF_FOUC_FIX;
-          </script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/login_page.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/company_app.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/employee_app.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/vertical_navbar.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/calendar.css' %}">
+    
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.png' %}">
+    
 </head>
-
 <body>
     {% include 'vacayvue/navbar.html' %}
-
-    <div class="container-fluid">
-        {% include 'vacayvue/vertical_navbar.html' %}
-            {% block content %}
-            {% endblock %}
-
-     
-    </div>
-
+    {% include 'vacayvue/vertical_navbar.html' %}
+    {% if not request.user.is_authenticated %}
     
+        {% block login %}
+        {% endblock %}
+    </div>
+    {% else %}
+    
+        {% block content %}
+        {% endblock %}
+    </div>
+    {% endif %}
+
+
     <div class="modal fade" id="DetailModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <!--Modal for showing details-->               
+                <!-- Modal for showing details -->
             </div>
         </div>
     </div>
 
     <footer>
-        Copyright (c) {{current_year}}
+        &copy; {{ current_year }} Vacations Management
     </footer>  
 
     {% block script %}
-    {% endblock  %}
+    {% endblock %}
 </body>
 </html>

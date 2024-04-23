@@ -1,6 +1,6 @@
-<nav class="navbar navbar-expand-lg "> <!-- Add bg-dark class for a dark background -->
+<nav class="navbar navbar-expand-lg">
   <div class="container-fluid">
-    <a class="navbar-brand" href="{% url 'main_home' %}">Logo</a>
+    <a class="navbar-brand" href="{% url 'login' %}">Logo</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon fas fa-bars"></span> <!-- Use Font Awesome icon -->
@@ -9,13 +9,12 @@
       <ul class="navbar-nav ms-auto"> <!-- Change ml-auto to ms-auto for right alignment -->
         {% if request.user.is_authenticated %}
         <li class="nav-item">
-            <button class="nav-link btn" onclick="window.location.href='{% url 'logout' %}'">Έξοδος</button>
-          </li>
-           
+          <a class="nav-link btn" href="{% url 'logout' %}">Έξοδος</a>
+        </li>
         {% else %}
-          <li class="nav-item">
-            <button class="nav-link btn" onclick="window.location.href='{% url 'login' %}'">Είσοσδος</button>
-          </li>
+        <li class="nav-item">
+          <button class="nav-link btn" onclick="window.location.href='{% url 'login' %}'">Είσοδος</button>
+        </li>
         {% endif %}
       </ul>
     </div>

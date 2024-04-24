@@ -1,47 +1,47 @@
 #calendar {
-  border: 1px solid #ebebeb;
-  border-radius: 5px;
- 
-  background-color: #fdfcfc;
+  border: 1px solid #990000;
+  border-radius: 1px;
+  padding:10px; 
+  background-color: #ffffff;
 
   
 }
 
 /* Style for the header toolbar */
 .fc-header-toolbar {
-  background-color: #c08261;
-  color: #ccc;
+  background-color: #ffffff;
+  color: #ff0a00;
+ 
+}
+.fc-toolbar-title {
+  color: #ff0a00;
+  font-family: "Roboto Mono", monospace;
 }
 
 /* Change the background color of the navigation buttons */
 .fc .fc-button-primary {
-    background-color: #e2c799;
-    border-color:#c08261;
-    color:#c08261;
+    background-color: #ff0a00;
+    border-color:#ff0a00;
+    color:#ffffff;
 }
 .fc .fc-button-primary:disabled{
-  background-color: #bd4848cb;
-    border-color:#e2c799;
-    color:#e2c799
+  background-color: #ff0a00;
+  border-color:#ff0a00;
+  color:#ffffff;
 
 }
 
 /* for  the view buttons */
 .fc .fc-button-primary:not(:disabled).fc-button {
-  background-color: #e2c799;
-  border-color:#c08261;
-  color:#c08261;
+  background-color: #ff0a00;
+    border-color:#ff0a00;
+    color:#ffffff;
 }
 
-
-
-/* Change the background color of the toolbar title */
-.fc-toolbar-title {
-    color: #fff;
-}
 /*for the links in dates*/
 .fc-col-header-cell a,
 .fc-daygrid-day-frame .fc-daygrid-day-number{
-  color:#c08261;
+  color:#000000;
   text-decoration:none;
+  
 }

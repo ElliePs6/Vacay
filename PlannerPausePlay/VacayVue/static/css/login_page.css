@@ -12,11 +12,10 @@
 
 .login-form {
     padding:2%;
-    border: 5% solid #000;
     border-radius: 5px;
-    background-color: rgba(250, 247, 246, 0.8);
+    background-color: #000000;
     border-radius:5px;
-    color: #b31e00;
+    color: #ffffff;
     height: 100%;
     max-height: 100%; 
     overflow: hidden;
@@ -43,12 +42,12 @@
 }
 
 .login-form .input-group-text {
-    background-color:#7D0A0A ;
+    background-color:#ff0a00 ;
     position: absolute;
     left: 0;
     top: 0;
     transform: translateX(-100%);
-    color: #ccc; /* Icon color */
+    color: #ffffff; /* Icon color */
 }
 
 
@@ -64,7 +63,7 @@
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    border: 1px solid #7D0A0A;
+    border: 1px solid #ff0a00;
     border-radius: 2px;
     width: 20px;
     height: 20px;
@@ -72,8 +71,8 @@
 }
 
 .login-form .form-check-input[type="checkbox"]:checked {
-    background-color: #c24723;
-    border-color: #fd5e3a;
+    background-color: #ff0a00;
+    border-color: #ff0a00;
 }
 
 .login-form .form-check-input[type="checkbox"]::before {
@@ -87,7 +86,7 @@
 .login-form .form-check-input[type="checkbox"]:checked::before {
     content: "\2713";
     font-size: 14px;
-    color: #dd3a11;
+    color: #000000;
     text-align: center;
     line-height: 20px;
 }
@@ -99,14 +98,14 @@
     font-size: 14px;
     border: none;
     border-radius: 5px;
-    background-color: #7D0A0A;
+    background-color: #ff0a00;
     color: #fff;
     cursor: pointer;
     transition: background-color 0.3s;
 }
 
 .login-form button[type="submit"]:hover {
-    background-color: #B80000;
+    background-color: #ff0a00;
 }
 
 /* Checkbox styles */

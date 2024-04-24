@@ -38,7 +38,7 @@ def all_requests(request):
 
 def get_color_for_request(request_type):
     color_map = {
-        'κανονική άδεια': '#7d0a0a', 
+        'κανονική άδεια': '#f84747', 
         'άδεια εξετάσεων εργαζόμενων σπουδαστών': '#00ff00',  
         'άδεια εξετάσεων μεταπτυχιακών φοιτητών': '#0000ff', 
         'αιμοδοτική άδεια': '#ffff00',  
@@ -63,24 +63,15 @@ def add_request(request):
     if request.method == "POST":
         form = RequestForm(request.POST)
         if form.is_valid():
-            start_date_str = form.cleaned_data['start']
-            end_date_str = form.cleaned_data['end']
-            start_date = datetime.strptime(start_date_str, '%Y-%m-%d').date()
-            end_date = datetime.strptime(end_date_str, '%Y-%m-%d').date()
-            
-            # Associate the parsed dates with the form fields
-            form.instance.start = start_date
-            form.instance.end = end_date
-            form.instance.user = request.user
-            
-            # Save the form data to the database
-            form.save()
-            
-            # Redirect to a success page or URL
-            return redirect('employee_home')  # Replace 'employee_home' with the actual URL name
+            # Assign the current user's ID to the user_id field before saving
+            request_instance = form.save(commit=False)
+            request_instance.user_id = request.user.id  # Assuming user_id is a ForeignKey field
+            request_instance.save()
+            return redirect('employee_home')  
     else:
         form = RequestForm()
     return render(request, 'vacayvue/add_request.html', {'form': form})
+
 
 
 def leave_request_success(request):
@@ -112,7 +103,8 @@ def list_all_requests(request):
     company = get_object_or_404(Company, user=request.user)
     employees = Employee.objects.filter(company=company)
     user_ids = employees.values_list('user_id', flat=True)
-    requests = Request.objects.filter(user_id__in=user_ids)
+    requests = Request.objects.filter(user_id__in=user_ids,is_approved=True )
+    print('requests',requests)
     return render(request, 'vacayvue/list-all-requests.html', {'requests': requests})
 
 
@@ -156,12 +148,22 @@ def delete_employee(request, employee_id):
 
 @login_required
 def edit_employee(request, employee_id):
+    # Retrieve the Employee instance
     employee = Employee.objects.get(pk=employee_id)
-    form =RegisterEmployeeForm(request.POST or None, instance=employee)
+    custom_user = employee.user
+
+    # Initialize the form with the Employee instance
+    form = EditEmployeeForm(request.POST or None, instance=custom_user )
+
     if form.is_valid():
-            form.save()
-            return redirect('list-employees')    
-    return render(request, 'vacayvue/edit_employee.html', {'employee':employee,'form': form})
+        # Save the form data to the Employee instance
+        custom_user  = form.save()
+        
+
+
+        return redirect('list-employees')
+    
+    return render(request, 'vacayvue/edit_employee.html', {'employee': employee, 'form': form})
 
 @login_required
 def employee_details(request, employee_id):
@@ -176,11 +178,13 @@ def list_employees(request):
     print("Employees_list:", employees_list)  # Debugging statement
     return render(request, 'vacayvue/list-employees.html', {'employees_list': employees_list})
 
+
+
 @login_required
 def register_employee(request):
     if request.method == 'POST':
         form = RegisterEmployeeForm(request.POST)
-        if form.is_valid():        
+        if form.is_valid():
             employee = form.save()
             company = get_object_or_404(Company, user_id=request.user.pk)
             employee.company = company
@@ -188,10 +192,13 @@ def register_employee(request):
             messages.success(request, "Your employee was registered successfully!")
             return redirect('list-employees')
         else:
-            print(form.errors)
+            print("Form errors:", form.errors)
+            print("Data received in POST:", request.POST)
+            print("Invalid form data:", form.cleaned_data)
     else:
         form = RegisterEmployeeForm()
     return render(request, 'vacayvue/register_employee.html', {'form': form})
+
 
 @login_required
 def employee_home(request):

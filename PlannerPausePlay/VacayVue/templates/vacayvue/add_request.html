@@ -12,7 +12,7 @@
 				Η Αίτηση σας καταχωρήθηκε επιτυχώς!!!
 				</div>
 			{% else %}
-				<form action="{% url 'register_employee' %}" method="POST" class="form-container register-emp-form">
+				<form action="{% url 'add_request' %}" method="POST" class="form-container register-emp-form">
 					<h4 class="text-center">Προσθήκη Αίτησης</h4>
 					{% csrf_token %}
 					<div class="form-group">

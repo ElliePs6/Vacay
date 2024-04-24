@@ -1,19 +1,26 @@
 /*Για την Company Home σελίδα*/
 .container{
-  font-family: cursive, sans-serif;
-  background-color: rgba(123, 10, 10, 0.616);
-  color: white;
+
+  background-color:  #000000      ;
+  color: #ffffff;
   padding: 10px;
   border-radius: 4px;
-  box-shadow: 2px 2px 10px 5px #dad9d9;
+  box-shadow: 2px 2px 4px  #EEEEEE;
 }
 .leftComp-container{
   display: flex;
   flex-direction: column;
   align-items: left;
   justify-content: left;
-  border-right: 1px solid #fff;
+  border-right: 1px solid #ff0800d2;
      
+}
+.custom-hr {
+  
+  border: 1px ; 
+  border-style: solid;
+  height: 1px; 
+  background-color: #ffffff; 
 }
 
 .request-list-container {
@@ -21,20 +28,123 @@
     overflow-y: auto; 
     display: flex;
     flex-direction: column;
-      align-items: left;
-      justify-content: left;
-    
+    align-items: left;
+}
+.request-list-container h5 {
+  padding-top:2%;
+  padding-left: 2%;
+}
+.employee_count {
+  color:#ff0a00;
+  font-weight: bold;
+}
+
+.requests-list li {
+  display: flex; /* Arrange elements in a row */
+  align-items: center; /* Align items vertically */
+}
+
+.requests-list li h6 {
+    margin-right: 2%; 
+    font-size: 20px;
+}
+
+.requests-list  a {
+  color: #ff0a00;
+  font-style: bold;
+  font-size: 14px; 
+  
+}
+.requests-list a:hover {
+  color: #ff3636;
+}
+.approve-btn,
+.reject-btn {
+  border-radius: 50%; 
+  width: 25px; 
+  height: 25px; 
+  line-height: 25px; 
+  padding: 0; 
+  font-size: 14px; 
+  margin-right: 3%; 
+}
+.approve-btn{background-color:  rgb(0, 255, 200) ;}  
+.reject-btn {background-color: rgb(255, 32, 3) ;}   
+
+/*Για τη λίστα Αιτήσεων*/
+
+.list-title{
+  background-color:red;
+  color: rgb(255, 255, 255); /* Red color for the balance title */ 
+  border-radius: 5px; 
+  box-shadow: 0px 4px 4px #6868689f; 
+  padding: 10px;
+  text-align: center;
+  margin-bottom: 20px;
+  
+}
+.card-title {
+  color: red; /* Red color for the card titles */
+}
+.card-body {
+font-size: 14px;
+background-color: #ffffff;
+color:#000000; 
+border-radius: 10px;
+box-shadow:2px 4px 4px #a7a7a79f;  
+height: 20%;
+padding-bottom: 2%;
+}
+.card-body > p {
+  padding-top: 1%;
+  color:#000000;
+  font-weight:500; 
+}
+.card-body > a {
+  color: #ff0a00; 
+  float: right;
+  padding-right: 2%;
+}
+.balance-title {
+background-color:red;
+color: rgb(255, 255, 255); /* Red color for the balance title */ 
+border-radius: 5px; 
+box-shadow: 0px 4px 4px #6868689f;  
+padding: 10px;
+text-align: center;
+margin-bottom: 20px; 
 }
 
 /*Για τη σελίδα εγγραφή χρήστη*/
-.register-emp-form {
-  padding: 2%;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color:rgba(250, 247, 246, 0.8);
-  color: #630604;
+.image-container{
+  padding:5%;
+  box-shadow: 2px 2px 2px  #313131;
+  text-align: center; /* Center the image */
+
+}
+
+.image-container img {
+  border-radius: 50%;
+  border:2px solid red;
+  width: 250px;
+  height: 250px;
+  margin-top: 20px;
+  
+}
+
+.register-container {
   display: flex;
   flex-direction: column;
+  align-items: flex-start; /* Align fields to the start */
+}
+.register-emp-form {
+  padding: 5%;
+  border-left: 2px solid #ff0000;
+   background-color:#000000;
+  color: rgb(255, 255, 255);
+  display: flex;
+  flex-direction: column;
+  box-shadow: -2px 2px 2px  #313131;
 }
 
 .register-emp-form .form-group {
@@ -43,43 +153,26 @@
 
 .register-emp-form label {
   font-weight: bold;
+  display: block; /* Ensure labels are displayed on a new line */
+
 }
 
-
-.register-emp-form input[type="email"],
-.register-emp-form input[type="date"] 
-{   padding: 5px 0;
-  width: 100%;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-.register-emp-form input[type="text"],
-.register-emp-form input[type="password"]
-{
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+.register-container input[type="text"],
+.register-container input[type="email"],
+.register-container input[type="password"],
+.register-container select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
 }
 
 .register-emp-form .form-row {
   margin-bottom: 20px;
 }
 
-.register-emp-form .col-md-6 {
-  float: left;
-  width: 50%;
-  padding-right: 1%;
-  padding-left: 1%;
-}
 
-/* Clearfix to prevent column wrapping */
-.register-emp-form::after {
-  content: "";
-  display: table;
-  clear: both;
-}
 
 .register-emp-form input[type="submit"] {
   display: inline-block;
@@ -87,8 +180,8 @@
   font-size: 14px;
   border: none;
   border-radius: 5px;
-  background-color: #B31E00;
-  color: #fff;
+  background-color: #fd0000;
+  color: #ffffff;
   cursor: pointer;
   transition: background-color 0.3s;
   align-self: flex-end;
@@ -96,11 +189,19 @@
 }
 
 .register-emp-form input[type="submit"]:hover {
-  background-color: rgba(250, 48, 8, 0.7);
+  background-color: rgb(252, 53, 53);
 }
 
-/*Για τη λίστα Αιτήσεων*/
+@media (max-width: 767px) {
+  .image-container img {
+      width: 100px;
+      height: 100px;
+  }
+}
+ 
 /*Για τη λίστα Υπαλλήλων*/
+/*Για την προσθήκη Υπαλλήλων*/
+
 
 
   

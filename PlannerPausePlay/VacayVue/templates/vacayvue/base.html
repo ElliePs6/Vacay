@@ -15,6 +15,11 @@
     <!-- Bootstrap and Font Awesome CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
     
     <!-- Custom CSS -->
     <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
@@ -31,16 +36,13 @@
 <body>
     {% include 'vacayvue/navbar.html' %}
     {% include 'vacayvue/vertical_navbar.html' %}
-    {% if not request.user.is_authenticated %}
-    
+
+    {% if not request.user.is_authenticated %}    
         {% block login %}
         {% endblock %}
-    </div>
-    {% else %}
-    
+    {% else %}    
         {% block content %}
-        {% endblock %}
-    </div>
+        {% endblock %}    
     {% endif %}
 
 

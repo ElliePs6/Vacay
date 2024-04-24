@@ -9,19 +9,20 @@
             <div id="calendar"></div>
         </div>
         <div class="col-md-6 request-list-container">
-            <h4>Αριθμος Υπαλλήλων</h4>
-            <h2>{{  employee_count }}</h2>
-            <hr>
-            <h3>Αιτήματα σε αναμονή:</h3>
-            <h4>Όλες οι αιτήσεις των υπαλλήλων:</h4>
-            <ul>
+            <h4>Αριθμος Υπαλλήλων:</h4>
+            <h5 class="employee_count">{{  employee_count }}</h5>
+            <hr class="custom-hr">
+
+            <h4>Αιτήματα σε αναμονή:</h4>
+            <h5>Όλες οι αιτήσεις των υπαλλήλων:</h5>
+            <ul class="requests-list">
                 {% for request in pending_requests %}
                 <li>
-                    <h5>{{ request.user.first_name }}</h5>
+                    <h6>{{ request.user.first_name }}</h6>
                     <button class="btn btn-success approve-btn" data-approve-request-id="{{ request.id }}">✓</button>
-                    <button class="btn btn-danger reject-btn" data-reject-request-id="{{ request.id }}">✗</button><br>
-                    <p><a href="#" class="request-detail-link" data-request-id="{{ request.id }}" data-url="{% url 'request_details' request.id %}" >Λεπτομέριες</a></p>
+                    <button class="btn btn-danger reject-btn" data-reject-request-id="{{ request.id }}">✗</button>
                 </li>
+                <a href="#" class="request-detail-link" data-request-id="{{ request.id }}" data-url="{% url 'request_details' request.id %}">Λεπτομέριες</a>
                 {% endfor %}
             </ul>
         </div>

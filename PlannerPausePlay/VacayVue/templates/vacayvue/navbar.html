@@ -9,11 +9,11 @@
       <ul class="navbar-nav ms-auto"> <!-- Change ml-auto to ms-auto for right alignment -->
         {% if request.user.is_authenticated %}
         <li class="nav-item">
-          <a class="nav-link btn" href="{% url 'logout' %}">Έξοδος</a>
+          <nav class="horizontal-nav-link " onclick="window.location.href='{% url 'logout' %}'">Έξοδος</a>
         </li>
         {% else %}
         <li class="nav-item">
-          <button class="nav-link btn" onclick="window.location.href='{% url 'login' %}'">Είσοδος</button>
+          <nav class="horizontal-nav-link " onclick="window.location.href='{% url 'login' %}'">Είσοδος</button>
         </li>
         {% endif %}
       </ul>

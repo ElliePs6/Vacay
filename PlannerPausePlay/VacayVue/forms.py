@@ -22,7 +22,7 @@ class RegisterEmployeeForm(UserCreationForm):
     email = forms.EmailField(widget=forms.TextInput(attrs={'autofocus': True, 'class': 'form-control','placeholder': 'Email'}))
     join_date = forms.DateField(
         widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date','placeholder': 'Ημερομηνία Πρόσληψης', 'id': 'join_date'}),
-        input_formats=['%Y/%m/%d']  
+          
         )
     
     
@@ -36,9 +36,6 @@ class RegisterEmployeeForm(UserCreationForm):
     first_name = forms.CharField(max_length=30, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Όνομα'}))
     last_name = forms.CharField(max_length=150, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Επίθετο'}))
     
-    
-   
-
     class Meta:
         model = CustomUser
         fields = ['email', 'join_date', 'password1', 'password2', 'first_name', 'last_name']
@@ -60,20 +57,26 @@ class RegisterEmployeeForm(UserCreationForm):
         return employee
 
 class EditEmployeeForm(forms.ModelForm):
+
     class Meta:
         model = Employee
         fields = ['first_name', 'last_name', 'join_date']
+        widgets = {
+            'first_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'First Name'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Last Name'}),
+            'join_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date', 'placeholder': 'Join Date'}),
+        }
 
 
 class RequestForm(ModelForm):
     type = forms.ChoiceField(choices=Request.REQUEST_TYPES_CHOICES)
     start = forms.DateField(
-        widget=forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'YYYY/MM/DD', 'type': 'date'}),
-        input_formats=['%Y-%m-%d']  # Specify the input format as YYYY-MM-DD
+        widget=forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'start', 'type': 'date'}),
+       
     )
     end = forms.DateField(
-        widget=forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'YYYY/MM/DD', 'type': 'date'}),
-        input_formats=['%Y-%m-%d']  # Specify the input format as YYYY-MM-DD
+        widget=forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'end', 'type': 'date'}),
+        
     )
 
     class Meta:

@@ -1,12 +1,12 @@
 {% extends 'vacayvue/base.html' %}
-
+{% load static %}
 {% block content %}
 <div class="container">
     <div class="row">
-        <div class="col-md-6 left-container">
-            <h3>Image</h3>
+        <div class="col-md-6 image-container">
+            <img src="{% static 'images/humans.png' %}" alt="Image" class="img-fluid rounded-circle">
         </div>
-        <div class="col-md-6 register-container ">
+        <div class="col-md-6 register-container">
             <form action="{% url 'register_employee' %}" method="POST" class="form-container register-emp-form">
                 <h4 class="text-center">Προσθήκη Υπαλλήλου</h4>
                 {% csrf_token %}
@@ -14,39 +14,17 @@
                     <label for="id_email">Email:</label>
                     {{ form.email }}
                 </div>
-                <div class="form-row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="id_first_name">First Name:</label>
-                            {{ form.first_name }}
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="id_last_name">Last Name:</label>
-                            {{ form.last_name }}
-                        </div>
-                    </div>
+                <div class="form-group">
+                    <label for="id_first_name">First Name:</label>
+                    {{ form.first_name }}
                 </div>
                 <div class="form-group">
-                    <label for="id_datejoined" class="form-label">Ημερομηνία Πρόσληψης</label>
-                    <div class="input-group">
-                        {{ form.join_date }}
-                    </div>
+                    <label for="id_last_name">Last Name:</label>
+                    {{ form.last_name }}
                 </div>
-                <div class="form-row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="id_password1">Password:</label>
-                            {{ form.password1 }}
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="id_password2">Confirm Password:</label>
-                            {{ form.password2 }}
-                        </div>
-                    </div>
+                <div class="form-group">
+                    <label for="id_datejoined">Ημερομηνία Πρόσληψης:</label>
+                    {{ form.join_date }}
                 </div>
                 <input type="submit" value="Εγγραφή" class="btn btn-primary">
             </form>

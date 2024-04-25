@@ -3,33 +3,30 @@
 {% block content %}
 <div class="container">
     <div class="row">
-<div class="col-md-12 ">
-    <div class="card">
-        <div class="card-body">
-            <h4 class="card-title">Προεπισκόπηση Υπαλλήλων</h4>
+        <div class="col-md-12">
+            <h4 class="all-requests-title">Προεπισκόπηση Υπαλλήλων</h4>
             <div class="table-responsive">
                 <table id="employee-table" class="table">
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Όνομα</th>
-                            <th>Επίθετο</th>
-                            <th>Πρόσληψη</th>
-                            <th>Email</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
+                            <th style="border-bottom: 1px solid red;">SL</th>
+                            <th style="border-bottom: 1px solid red;">Όνομα</th>
+                            <th style="border-bottom: 1px solid red;">Επίθετο</th>
+                            <th style="border-bottom: 1px solid red;">Πρόσληψη</th>
+                            <th style="border-bottom: 1px solid red;">Email</th>
+                            <th style="border-bottom: 1px solid red;">Επεξεργασία</th>
+                            <th style="border-bottom: 1px solid red;">Διαγραφή</th>
                         </tr>
                     </thead>
                     <tbody>
-                        
                         {% for employee in employees_list %}
-                        <tr>
-                            <td>{{ employee.id }}</td>
+                       
+                        <tr style="border-color: red;">
+                            <td>{{ forloop.counter }}</td> <!-- Use forloop.counter to display the counter -->
                             <td>{{ employee.first_name }}</td>
                             <td>{{ employee.last_name }}</td>
                             <td>{{ employee.join_date }}</td>
-                            <td><a href="#" class="employee-detail-link" data-employee-id="{{ employee.id }}" data-url="{% url 'employee_details' employee.id %}">{{ employee }}</a></td>
-                            
+                            <td>{{ employee.user.email }}</td>
                             <td><a href= "{% url 'edit_employee' employee.id %}" role="button" class="btn btn-secondary">Edit</button></td>
                             <td><a href= "{% url 'delete_employee' employee.id %}" role="button" class="btn btn-danger">Delete</button></td>
                         </tr>
@@ -40,12 +37,6 @@
         </div>
     </div>
 </div>
-
-</div>
-</div>
-
-
-
 {% endblock %}
 
 {% block script %}

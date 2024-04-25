@@ -1,3 +1,5 @@
+// custom-greek.js
+
 document.addEventListener('DOMContentLoaded', function () {
     const calendarEl = document.getElementById('calendar');
 
@@ -5,18 +7,17 @@ document.addEventListener('DOMContentLoaded', function () {
         locale: 'el',
         initialView: 'dayGridMonth',
         headerToolbar: {
-            left: 'prev,next,today',
+            left: 'prev,next,today', // Removed space after commas
             center: 'title',
             right: 'dayGridMonth,timeGridWeek,list'
         },
-        
-        events: '/vacayvue/all_requests/' ,
-        eventContent: function (arg) {
-            return {
-                html: `<div class="fc-list-item-title">${arg.event.title}</div>`
-            };
-        } 
-        
+        events: '/vacayvue/all_requests/',
+        buttonText: {
+            today: 'Σήμερα',
+            dayGridMonth: 'Μήνας',
+            timeGridWeek: 'Εβδομάδα',
+            list: 'Λίστα'
+        }
     });
 
     calendar.render();

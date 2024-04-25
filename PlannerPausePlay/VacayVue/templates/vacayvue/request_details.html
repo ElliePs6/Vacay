@@ -1,16 +1,24 @@
-<div class="modal-header bg-primary">
+<div class="modal-header">
     <h5 class="modal-title text-white" id="title_request_detail">Πληροφορίες Υπαλλήλου</h5>
     <button class="close modalClose" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
+
 <div class="modal-body">               
-       <p>Χρήστης: {{ request.user.employee_profile.last_name }}</p>
-       <p>Τύπος: {{ request.type}}</p>
-       <p>Ημερομηνία Έναρξης: {{ request.start }}</p>
-       <p>Ημερομηνία Λήξης: {{ request.end }}</p>
-       <p>Περιγραφή: {{ request.description }}</p>
+    {% if request.is_approved %}
+        <p>Ημερομηνία Έναρξης: {{ request.start }}</p>
+        <p>Ημερομηνία Λήξης: {{ request.end }}</p>
+        <p>Περιγραφή: {{ request.description }}</p>
+    {% else %}
+        <p>Χρήστης: {{ request.user.employee_profile.last_name }}</p>
+        <p>Τύπος: {{ request.type }}</p>
+        <p>Ημερομηνία Έναρξης: {{ request.start }}</p>
+        <p>Ημερομηνία Λήξης: {{ request.end }}</p>
+        <p>Περιγραφή: {{ request.description }}</p>
+    {% endif %}
 </div>
+
 {% block script %}
 <script> 
     $(document).ready(function() {
@@ -20,5 +28,4 @@
         });
     });
 </script>
-{% endblock  %}
-
+{% endblock %}

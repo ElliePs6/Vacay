@@ -68,6 +68,8 @@ body {
     justify-content: center;
     margin: 0 auto;
     height: 100vh;
+    overflow-y: auto; /* Enable vertical scrolling */
+    
     
 }
 

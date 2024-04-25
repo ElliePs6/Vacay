@@ -7,18 +7,19 @@
   
 }
 
-/* Style for the header toolbar */
+/*  header toolbar */
 .fc-header-toolbar {
   background-color: #ffffff;
   color: #ff0a00;
  
 }
+/*Title*/
 .fc-toolbar-title {
   color: #ff0a00;
   font-family: "Roboto Mono", monospace;
 }
 
-/* Change the background color of the navigation buttons */
+/*navigation buttons */
 .fc .fc-button-primary {
     background-color: #ff0a00;
     border-color:#ff0a00;
@@ -31,7 +32,7 @@
 
 }
 
-/* for  the view buttons */
+/* view buttons */
 .fc .fc-button-primary:not(:disabled).fc-button {
   background-color: #ff0a00;
     border-color:#ff0a00;
@@ -44,4 +45,83 @@
   color:#000000;
   text-decoration:none;
   
+}
+/*Border vertical and horizontal*/
+.fc-scrollgrid-section,
+.fc-scrollgrid-sync-table td {
+  border: 1px solid  #ff0a00; /* Example color */
+}
+
+.fc-list-item-title {
+  font-weight: bold;
+  color: #333;
+}
+
+.fc-list-item-time {
+  color: #666;
+}
+.fc-list-event-time{color: #666;}
+
+
+/* Media query for small devices */
+@media (max-width: 768px) {
+  .fc-scrollgrid-section,
+  .fc-scrollgrid-sync-table td {
+    border-width: 0.5px; 
+    
+  }
+  #calendar {
+    overflow-y: auto; 
+    max-height: 300px; 
+  }
+  #calendar tbody {
+    height: auto; 
+    overflow: auto; 
+}
+  .fc .fc-button-primary:not(:disabled).fc-button {
+    font-size: 12px; 
+    padding: 5%; 
+  }
+
+  /* Adjustments for navigation buttons */
+  .fc .fc-button-primary {
+    font-size: 10px; 
+    padding: 5px 10px; 
+  }
+}
+
+/* Media query for larger devices */
+@media (min-width: 1200px) and (max-width: 1700px) {
+  .fc-scrollgrid-section,
+  .fc-scrollgrid-sync-table td {
+    border-width: 1px;
+  }
+  #calendar {
+  overflow-y: auto; 
+  max-height: 500px; 
+  }
+  #calendar tbody {
+  height: auto;
+  overflow: auto; 
+  }
+
+}
+/* Media query for medium-sized devices */
+@media (min-width: 770px) and (max-width: 1200px) {
+  .fc-scrollgrid-section,
+  .fc-scrollgrid-sync-table td {
+    border-width: 0.5px;    
+  }
+  #calendar {
+    overflow-y: auto; 
+    max-height: 300px; 
+  }
+  #calendar tbody {
+    height: auto;
+    overflow: auto; 
+    }
+  .fc .fc-button-primary:not(:disabled).fc-button {
+    font-size: 12px; 
+    padding: 10%; 
+  }
 }

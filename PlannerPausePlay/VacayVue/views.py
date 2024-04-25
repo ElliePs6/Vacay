@@ -21,16 +21,15 @@ logger = logging.getLogger(__name__)
 #-----------------Συναρτήσεις για το ημερολογιο---------------------------------------------------- 
 @login_required
 def all_requests(request):
-    
     approved_requests = Request.objects.filter(is_approved=True)
     events = []
     for request in approved_requests:
         employee = Employee.objects.get(user=request.user) 
         event = {
-            'title': f"{employee.user.get_full_name()} - {request.type}",  # Display the type of request as the event title
-            'start': request.start.strftime('%Y-%m-%d'),  
-            'end': request.end.strftime('%Y-%m-%d'),      
-            'color': get_color_for_request(request.type)  
+            'title': f"{employee.user.get_full_name()} - {request.type}",
+            'start': request.start.strftime('%Y-%m-%d'),
+            'end': request.end.strftime('%Y-%m-%d'),
+            'color': get_color_for_request(request.type)
         }
         events.append(event)
 
@@ -67,7 +66,7 @@ def add_request(request):
             request_instance = form.save(commit=False)
             request_instance.user_id = request.user.id  # Assuming user_id is a ForeignKey field
             request_instance.save()
-            return redirect('employee_home')  
+            return redirect('self-requests')  
     else:
         form = RequestForm()
     return render(request, 'vacayvue/add_request.html', {'form': form})

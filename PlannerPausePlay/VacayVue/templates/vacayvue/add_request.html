@@ -1,19 +1,19 @@
 {% extends 'vacayvue/base.html' %}
-
+{% load static %}
 {% block content %}
 <div class="container">
 	<div class="row">
-		<div class="col-md-6 left-container">
-			<h3>Image</h3>
+		<div class="col-md-4 image-container">
+			<h4 class="reg-emp-title">Προσθήκη Αίτησης</h4>
+            <img src="{% static 'images/men.png' %}" alt="Image" class="img-fluid ">
 		</div>
-		<div class="col-md-6 addrequest-container">
+		<div class="col-md-8 addrequest-container">
 			{% if submitted %}
 				<div class="alert alert-success" role="alert">
 				Η Αίτηση σας καταχωρήθηκε επιτυχώς!!!
 				</div>
 			{% else %}
-				<form action="{% url 'add_request' %}" method="POST" class="form-container register-emp-form">
-					<h4 class="text-center">Προσθήκη Αίτησης</h4>
+				<form action="{% url 'add_request' %}" method="POST" class="form-container">
 					{% csrf_token %}
 					<div class="form-group">
 						<label for="id_type">Τύπος:</label>

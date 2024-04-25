@@ -1,35 +1,133 @@
 /*Dashboard Page*/
 .container{
-
-background-color:  #000000      ;
-color: #ffffff;
- padding: 10px;
-border-radius: 4px;
-;
-}
+    background-color:  #000      ;
+    color: #ffffff;
+    padding: 2%;
+    border-radius: 10px;
+    box-shadow: 2px 2px 4px  #EEEEEE;
+  }
 .leftEmp-container{
-display: flex;
- flex-direction: column;
- align-items: left;
-justify-content: left;
- border-right: 1px solid #fff;
+    display: flex;
+    padding: 2%;
+    flex-direction: column;
+    align-items: left;
+    justify-content: left;
+    border-right: 1px solid #ff0800d2;
+  }
+
+.welcome-title{
+    border-top:1px solid red;
+    border-bottom:1px solid red;
+    color: rgb(255, 255, 255);
+    border-radius: 5px; 
+    padding: 2%;
+    text-align: center;
+    margin-bottom: 3%;
+    font-size: 20px; 
 }
-
-
+.balance-container {
+    max-height: 100%; 
+    overflow-y: auto; 
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: left;
+  }
+  .myrequest-container{
+    background-color: #222;
+    padding: 20px;
+    box-shadow: -2px 2px 4px 4px #111;
+}
 
 /*Self-Request page*/
-table {
-margin: auto;
-text-align: center;
+
+.nav-tabs {
+    background-color: #e9ecef;
+    border-bottom: none;
+    margin-bottom: 20px;
 }
 
-th[colspan="3"],
-td[colspan="3"] {
-border-right: 2px solid #ccc;
+.nav-tabs .nav-link {
+    color: red;
+    border: none;
 }
 
+.nav-tabs .nav-link.active {
+    background-color: #ffffff;
+    border-bottom: 2px solid red;
+    font-weight: bold;
+    color:rgb(255, 45, 45);
+}
+
+/* Style for the tab content */
+.tab-panel {
+    padding: 20px;
+}
+.table thead th {
+    background-color: red;
+    color: #ffffff;
+  }
+  
+.table tbody td {
+    border-top: 1px solid #ff0000;
+}
+
+/* Additional styling for specific tables */
+#pendingTable tbody td,
+#approvedTable tbody td,
+#rejectedTable tbody td {
+    vertical-align: middle;
+}
 
 /*Add Request Page*/
-.form-control.description {
-height: 150px; 
+/* Form container styling */
+.addrequest-container {
+   
+    background-color: #222;
+    
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(2, 2, 2, 0.1);
+   
+}
+
+/* Form label styling */
+.form-group label {
+    color: red; /* Change label color as needed */
+    font-weight: bold;
+    padding: 5px;
+}
+
+/* Form input field styling */
+.form-control {
+    background-color: #ffffff; /* Change input field background color */
+    border: 1px solid #ced4da; /* Change input field border color */
+    border-radius: 5px;
+}
+
+/* Form input field margin */
+.form-group {
+    margin-bottom:2%; /* Adjust the margin-bottom value as needed */
+}
+
+/* Form submit button styling */
+.btn-secondary {
+    background-color: #ff0000; /* Change button background color */
+    border-color: #b40000; /* Change button border color */
+    color: #ffffff; /* Change button text color */
+    font-weight: bold;
+}
+
+/* Form submit button hover effect */
+.btn-secondary:hover {
+    background-color: #ff2727; /* Change button hover background color */
+    border-color: #8f0101; /* Change button hover border color */
+}
+.form-row .col-md-6 {
+    display: inline-block;
+    width: 48%; /* Adjust as needed to leave some space between the fields */
+    margin-right: 2%; /* Adjust as needed to leave some space between the fields */
+}
+
+.form-row .col-md-6:last-child {
+    margin-right: 0; /* Remove margin from the last column to prevent extra space */
 }

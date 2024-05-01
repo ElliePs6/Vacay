@@ -1,0 +1,56 @@
+{% extends 'vacayvue/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 leftComp-container">
+            <h4 class="manage-leave-title">Ρυθμίσεις</h4>
+            <p>Προσαρμόστε τους τύπους αδειών:</p>
+            <form action="{% url 'manage_leave_type' %}" method="POST" class="form-container">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="id_reset_month">Μήνας Επαναφοράς:</label>
+                    {{ form.reset_month }}
+                </div>
+                <div class="form-group">
+                    <label for="id_name">Τύπος Αδείας:</label>
+                    {{ form.name }}
+                </div>
+                <div class="form-group">
+                    <label for="id_default_days">Μέρες:</label>
+                    {{ form.default_days }}
+                </div>
+                
+                <button type="submit" class="btn btn-secondary">Αποθήκευση</button>
+            </form>
+        </div>
+        <div class="col-md-6">
+    <div class="balance-container">
+        <h3 class="balance-title">Λίστα Αδειών</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Τύπος Άδειας</th>
+                    <th>Μέρες ανα Χρόνο</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for leave_type in leave_types %}
+                    <tr>
+                        <td>{{ leave_type.name }}</td>
+                        <td>{{ leave_type.default_days }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="2">No leave types found</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+    </div>
+</div>
+{% endblock %}

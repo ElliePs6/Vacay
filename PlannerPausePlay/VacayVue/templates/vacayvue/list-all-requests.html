@@ -5,27 +5,22 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-6 active-req--container">
+        <div class="col-md-12 active-req-container">
             <h3 class="list-title">Λίστα Ενεργών Αιτήσεων</h3>
-            {% for request in requests %}
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h5 class="card-title">{{ request.user.last_name }} {{ request.user.first_name }}</h5>
-                    <p class="card-text">{{ request.type }}</p>
-                    <a href="#" class="request-detail-link" data-request-id="{{ request.id }}" data-url="{% url 'request_details' request.id %}">Λεπτομέριες</a>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-        <div class="col-md-6">
-            <div class="balance-container">
-                <h3 class="balance-title">Balance</h3>
-                <!-- Add balance-related content here -->
-            </div>
+            <table class="active-req-table">
+                <thead>
+                    {% for request in requests %}
+                    <tr>
+                        <th>{{ request.user.last_name }} {{ request.user.first_name }}-{{ request.leave_type }}</th>
+                        <th> (<a href="#" class="request-detail-link custom-link" data-request-id="{{ request.id }}" data-url="{% url 'request_details' request.id %}">Λεπτομέριες</a>)</th>
+                        
+                    </tr>
+                    {% endfor %}
+                </thead>
+            </table>
         </div>
     </div>
 </div>
-
 {% endblock %}
 
 {% block script%}

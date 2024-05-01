@@ -12,7 +12,7 @@
         <p>Περιγραφή: {{ request.description }}</p>
     {% else %}
         <p>Χρήστης: {{ request.user.employee_profile.last_name }}</p>
-        <p>Τύπος: {{ request.type }}</p>
+        <p>Τύπος: {{ request.leave_type }}</p>
         <p>Ημερομηνία Έναρξης: {{ request.start }}</p>
         <p>Ημερομηνία Λήξης: {{ request.end }}</p>
         <p>Περιγραφή: {{ request.description }}</p>

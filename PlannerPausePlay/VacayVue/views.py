@@ -1,11 +1,15 @@
 from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth import authenticate, login,logout
-from .models import Request,Company,CustomUser,Employee
-from .forms import RequestForm,LoginForm,RegisterEmployeeForm,EditEmployeeForm
+from .models import Request,Company,CustomUser,Employee, LeaveType
+from .forms import RequestForm,LoginForm,RegisterEmployeeForm,EditEmployeeForm, LeaveTypeForm
 from django.http import JsonResponse, Http404, HttpResponseServerError, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from datetime import datetime
+from django.forms import modelformset_factory
+from django.db import IntegrityError
+
+
 
 
 #from django.core.serializers import serialize
@@ -26,10 +30,10 @@ def all_requests(request):
     for request in approved_requests:
         employee = Employee.objects.get(user=request.user) 
         event = {
-            'title': f"{employee.user.get_full_name()} - {request.type}",
+            'title': f"{employee.user.get_full_name()} - {request.leave_type}",
             'start': request.start.strftime('%Y-%m-%d'),
             'end': request.end.strftime('%Y-%m-%d'),
-            'color': get_color_for_request(request.type)
+            'color': get_color_for_request(request.leave_type)
         }
         events.append(event)
 
@@ -62,9 +66,8 @@ def add_request(request):
     if request.method == "POST":
         form = RequestForm(request.POST)
         if form.is_valid():
-            # Assign the current user's ID to the user_id field before saving
             request_instance = form.save(commit=False)
-            request_instance.user_id = request.user.id  # Assuming user_id is a ForeignKey field
+            request_instance.user = request.user  # Assuming user is a ForeignKey field
             request_instance.save()
             return redirect('self-requests')  
     else:
@@ -97,16 +100,6 @@ def reject_leave_request(request, request_id):
         leave_request.save()
         return redirect('list_all_requests')
 
-@login_required
-def list_all_requests(request):
-    company = get_object_or_404(Company, user=request.user)
-    employees = Employee.objects.filter(company=company)
-    user_ids = employees.values_list('user_id', flat=True)
-    requests = Request.objects.filter(user_id__in=user_ids,is_approved=True )
-    print('requests',requests)
-    return render(request, 'vacayvue/list-all-requests.html', {'requests': requests})
-
-
 
 @login_required
 def self_requests(request):
@@ -131,6 +124,67 @@ def self_requests(request):
 def request_details(request, request_id):
      request_obj = get_object_or_404(Request, pk=request_id)
      return render(request, 'vacayvue/request_details.html', {'request': request_obj})
+
+@login_required
+def list_all_requests(request):
+    company = get_object_or_404(Company, user=request.user)
+    employees = Employee.objects.filter(company=company)
+    user_ids = employees.values_list('user_id', flat=True)
+    requests = Request.objects.filter(user_id__in=user_ids,is_approved=True )
+    context={
+        'requests': requests,
+ }
+    return render(request, 'vacayvue/list-all-requests.html',context )
+
+#----------------------------------Balance---------------------------------------------------------------
+
+
+@login_required
+def manage_leave_type(request):
+    if request.method == "POST":
+        form = LeaveTypeForm(request.POST)
+        if form.is_valid():
+            leave_type_instance = form.save(commit=False)
+            leave_type_instance.user = request.user  # Set the user field
+            leave_type_instance.save()  # Save the instance with the user field populated
+            return redirect('manage_leave_type')
+    else:
+        form = LeaveTypeForm()
+
+    leave_types = LeaveType.objects.filter(user=request.user)
+    return render(request, 'vacayvue/manage_leave_type.html', {'form': form, 'leave_types': leave_types})
+
+
+
+
+@login_required
+def update_default_days(request, leave_type_id):
+    leave_type = LeaveType.objects.get(id=leave_type_id)
+    if request.method == "POST":
+        form = LeaveTypeForm(request.POST, instance=leave_type)
+        if form.is_valid():
+            form.save()
+            return redirect('leave_types')
+    else:
+        form = LeaveTypeForm(instance=leave_type)
+    return render(request, 'vacayvue/update_default_days.html', {'form': form, 'leave_type': leave_type})
+
+
+
+'''
+def reset_leave_balances():
+    current_month = timezone.now().month
+    leave_types = LeaveType.objects.all()
+
+    for leave_type in leave_types:
+        if leave_type.reset_month == current_month:
+            leave_balances = LeaveBalance.objects.filter(leave_type=leave_type)
+            for balance in leave_balances:
+                balance.balance = leave_type.default_days
+                balance.save()
+'''
+
+
 
 
 
@@ -214,6 +268,7 @@ def company_home(request):
 
     # Fetch all pending requests
     pending_requests = Request.objects.filter(is_pending=True)
+    leave_types = LeaveType.objects.all()
 
     context = {
         'employee_count': employee_count,

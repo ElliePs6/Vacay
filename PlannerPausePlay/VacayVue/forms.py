@@ -1,10 +1,12 @@
 from django import forms
 from django.forms import ModelForm
-from .models import Request,CustomUser,Company,Employee
+from .models import Request,CustomUser,Company,Employee,LeaveType
 from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
+
+
 
 
 
@@ -21,11 +23,7 @@ class LoginForm(forms.Form):
 class RegisterEmployeeForm(UserCreationForm):
     email = forms.EmailField(widget=forms.TextInput(attrs={'autofocus': True, 'class': 'form-control','placeholder': 'Email'}))
     join_date = forms.DateField(
-        widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date','placeholder': 'Ημερομηνία Πρόσληψης', 'id': 'join_date'}),
-          
-        )
-    
-    
+        widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date','placeholder': 'Ημερομηνία Πρόσληψης', 'id': 'join_date'}))
     password1 = forms.CharField(
         widget=forms.PasswordInput(attrs={'class': 'form-control', 'data-toggle': 'tooltip', 'placeholder': 'Κωδικός','title': 'Your password must contain at least 8 characters and cannot be too similar to your other personal information.'})
     )
@@ -55,6 +53,7 @@ class RegisterEmployeeForm(UserCreationForm):
            
 
         return employee
+    
 
 class EditEmployeeForm(forms.ModelForm):
 
@@ -67,9 +66,34 @@ class EditEmployeeForm(forms.ModelForm):
             'join_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date', 'placeholder': 'Join Date'}),
         }
 
+#-------------------------------------------------------------------------------------------------------------------------------------------
+class LeaveTypeForm(forms.ModelForm):
+    class Meta:
+        model = LeaveType
+        fields = ['name', 'default_days', 'reset_month']
+
+    def clean(self):
+        cleaned_data = super().clean()
+        name = cleaned_data.get('name')
+        reset_month = cleaned_data.get('reset_month')
+        user = self.instance.user if self.instance and hasattr(self.instance, 'user') else None
+
+        if name and reset_month and user:
+            if LeaveType.objects.filter(user=user, name=name).exists():
+                raise forms.ValidationError("A LeaveType with this name already exists for this user.")
+
+            existing_leave_types = LeaveType.objects.filter(user=user)
+            if existing_leave_types.exists() and reset_month != existing_leave_types.first().reset_month:
+                raise forms.ValidationError({'reset_month': 'The reset month must be consistent for leave types with the same user.'})
+
+        return cleaned_data
+
+
+
+
 
 class RequestForm(ModelForm):
-    type = forms.ChoiceField(choices=Request.REQUEST_TYPES_CHOICES)
+    leave_type = forms.ModelChoiceField(queryset=LeaveType.objects.all())
     start = forms.DateField(
         widget=forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'start', 'type': 'date'}),
        
@@ -78,10 +102,9 @@ class RequestForm(ModelForm):
         widget=forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'end', 'type': 'date'}),
         
     )
-
     class Meta:
         model = Request
-        fields = ["type", "start", "end", "description"]
+        fields = ["leave_type", "start", "end", "description"]
         widgets = {
             "description": forms.Textarea(
                 attrs={
@@ -90,5 +113,7 @@ class RequestForm(ModelForm):
                 }
             ),
         }
-      
 
+
+
+    

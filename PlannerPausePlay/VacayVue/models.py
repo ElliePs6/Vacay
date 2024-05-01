@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.core.exceptions import ValidationError
 
 class CustomUser(AbstractUser):
     USER_TYPE_CHOICES = [
@@ -22,46 +23,75 @@ class Company(models.Model):
     name = models.CharField(max_length=255)
     hr_name = models.CharField(max_length=255)
     afm = models.PositiveIntegerField(unique=True)  
-    dou = models.CharField(max_length=50,null=True, blank=True)  
+    dou = models.CharField(max_length=50,null=True, blank=True)
+    
 
     def __str__(self):
         return self.user.username
     
 
+class LeaveType(models.Model):
+    CHOICES = (
+        ('Κανονική Άδεια', 'Κανονική Άδεια'),
+        ('Αδεια Εξετάσεων Εργαζόμενων Σπουδαστών', 'Αδεια Εξετάσεων Εργαζόμενων Σπουδαστών'),
+        ('Αδεια Εξετάσεων Μεταπτυχιακών Φοιτητών', 'Αδεια Εξετάσεων Μεταπτυχιακών Φοιτητών'),
+        ('Αιμοδοτική Άδεια', 'Αιμοδοτική Άδεια'),
+        ('Άδεια Άνευ Αποδοχών', 'Άδεια Άνευ Αποδοχών'),
+        ('Άδεια Μητρότητας', 'Άδεια Μητρότητας'),
+        ('Άδεια Πατρότητας', 'Άδεια Πατρότητας'),
+    )
+    MONTH_CHOICES = (
+        (1, 'January'),(2, 'February'),(3, 'March'),(4, 'April'),
+        (5, 'May'),(6, 'June'),(7, 'July'),(8, 'August'),
+        (9, 'September'),(10, 'October'),(11, 'November'),(12, 'December'),
+    )
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="leave_types")
+    name = models.CharField(max_length=100, choices=CHOICES)
+    default_days = models.IntegerField(default=1)
+    reset_month = models.IntegerField(choices=MONTH_CHOICES, default=1)
+
+    class Meta:
+        unique_together = ['user', 'name']
+        
+
+    def __str__(self):
+        return self.name
+
+
+
+
+
+class LeaveBalance(models.Model):
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    leave_type = models.ForeignKey(LeaveType, on_delete=models.CASCADE)
+    balance = models.FloatField(default=0)
+
+    def __str__(self):
+        return f"{self.user.username}'s {self.leave_type.name} balance"
 
 class Employee(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='employee_profile')
     join_date = models.DateField(null=True, blank=True)
     first_name = models.CharField(max_length=30, null=True)
     last_name = models.CharField(max_length=150, null=True)
-    company= models.ForeignKey(Company,blank=True,null=True, on_delete=models.CASCADE)
-
+    company = models.ForeignKey('Company', blank=True, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.user.email
+        return self.user.username
 
-    
-
-#request ειναι 1:1 σχεση .Μια ετηση για καθε υπαλλοιλο
-class Request(models.Model):
-    REQUEST_TYPES_CHOICES= [
-        ('κανονική άδεια','Κανονική Άδεια'),
-        ('άδεια εξετάσεων εργαζόμενων σπουδαστών','Αδεια Εξετάσεων Εργαζόμενων Σπουδαστών'),
-        ('άδεια εξετάσεων μεταπτυχιακών φοιτητών','Αεια Εξετάσεων Μεταπτυχιακών Φοιτητών'),
-        ('αιμοδοτική άδεια','Αιμοδοτική Άδεια'),
-        ('άδεια άνευ αποδοχών','Άδεια Άνευ Αποδοχών'),
-        ('άδεια μητρλοτητας','Άδεια Μητρότητας'),
-        ('άδεια πατρότητας','Άδεια Πατρότητας')
-    ]
-    
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="employee_request")
+class Request(models.Model):    
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="employee_requests")
     start = models.DateField(null=True, blank=True)
     end = models.DateField(null=True, blank=True)
-    type = models.CharField(max_length=50, choices=REQUEST_TYPES_CHOICES)
+    leave_type = models.ForeignKey(LeaveType, on_delete=models.CASCADE)
     description = models.TextField(blank=True)
     is_pending = models.BooleanField(default=True)
     is_approved = models.BooleanField(default=False)
     is_rejected = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Leave request for {self.user.username}"
+
 
 '''
 
@@ -75,11 +105,6 @@ class Holidays(models.Model):
     HolidayName = models.CharField(max_length=255)
     Date = models.DateField()
 
-class PublicHolidays(models.Model):
-    HolidayID = models.AutoField(primary_key=True)
-    Country = models.CharField(max_length=255)
-    HolidayName = models.CharField(max_length=255)
-    Date = models.DateField()
 
 class CustomHolidays(models.Model):
     CustomHolidayID = models.AutoField(primary_key=True)
@@ -88,28 +113,19 @@ class CustomHolidays(models.Model):
     Date = models.DateField()
 
 
-class TimeOffBalances(models.Model):
-    BalanceID = models.AutoField(primary_key=True)
-    UserID = models.ForeignKey(Users, on_delete=models.CASCADE)
-    VacationBalance = models.IntegerField()
-    SickLeaveBalance = models.IntegerField()
-    #OtherLeaveBalance = models.IntegerField()
-    Year = models.IntegerField()
-
 class Permissions(models.Model):
     PermissionID = models.AutoField(primary_key=True)
     Role = models.CharField(max_length=50)
     Feature = models.CharField(max_length=255)
     Allowed = models.BooleanField()
 
-
-
 class ApprovalWorkflow(models.Model):
     WorkflowID = models.AutoField(primary_key=True)
     Role = models.CharField(max_length=50)
     ApproverID = models.ForeignKey(Users, on_delete=models.CASCADE)
     MinimumApprovalLevel = models.IntegerField()
-
+--------------------------------------------------------------
+modela pou mallon den xreiazesai
 
 class AuditTrail(models.Model):
     ACTION_CHOICES = [

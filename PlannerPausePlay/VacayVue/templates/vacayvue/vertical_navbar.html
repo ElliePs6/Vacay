@@ -18,10 +18,7 @@
                  <a class="nav-link" href="{% url 'add_request' %}">
                     <i class="fas fa-calendar-plus"></i> Προσθήκη Αίτησης
                 </a>
-                <!-- Balance -->
-                <a class="nav-link" href="#">
-                    <i class="fas fa-balance-scale"></i> Υπόλοιπο
-                </a> 
+ 
             </div>
         </div>
     {% endif %}
@@ -49,6 +46,11 @@
                 <a class="nav-link" href="{% url 'list-employees' %}">
                     <i class="fas fa-users"></i> Προβολή Υπαλλήλων
                 </a>
+                <!-- Balance -->
+                <a class="nav-link" href="{% url 'manage_leave_type' %}">
+                    <i class="fas fa-balance-scale"></i> Υπόλοιπο
+                </a>
+                
             </div>
         </div>
     {% endif %}

@@ -32,7 +32,7 @@
                             <tbody>
                                 {% for request in pending_requests %}
                                 <tr>
-                                    <td>{{ request.type }}</td>
+                                    <td>{{ request.leave_type }}</td>
                                     <td>{{ request.start }} - {{ request.end }}</td> 
                                     <td>{{ request.description }}</td>
                                 </tr>
@@ -55,7 +55,7 @@
                             <tbody>
                                 {% for request in approved_requests %}
                                 <tr>
-                                    <td>{{ request.type }}</td>
+                                    <td>{{ request.leave_type }}</td>
                                     <td>{{ request.start }} - {{ request.end }}</td> 
                                     <td>{{ request.description }}</td>
                                 </tr>
@@ -72,13 +72,13 @@
                                 <tr>
                                     <th>Τύπο</th>
                                     <th>Ημερομηνία</th>
-                                    <th>Περιγραφή</th>>
+                                    <th>Περιγραφή</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for request in rejected_requests %}
                                 <tr>
-                                    <td>{{ request.type }}</td>
+                                    <td>{{ request.leave_type }}</td>
                                     <td>{{ request.start }} - {{ request.end }}</td> 
                                     <td>{{ request.description }}</td>
                                 </tr>

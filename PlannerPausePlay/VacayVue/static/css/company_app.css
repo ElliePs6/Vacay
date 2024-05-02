@@ -1,11 +1,5 @@
-/*Για την Company Home σελίδα*/
-.container{
-  background-color:  #000;
-  color: #ffffff;
-  padding: 2%;
-  border-radius: 4px;
-  box-shadow: 2px 2px 4px  #EEEEEE;
-}
+/*---------------------------Για την Company Home σελίδα--------------------------------*/
+
 .leftComp-container{
   display: flex;
   flex-direction: column;
@@ -13,6 +7,7 @@
   justify-content: left;
   border-right: 1px solid #ff0800d2;
 }
+
 .welcome-title{
   border-top:1px solid red;
   border-bottom:1px solid red;
@@ -43,8 +38,8 @@
 
 }
 .animated-number {
-  font-size: 36px; /* Adjust the font size */
-  font-weight: bold; /* Make the font bold */
+  font-size: 36px; 
+  font-weight: bold; 
   color: #ff0a00;
   animation: pulseNumber 1s infinite;
   text-align: center;
@@ -103,11 +98,11 @@
 .reject-btn {background-color: rgb(255, 32, 3) ;}
 
 
-/*Για τη λίστα Αιτήσεων*/
+/*-----------------------------------Για τη λίστα Αιτήσεων------------------------------------*/
 .active-req-container{
   display: flex;
   flex-direction: column;
-  border-right: 1px solid red;
+
 }
 
 .list-title{
@@ -120,84 +115,52 @@
  margin-bottom: 2%;
 }
 
-.custom-link {
-   color: #ffffff; 
-    
-}
-.custom-link:hover {
-  color: #ffbdbd; /* Blue color */ 
-    
-}
 .active-req-table {
-  width: 80%;
-  background-color: #ff0000;
-  
+  width: 100%;
+  border-collapse: collapse;
 }
-.active-req-table thead th{
-  padding: 1%;
-  margin-bottom: 1%;
+.active-req-table th {
+  background-color: transparent; 
+  font-weight: bold; 
+  color: #fffefe; 
 }
-.empty-circle {
-  list-style-type: none;
-}
-
-.empty-circle li:before {
-  content: "○";
-  margin-right: 5px;
+.active-req-table th,
+.active-req-table td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd; 
 }
 
-.card-title {
-  color: red; 
+.active-req-table .custom-link {
+  text-decoration: none;
+  color: blue; 
 }
-.mb-4{
-  line-height: 0.01;
-  width:80%;
-  margin: 0 auto; 
-  
+
+.active-req-table .custom-link:hover {
+  text-decoration: underline; 
 }
-.card-body {
-  font-size: 14px;
-  color:#000000; 
-  border-radius: 10px;
+.custom-link {
+  color: #007bff; 
+  text-decoration: none;
 }
-.card-body > p {
-  padding-top: 1%;
-  color:#000000;
-  font-weight:500; 
-}
-.card-body > a {
-  color: #ff0a00; 
-  float: right;
-  padding-right: 2%;
-}
-.balance-title {
-  border-top:1px solid red;
-  border-bottom:1px solid red;
-  color: rgb(255, 255, 255);
-  border-radius: 5px; 
-  padding: 1%;
-  text-align: center;
-  margin-bottom: 3%; 
+
+.custom-link:hover {
+  text-decoration: underline;
 }
 
 
-/*Για την προσθήκη Υπαλλήλων*/
+
+
+
+/*---------------------------Για την προσθήκη Υπαλλήλων--------------------------------*/
 
 .image-container{
   margin-bottom: 5%;
-  border-right: 1px solid #ff0000;
+  border-right: 1px solid #ff0000;   
   text-align: center;
-  
- 
 }
-.image-container img{padding: 15%;}
-
-.register-container{
-  margin-top:5%;
-
-  color: rgb(255, 255, 255);
-  margin-bottom: 5%;
- 
+.image-container img {
+  padding-top: 10%;
 }
 .reg-emp-title{
   border-top:1px solid red;
@@ -205,11 +168,16 @@
   color: rgb(255, 255, 255);
   text-align: center;
   padding: 1%;
-  
+}
+.register-container{
+  padding-top: 10%;
+  color: rgb(255, 255, 255);
+  margin-bottom: 5%;
 }
 label {
+  color: #fff; 
   font-weight: bold;
-  color: #fff;
+  padding: 5px;;
 }
 /* Style for the form fields */
 input[type="text"],
@@ -236,20 +204,11 @@ input[type="submit"]:hover {
 }
 
 
-/*Style for the datatable*/
+/**--------------------------------Προβολή Υπαλλήλων-------------------------------------------------------**/
 .table {
   width: 100%;
   margin-bottom: 20px;
   color:white;
-  
-}
-.table thead th {
-  background-color: red;
-  color: #ffffff;
-}
-
-.table td {
-  padding: 8px;
   
 }
 #employee-table_filter {
@@ -259,36 +218,37 @@ input[type="submit"]:hover {
   margin-bottom: 3%;
 }
 .pagination {
-  list-style: none; /* Remove default list styles */
-  padding: 0; /* Remove default padding */
-  margin-top: 5%;
-}
+  list-style: none; 
+  padding: 0; 
+  margin-top: auto; /* Set the top margin to auto to push it to the bottom */
+ 
 
+}
 .pagination li {
-  display: inline-block; /* Display list items horizontally */
-  margin-right: 5px; /* Add space between list items */
-  border-top: 1px solid red; /* Add top border */
-  border-bottom: 1px solid red; /* Add bottom border */
+  display: inline-block; 
+  margin-right: 5px; 
+  border-top: 1px solid red; 
+  border-bottom: 1px solid red; 
 }
 
 .pagination li a {
-  color: red; /* Set text color to red */
-  text-decoration: none; /* Remove underline from links */
+  color: red; 
+  text-decoration: none; 
 }
 
 .pagination li.active a {
-  background-color: red; /* Set background color for active page */
-  color: white; /* Set text color for active page */
-  border: 1px solid red; /* Add border for active page */
-  padding: 5px 10px; /* Add padding to active page */
+  background-color: red; 
+  color: white; 
+  border: 1px solid red; 
+  padding: 5px 10px; 
 }
 
 .pagination li.disabled a {
-  color: gray; /* Set text color for disabled pages */
+  color: gray; 
 }
 
 .pagination li:hover a {
-  background-color: darkred; /* Set background color on hover */
+  background-color: darkred; 
 }
 #employee-table_info
  {
@@ -307,7 +267,7 @@ input[type="submit"]:hover {
 #DetailModal .modal-header {
   background-color: red;
   color: white;
-  border-bottom: none; /* Removing default border */
+  border-bottom: none; 
 }
 
 .modal-header{
@@ -315,7 +275,8 @@ input[type="submit"]:hover {
 }
 
  
-/*Για τη λίστα Υπαλλήλων*/
+/*---------------------------------------Για τη λίστα Υπαλλήλων----------------------------------------------------*/
+
 .all-requests-title{
  /* box-shadow: 2px 2px 2px 2px rgb(65, 65, 65);*/
   border-top:1px solid red;
@@ -329,26 +290,134 @@ input[type="submit"]:hover {
  margin-left: 20%;
 }
 .btn-primary {
-  background-color: rgb(0, 68, 255);
-  border-color: rgb(255, 255, 255);
- 
-
-}
+  background-color: transparent;
+  border-color: rgb(0, 102, 255);
+ }
 .btn-danger {
-  background-color: red;
-  border-color: rgb(255, 255, 255);
+  background-color: transparent;
+  border-color: rgb(252, 22, 22);
 }
 
-/*Για τo Balance*/
-.manage-leave-title{
-  border-top:1px solid red;
-  border-bottom:1px solid red;
+/*----------------------------------Για τις Ρυθμίσεις-----------------------------------------------*/
+
+.manage-leave-container{
+  display: block;
+}
+.manage-leave-title {
+  border-top: 1px solid #ff0a00;
+  border-bottom: 1px solid #ff0a00;
   color: rgb(255, 255, 255);
   border-radius: 5px; 
   padding: 1%;
   text-align: center;
   margin-bottom: 3%; 
 }
+hr {
+  border: 1px solid #fff; 
+}
+.subtext-container {
+  margin-bottom: 3%;
+  width: 80%; 
+  margin-left: auto; 
+  margin-right: auto; 
+  opacity: 0.7; 
+}
+
+.subtext-container p {
+  text-align: justify; /
+}
+
+.manage-leave {
+  width: 100%;
+  border-collapse: collapse;
+ 
+}
+
+.manage-leave td {
+  border: 1px solid red; 
+  padding:2%;
+}
+
+.manage-leave label {
+  display: block; 
+  margin-bottom: 8px; 
+}
+
+#add-leave-btn{
+  background-color: transparent; 
+  border-color: #ff0a00; 
+  color: #ffffff; 
+  font-weight: bold;
+  margin-left:2%;
+  width:30%;
+  padding:1%;
+  text-align: center;
+  float: right;
+}
+#add-leave-btn:hover {
+  background-color:transparent; 
+  border-color: #b10600; 
+}
+.plus-icon {
+  margin-right: 5px; 
+  font-size: 16px; 
+  vertical-align: middle; 
+}
+.list-leave-container {
+  display: flex;
+  justify-content: center;
+
+  width: 100%;
+  margin-top: 7%;
+  height: 40%;
+  overflow-y: auto;
+}
+.leave-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  
+}
+.leave-table th,
+.leave-table td {
+  text-align: left;
+  border: 1px solid red; /* Red vertical borders */
+  padding:2%
+}
+.leave-table-header th {
+  background-color: rgb(0, 0, 0);
+}
+
+.leave-table td {
+  vertical-align: top;
+  
+}
+
+.leave-table-body td:first-child,
+.leave-table-body td:last-child {
+  width: 50%;
+}
+
+.leave-table-body td[colspan="2"] {
+  text-align: center;
+}
+.picture-container {
+  width:350px;
+  height:220px;
+  overflow: hidden; /* Hide overflow to ensure it's fully round */
+  float: right;
+}
+
+.picture-container img {
+  width: auto; /* Ensure the image takes up the full container */
+  height: 100%; /* Maintain aspect ratio */
+  border-radius: 50%; /* Make the image round */
+
+}
+
+
+
+
 
 
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------s*/

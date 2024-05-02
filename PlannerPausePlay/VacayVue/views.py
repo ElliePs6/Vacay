@@ -22,24 +22,28 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-#-----------------Συναρτήσεις για το ημερολογιο---------------------------------------------------- 
-@login_required
+#-----------------Συναρτήσεις για το ημερολογιο----------------------------------------------------
+@login_required 
 def all_requests(request):
     approved_requests = Request.objects.filter(is_approved=True)
     events = []
     for request in approved_requests:
         employee = Employee.objects.get(user=request.user) 
+        leave_type = request.leave_type.name.strip().lower()  # Convert to lowercase
+        color = get_color_for_request(leave_type)
+        print(f"Leave Type: {leave_type}, Color: {color}")  # Add this line for debugging
         event = {
-            'title': f"{employee.user.get_full_name()} - {request.leave_type}",
+            'title': f"{employee.user.get_full_name()} - {leave_type}",
             'start': request.start.strftime('%Y-%m-%d'),
             'end': request.end.strftime('%Y-%m-%d'),
-            'color': get_color_for_request(request.leave_type)
+            'color': color
         }
         events.append(event)
 
     return JsonResponse(events, safe=False)
 
-def get_color_for_request(request_type):
+
+def get_color_for_request(request_leave_type):
     color_map = {
         'κανονική άδεια': '#f84747', 
         'άδεια εξετάσεων εργαζόμενων σπουδαστών': '#00ff00',  
@@ -49,7 +53,7 @@ def get_color_for_request(request_type):
         'άδεια μητρλοτητας': '#00ffff',  
         'άδεια πατρότητας': '#ff9900'   
     }
-    return color_map.get(request_type, '#000000')  
+    return color_map.get(request_leave_type, '#7777')  
 
 
 def calendar(request):  

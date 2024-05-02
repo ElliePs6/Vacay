@@ -114,23 +114,7 @@
 }
 
 
-/* Image styles */
-.img-fluid {
-    max-width: 100%;
-    height:100%;
-}
 
-/* Column styles */
-.login-form .col-md-2,
-.login-form .col-md-3,
-.login-form .col-md-6,
-.login-form .col-md-7 {
-    position: relative;
-    width: 100%;
-    min-height: 1px;
-    padding-right: 15px;
-    padding-left: 15px;
-}
 
 /* Text alignment */
 .login-form .text {

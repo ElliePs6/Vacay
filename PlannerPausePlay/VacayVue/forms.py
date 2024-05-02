@@ -5,7 +5,7 @@ from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
-
+ 
 
 
 
@@ -67,10 +67,30 @@ class EditEmployeeForm(forms.ModelForm):
         }
 
 #-------------------------------------------------------------------------------------------------------------------------------------------
+CHOICES = (
+        ('Κανονική Άδεια', 'Κανονική Άδεια'),
+        ('Αδεια Εξετάσεων Εργαζόμενων Σπουδαστών', 'Αδεια Εξετάσεων Εργαζόμενων Σπουδαστών'),
+        ('Αδεια Εξετάσεων Μεταπτυχιακών Φοιτητών', 'Αδεια Εξετάσεων Μεταπτυχιακών Φοιτητών'),
+        ('Αιμοδοτική Άδεια', 'Αιμοδοτική Άδεια'),
+        ('Άδεια Άνευ Αποδοχών', 'Άδεια Άνευ Αποδοχών'),
+        ('Άδεια Μητρότητας', 'Άδεια Μητρότητας'),
+        ('Άδεια Πατρότητας', 'Άδεια Πατρότητας'),
+    )
+MONTH_CHOICES = (
+        (1, 'Ιανουάριος'),(2, 'Φεβρουάριος'),(3, 'Μάρτιος'),(4, 'Απρίλιος'),
+        (5, 'Μάιος'),(6, 'Ιούνιος'),(7, 'Ιούλιος'),(8, 'Αύγουστος'),
+        (9, 'Σεπτέμβριος'),(10, 'Οκτώβριος'),(11, 'Νοέμβριος'),(12, 'Δεκέμβριος'),
+    )
 class LeaveTypeForm(forms.ModelForm):
     class Meta:
         model = LeaveType
         fields = ['name', 'default_days', 'reset_month']
+        widgets ={
+            'default_days':forms.TextInput(attrs={'class': 'form-control', 'pattern': '\d*','placeholder': 'xxxx'}),
+             'name': forms.Select(choices=CHOICES),
+             'reset_month': forms.Select(choices=MONTH_CHOICES)
+
+        }
 
     def clean(self):
         cleaned_data = super().clean()

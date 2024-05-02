@@ -2,6 +2,8 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.core.exceptions import ValidationError
 
+
+
 class CustomUser(AbstractUser):
     USER_TYPE_CHOICES = [
         ('employee', 'Employee'),
@@ -41,13 +43,13 @@ class LeaveType(models.Model):
         ('Άδεια Πατρότητας', 'Άδεια Πατρότητας'),
     )
     MONTH_CHOICES = (
-        (1, 'January'),(2, 'February'),(3, 'March'),(4, 'April'),
-        (5, 'May'),(6, 'June'),(7, 'July'),(8, 'August'),
-        (9, 'September'),(10, 'October'),(11, 'November'),(12, 'December'),
+        (1, 'Ιανουάριος'),(2, 'Φεβρουάριος'),(3, 'Μάρτιος'),(4, 'Απρίλιος'),
+        (5, 'Μάιος'),(6, 'Ιούνιος'),(7, 'Ιούλιος'),(8, 'Αύγουστος'),
+        (9, 'Σεπτέμβριος'),(10, 'Οκτώβριος'),(11, 'Νοέμβριος'),(12, 'Δεκέμβριος'),
     )
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="leave_types")
-    name = models.CharField(max_length=100, choices=CHOICES)
-    default_days = models.IntegerField(default=1)
+    name = models.CharField(max_length=100, choices=CHOICES,default='Κανονική Άδεια')
+    default_days = models.PositiveIntegerField(default=1)
     reset_month = models.IntegerField(choices=MONTH_CHOICES, default=1)
 
     class Meta:

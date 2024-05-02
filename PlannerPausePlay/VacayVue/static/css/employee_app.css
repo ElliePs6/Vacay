@@ -1,11 +1,5 @@
-/*Dashboard Page*/
-.container{
-    background-color:  #000;
-    color: #ffffff;
-    padding: 2%;
-    border-radius: 4px;
-    box-shadow: 2px 2px 4px  #EEEEEE;
-  }
+/*---------------Υπάλληλοσ Dashboard Page----------------------*/
+
 .leftEmp-container{
     display: flex;
     flex-direction: column;
@@ -23,27 +17,31 @@
     justify-content: left;
   }
 
-
-/*Self-Request page*/
+  .balance-title {
+    border-top:1px solid red;
+    border-bottom:1px solid red;
+    color: rgb(255, 255, 255);
+    border-radius: 5px; 
+    padding: 1%;
+    text-align: center;
+    margin-bottom: 3%; 
+  }
+/*------------------------------------Η Αιτήσεις μου------------------------------------*/
 
 .myrequest-container{
-    background-color: #222;
+margin-top: 3%;
     padding: 20px;
-    box-shadow: -2px 2px 4px 4px #111;
+    
 }
-
-
 .nav-tabs {
     background-color: #e9ecef;
     border-bottom: none;
     margin-bottom: 20px;
 }
-
 .nav-tabs .nav-link {
     color: red;
     border: none;
 }
-
 .nav-tabs .nav-link.active {
     background-color: #ffffff;
     border-bottom: 2px solid red;
@@ -56,8 +54,8 @@
     padding: 20px;
 }
 .table thead th {
-    background-color: red;
-    color: #ffffff;
+    background-color: transparent;
+    color: #ff0000;
   }
   
 .table tbody td {
@@ -71,52 +69,77 @@
     vertical-align: middle;
 }
 
-
-.addrequest-container {
-   
-    background-color: #222;
-    
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(2, 2, 2, 0.1);
-   
+/*----------------------------------Προσθήκη Αίτησης-------------------------------------------*/
+.first-image-container {
+    width:40%;
+    height:50%;
+}
+  
+.first-image-container img {
+    padding-top: 20%;
+    width: auto; /* Ensure the image takes up the full container */
+    height: 100%; /* Maintain aspect ratio */
 }
 
-/* Form label styling */
+.add-req-title{
+    border-top:1px solid red;
+    border-bottom:1px solid red;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    padding: 1%;
+}
+.addrequest-container {
+   padding-top:3%;
+   border-radius: 10px;
+   box-shadow: 0 0 10px rgba(2, 2, 2, 0.1);
+   border-left:1px solid red;
+   
+}
+/*Form Container*/
+.add-request{
+    background-color: #222;
+    padding:2%;
+    border-radius: 10px;
+    margin-bottom: 2%;
+}
+/* Style για φορμα */
 .form-group label {
-    color: red; /* Change label color as needed */
+    color: #ff2727; 
     font-weight: bold;
     padding: 5px;
+   
 }
 
 /* Form input field styling */
 .form-control {
-    background-color: #ffffff; /* Change input field background color */
-    border: 1px solid #ced4da; /* Change input field border color */
+    background-color: #ffffff; 
+    border: 1px solid #ced4da; 
     border-radius: 5px;
 }
 
 /* Form input field margin */
 .form-group {
-    margin-bottom:2%; /* Adjust the margin-bottom value as needed */
+    margin-bottom:3%; 
 }
 
-/* Form submit button styling */
+
 .btn-secondary {
-    background-color: #ff0000; /* Change button background color */
-    border-color: #b40000; /* Change button border color */
-    color: #ffffff; /* Change button text color */
+    background-color: #ff0000; 
+    border-color: #b40000; 
+    color: #ffffff; 
     font-weight: bold;
+    margin-bottom: 1%;
 }
 
-/* Form submit button hover effect */
+
 .btn-secondary:hover {
-    background-color: #ff2727; /* Change button hover background color */
-    border-color: #8f0101; /* Change button hover border color */
+    background-color: #ff2727; 
+    border-color: #8f0101; 
 }
 .form-row .col-md-6 {
     display: inline-block;
-    width: 48%; /* Adjust as needed to leave some space between the fields */
-    margin-right: 2%; /* Adjust as needed to leave some space between the fields */
+    width: 48%; /* για κενό ανάμεσα στα πεδία */
+    margin-right: 2%; /* για κενό ανάμεσα στα πεδία */
 }
 
 .form-row .col-md-6:last-child {

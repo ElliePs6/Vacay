@@ -1,13 +1,20 @@
 from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth import authenticate, login,logout
-from .models import Request,Company,CustomUser,Employee, LeaveType
+from .models import Request,Company,CustomUser,Employee, LeaveType,Balance
 from .forms import RequestForm,LoginForm,RegisterEmployeeForm,EditEmployeeForm, LeaveTypeForm
-from django.http import JsonResponse, Http404, HttpResponseServerError, HttpResponseRedirect
+from django.http import JsonResponse, Http404, HttpResponseServerError, HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from datetime import datetime
 from django.forms import modelformset_factory
 from django.db import IntegrityError
+from django.db.models import Sum
+from django.db.models import F, ExpressionWrapper, DurationField,FloatField
+from django.core.exceptions import ValidationError
+from django.db.models import Count
+import json
+
+
 
 
 
@@ -71,12 +78,33 @@ def add_request(request):
         form = RequestForm(request.POST)
         if form.is_valid():
             request_instance = form.save(commit=False)
-            request_instance.user = request.user  # Assuming user is a ForeignKey field
+            request_instance.user = request.user
+            
+            # Check if the requested number of days exceeds the default days
+            leave_type = form.cleaned_data['leave_type']
+            start_date = form.cleaned_data['start']
+            end_date = form.cleaned_data['end']
+            requested_days = (end_date - start_date).days + 1
+            if leave_type.default_days < requested_days:
+                raise ValidationError("Η διάρκεια της άδειας υπερβαίνει τις προεπιλεγμένες μέρες.")
+            
+            # Check remaining days for the user and leave type
+            if Request.objects.filter(user=request.user, leave_type=leave_type, is_approved=True).exists():
+                remaining_days = Balance.objects.filter(user=request.user, leave_type=leave_type).values_list('remaining_days', flat=True).first()
+                print("Remaining days:", remaining_days)
+                if remaining_days is not None and remaining_days < requested_days:
+                    raise ValidationError("Οι υπόλοιπες ημέρες δεν επαρκούν για το αίτημα άδειας.")
+            
             request_instance.save()
-            return redirect('self-requests')  
+            
+            # Update balance on request save
+                                                                              
+            
+            return redirect('self-requests')
     else:
         form = RequestForm()
     return render(request, 'vacayvue/add_request.html', {'form': form})
+
 
 
 
@@ -93,6 +121,7 @@ def approve_leave_request(request, request_id):
         leave_request.is_rejected = False
         leave_request.is_pending = False
         leave_request.save()
+        update_balance_on_approval(leave_request)
         return redirect('list_all_requests') 
     
 @login_required
@@ -142,21 +171,56 @@ def list_all_requests(request):
 
 #----------------------------------Balance---------------------------------------------------------------
 
-
 @login_required
 def manage_leave_type(request):
     if request.method == "POST":
         form = LeaveTypeForm(request.POST)
         if form.is_valid():
             leave_type_instance = form.save(commit=False)
-            leave_type_instance.user = request.user  # Set the user field
-            leave_type_instance.save()  # Save the instance with the user field populated
+            leave_type_instance.user = request.user
+            leave_type_instance.save()
+            # Set default days and update balance
+            set_default_days(leave_type_instance, request.user, leave_type_instance.default_days)
             return redirect('manage_leave_type')
     else:
         form = LeaveTypeForm()
 
     leave_types = LeaveType.objects.filter(user=request.user)
     return render(request, 'vacayvue/manage_leave_type.html', {'form': form, 'leave_types': leave_types})
+
+# Function to set default days for a leave type and update balance
+def set_default_days(leave_type, user, default_days):
+    leave_type.default_days = default_days
+    leave_type.save()
+    balance, created = Balance.objects.get_or_create(user=user, leave_type=leave_type)
+    balance.default_days = default_days
+    balance.save()
+
+def update_balance_on_approval(request_instance):
+    # Check if a Balance instance with the same leave_type already exists for the user
+    existing_balance = Balance.objects.filter(user=request_instance.user, leave_type=request_instance.leave_type).first()
+    
+    if existing_balance:
+        # If an existing instance is found, use its default_days
+        default_days = existing_balance.default_days
+    else:
+        # If not, use the default_days from the leave_type associated with the request_instance
+        default_days = request_instance.leave_type.default_days
+    
+    # Get or create the balance for the user and leave type
+    balance, created = Balance.objects.get_or_create(user=request_instance.user, leave_type=request_instance.leave_type)
+    
+    # Calculate the approved days
+    approved_days = (request_instance.end - request_instance.start).days + 1
+    
+    # Update the used_days field in the balance
+    balance.used_days += approved_days
+    
+    # Calculate remaining days
+    balance.remaining_days = default_days - balance.used_days
+   
+    balance.save()
+
 
 
 
@@ -257,10 +321,23 @@ def register_employee(request):
     return render(request, 'vacayvue/register_employee.html', {'form': form})
 
 
+
 @login_required
 def employee_home(request):
     employee = get_object_or_404(Employee, user_id=request.user.pk)
-    return render(request, 'vacayvue/employee_home.html',{'employee':employee})
+    balances = Balance.objects.filter(user=request.user)
+
+    context ={
+        'employee': employee,
+        'balances': balances,
+    }
+    return render(request, 'vacayvue/employee_home.html', context)
+
+
+
+
+
+
 
 
 
@@ -326,3 +403,4 @@ def main_home(request):
         
     })
 
+#-----------------------------------------------------------------------------------

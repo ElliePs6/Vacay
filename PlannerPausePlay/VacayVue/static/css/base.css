@@ -13,17 +13,18 @@ h1,h2,h3,h4,h5,p{
     
     
 }
+/* Navbar styles */
 .navbar {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    background-color:#ff0a00;
+    background-color: #ff0a00;
     padding: 1% 2%;
-    z-index: 1000; 
+    z-index: 1000;
     margin: 0 auto;
-    
 }
+
 
 .navbar-brand  {
     color: #ffffff ;
@@ -67,22 +68,28 @@ body {
     align-items: center;
     justify-content: center;
     margin: 0 auto;
-    height: 100vh;
+    min-height: 100vh; /* Ensure body covers at least the viewport height */
     overflow-y: auto; /* Enable vertical scrolling */
     
-    
 }
+
+
+
 .container {
     background-color: #000;
     color: #ffffff;
-    padding: 2%;
+    padding: 1%;
     border-radius: 4px;
     box-shadow: 2px 2px 4px #EEEEEE;
-    height: 75%; /* Adjust the height to your preference */
-    overflow-y: auto; /* Enable vertical scrolling */
-    
-  }
-  
+    margin-top: 15vh; /* Increase the margin-top to create more space between navbar and container */
+    margin-bottom: 10vh; /* Increase the margin-bottom to create more space between container and footer */
+    height: 75vh; /* Set a fixed height for the container */
+    overflow-y: auto; /* Enable vertical scrolling if content exceeds the height */
+}
+
+
+
+
 
 
 
@@ -90,7 +97,7 @@ body {
 
 /* Footer styles */
 footer {
-    background-color:#ff0a00;
+    background-color: #ff0a00;
     color: #ffffff;
     padding: 20px 0;
     text-align: center;
@@ -99,6 +106,5 @@ footer {
     left: 0;
     width: 100%;
     z-index: 1000;
+    margin-top: 70vh; /* Increase the margin-bottom to create more space between container and footer */
 }
-
-/* Additional styles for specific elements can be added here */

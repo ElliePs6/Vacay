@@ -5,6 +5,7 @@ from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
+from django.core.exceptions import ValidationError
  
 
 
@@ -113,15 +114,15 @@ class LeaveTypeForm(forms.ModelForm):
 
 
 class RequestForm(ModelForm):
-    leave_type = forms.ModelChoiceField(queryset=LeaveType.objects.all())
+    leave_type = forms.ModelChoiceField(queryset=LeaveType.objects.none())  # Empty initial queryset
+
     start = forms.DateField(
         widget=forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'start', 'type': 'date'}),
-       
     )
     end = forms.DateField(
         widget=forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'end', 'type': 'date'}),
-        
     )
+
     class Meta:
         model = Request
         fields = ["leave_type", "start", "end", "description"]
@@ -134,6 +135,9 @@ class RequestForm(ModelForm):
             ),
         }
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['leave_type'].queryset = LeaveType.objects.all()
 
 
     

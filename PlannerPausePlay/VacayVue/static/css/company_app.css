@@ -155,13 +155,25 @@
 /*---------------------------Για την προσθήκη Υπαλλήλων--------------------------------*/
 
 .image-container{
-  margin-bottom: 5%;
   border-right: 1px solid #ff0000;   
   text-align: center;
+  position: relative;
+  
 }
 .image-container img {
-  padding-top: 10%;
+  padding: 10%;
+  width: auto;
+  height: 100%;
+  position: relative; /* Ensure the image is positioned relative to its container */
+  z-index: 1; /* Ensure the image appears above the color overlay */
 }
+
+
+
+
+
+
+
 .reg-emp-title{
   border-top:1px solid red;
   border-bottom:1px solid red;
@@ -170,14 +182,13 @@
   padding: 1%;
 }
 .register-container{
-  padding-top: 10%;
+  padding-top: 7%;
   color: rgb(255, 255, 255);
-  margin-bottom: 5%;
 }
 label {
   color: #fff; 
   font-weight: bold;
-  padding: 5px;;
+  padding: 1%;
 }
 /* Style for the form fields */
 input[type="text"],
@@ -205,12 +216,26 @@ input[type="submit"]:hover {
 
 
 /**--------------------------------Προβολή Υπαλλήλων-------------------------------------------------------**/
-.table {
+.all-requests-title{
+  /* box-shadow: 2px 2px 2px 2px rgb(65, 65, 65);*/
+   border-top:1px solid red;
+   border-bottom:1px solid red;
+ 
+   color: rgb(255, 255, 255);
+   border-radius: 5px; 
+   padding: 1%;
+   text-align: center;
+   width:50%;
+  margin-left: 20%;
+ }
+
+ .table {
   width: 100%;
   margin-bottom: 20px;
-  color:white;
-  
+  color: white;
+  margin-top: 5vh; /* Move the table down a little */
 }
+
 #employee-table_filter {
   float: right;
 }
@@ -220,9 +245,14 @@ input[type="submit"]:hover {
 .pagination {
   list-style: none; 
   padding: 0; 
-  margin-top: auto; /* Set the top margin to auto to push it to the bottom */
- 
-
+  margin: 0 auto; /* Center the pagination horizontally */
+  margin-top: 2vh; /* Add some top margin */
+  margin-bottom: 5vh; /* Add some bottom margin */
+  text-align: center; /* Center the pagination links */
+  position: absolute; /* Position the pagination absolutely */
+  bottom: 6%; /* Position the pagination at the bottom of the container */
+  left: 50%; /* Center the pagination horizontally */
+  transform: translateX(-50%); /* Center the pagination horizontally */
 }
 .pagination li {
   display: inline-block; 
@@ -274,57 +304,30 @@ input[type="submit"]:hover {
   background-color: red;
 }
 
- 
-/*---------------------------------------Για τη λίστα Υπαλλήλων----------------------------------------------------*/
-
-.all-requests-title{
- /* box-shadow: 2px 2px 2px 2px rgb(65, 65, 65);*/
-  border-top:1px solid red;
-  border-bottom:1px solid red;
-
-  color: rgb(255, 255, 255);
-  border-radius: 5px; 
-  padding: 1%;
-  text-align: center;
-  width:50%;
- margin-left: 20%;
-}
-.btn-primary {
-  background-color: transparent;
-  border-color: rgb(0, 102, 255);
- }
-.btn-danger {
-  background-color: transparent;
-  border-color: rgb(252, 22, 22);
-}
-
 /*----------------------------------Για τις Ρυθμίσεις-----------------------------------------------*/
 
-.manage-leave-container{
-  display: block;
-}
-.manage-leave-title {
-  border-top: 1px solid #ff0a00;
-  border-bottom: 1px solid #ff0a00;
-  color: rgb(255, 255, 255);
-  border-radius: 5px; 
-  padding: 1%;
-  text-align: center;
-  margin-bottom: 3%; 
-}
-hr {
-  border: 1px solid #fff; 
-}
-.subtext-container {
-  margin-bottom: 3%;
-  width: 80%; 
-  margin-left: auto; 
-  margin-right: auto; 
-  opacity: 0.7; 
+/* Update .manage-leave-container to fit within the available space */
+.manage-leave-container {
+  width: 90%; 
+  margin: 0 auto; 
 }
 
-.subtext-container p {
-  text-align: justify; /
+/* Adjust margins and padding for better spacing */
+.manage-leave-title {
+  padding: 1.5%; /* Increase padding for better spacing */
+  border-top:1px solid red;
+  border-bottom:1px solid red;
+  color: rgb(255, 255, 255);
+  border-radius: 5px; 
+  text-align: center;
+  margin-bottom: 2%;
+ 
+}
+
+.subtext-container {
+  width: 90%;
+  margin: 0 auto;
+  opacity: 0.7;
 }
 
 .manage-leave {
@@ -334,85 +337,86 @@ hr {
 }
 
 .manage-leave td {
-  border: 1px solid red; 
-  padding:2%;
+  border: 1px solid red;
+  padding: 1.5%; /* Increase padding for better spacing */
 }
 
-.manage-leave label {
-  display: block; 
-  margin-bottom: 8px; 
+
+
+#add-leave-btn {
+  width: 40%; /* Increase button width for better visibility */
+  margin: 2% 0; /* Add margin at the top and bottom */
+  background-color: transparent;
+  border-color: #ff0800d2;
+  color: white;
 }
 
-#add-leave-btn{
-  background-color: transparent; 
-  border-color: #ff0a00; 
-  color: #ffffff; 
-  font-weight: bold;
-  margin-left:2%;
-  width:30%;
-  padding:1%;
-  text-align: center;
-  float: right;
-}
-#add-leave-btn:hover {
-  background-color:transparent; 
-  border-color: #b10600; 
-}
-.plus-icon {
-  margin-right: 5px; 
-  font-size: 16px; 
-  vertical-align: middle; 
-}
 .list-leave-container {
-  display: flex;
-  justify-content: center;
+  width: 90%;
+  margin: 7% auto; /* Center the container and add margin at the top */
+  height: auto; /* Remove fixed height to allow content to fit */
+  max-height: 18vh; /* Limit maximum height to prevent overflow */
+  overflow-y: auto; /* Enable vertical scrolling if needed */
 
-  width: 100%;
-  margin-top: 7%;
-  height: 40%;
-  overflow-y: auto;
+ 
 }
+
+/* Style the scrollbar */
+.list-leave-container::-webkit-scrollbar {
+  width: 12px; /* Set the width of the scrollbar */
+}
+
+/* Track styles */
+.list-leave-container::-webkit-scrollbar-track {
+  background: #6e08e4; /* Set background color of the track */
+}
+
+/* Handle styles */
+.list-leave-container::-webkit-scrollbar-thumb {
+  background: #ff0202; /* Set color of the handle */
+  border-radius: 6px; /* Set border radius of the handle */
+}
+
+/* Hover styles */
+.list-leave-container::-webkit-scrollbar-thumb:hover {
+  background: #af0202; /* Change color of handle on hover */
+}
+
+/* For Firefox */
+.list-leave-container {
+  scrollbar-width: thin; /* Set the width of the scrollbar */
+}
+
+/* Track styles for Firefox */
+.list-leave-container {
+  scrollbar-color: #ffffff #000000; /* Set color of scrollbar and track */
+}
+
+
 .leave-table {
   width: 100%;
   border-collapse: collapse;
-
-  
 }
+
 .leave-table th,
 .leave-table td {
-  text-align: left;
-  border: 1px solid red; /* Red vertical borders */
-  padding:2%
-}
-.leave-table-header th {
-  background-color: rgb(0, 0, 0);
+  padding: 1.5%; /* Increase padding for better spacing */
+  border: 1px solid red;
+
+
 }
 
-.leave-table td {
-  vertical-align: top;
-  
-}
-
-.leave-table-body td:first-child,
-.leave-table-body td:last-child {
-  width: 50%;
-}
-
-.leave-table-body td[colspan="2"] {
-  text-align: center;
-}
 .picture-container {
-  width:350px;
-  height:220px;
-  overflow: hidden; /* Hide overflow to ensure it's fully round */
-  float: right;
+  width: 100%; /* Adjust width to fit within the container */
+  max-width: 350px; /* Limit maximum width for responsiveness */
+  margin: 0 auto; /* Center the container horizontally */
+  margin-top: 1%; /* Add margin at the top for better separation */
 }
 
 .picture-container img {
-  width: auto; /* Ensure the image takes up the full container */
-  height: 100%; /* Maintain aspect ratio */
-  border-radius: 50%; /* Make the image round */
-
+  width: 68%; /* Ensure the image takes up the full width of its container */
+  
+  border-radius: 50%; /* Keep the image round */
 }
 
 
@@ -435,7 +439,6 @@ hr {
 .container {
   padding: 10%;
   border-radius: 4px;
-  box-shadow: 2px 2px 4px #EEEEEE;
   margin-left: 20%;
   margin-bottom: 10%;
 }

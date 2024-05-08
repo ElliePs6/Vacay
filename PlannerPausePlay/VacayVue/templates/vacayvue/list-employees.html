@@ -27,8 +27,8 @@
                             <td>{{ employee.last_name }}</td>
                             <td>{{ employee.join_date }}</td>
                             <td>{{ employee.user.email }}</td>
-                            <td><a href= "{% url 'edit_employee' employee.id %}" role="button" class="btn btn-primary">Επεξεργασία</button></td>
-                            <td><a href= "{% url 'delete_employee' employee.id %}" role="button" class="btn btn-danger">Διαγραφή</button></td>
+                            <td><a href= "{% url 'edit_employee' employee.id %}" role="button" class="edit-button">Επεξεργασία</button></td>
+                            <td><a href= "{% url 'delete_employee' employee.id %}" role="button" class="delete-button">Διαγραφή</button></td>
                         </tr>
                         {% endfor %}
                     </tbody>

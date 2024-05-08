@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.core.exceptions import ValidationError
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
 
@@ -61,16 +63,6 @@ class LeaveType(models.Model):
 
 
 
-
-
-class LeaveBalance(models.Model):
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
-    leave_type = models.ForeignKey(LeaveType, on_delete=models.CASCADE)
-    balance = models.FloatField(default=0)
-
-    def __str__(self):
-        return f"{self.user.username}'s {self.leave_type.name} balance"
-
 class Employee(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='employee_profile')
     join_date = models.DateField(null=True, blank=True)
@@ -93,6 +85,13 @@ class Request(models.Model):
 
     def __str__(self):
         return f"Leave request for {self.user.username}"
+    
+class Balance(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    leave_type = models.ForeignKey(LeaveType, on_delete=models.CASCADE)
+    default_days = models.PositiveIntegerField(default=0)
+    used_days = models.PositiveIntegerField(default=0)
+    remaining_days = models.IntegerField(default=0)
 
 
 '''

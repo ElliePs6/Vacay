@@ -4,24 +4,28 @@
 <div class="container">
     <div class="row">
         <div class="col-md-6 leftEmp-container">
-            <h3 class="welcome-title">Καλωσήρθες {{ employee.first_name}}</h3>
+            <h3 class="welcome-title">Καλωσήρθες {{ employee.first_name }}</h3>
             <div id="calendar"></div>
         </div>
         <div class="col-md-6 balance-container">
             <h3 class="balance-title">Balance</h3>
-            {% if messages %}
-            <ul class="messages">
-                {% for message in messages %}
-                <li>{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            <ul>
+                {% for balance in balances %}
+                <li>
+                    <span>{{ balance.leave_type.name }}</span>:
+                    <div class="progress-circle" data-leave-type="{{ balance.leave_type.name }}" data-default-days="{{ balance.leave_type.default_days }}"  data-used-days="{{ balance.used_days }}">
+                        <div class="progress-indicator"></div>
+                        <div class="progress-text"></div>
+                    </div>
+                </li>
                 {% endfor %}
             </ul>
-            {% endif %}
         </div>
     </div>
 </div>
 {% endblock %}
 
-{% block script%}
+{% block script %}
+<script src="{% static 'js/progressBar.js' %}"></script>
 <script src="{% static 'js/calendar.js' %}"></script>
-
-{% endblock  %}
+{% endblock %}

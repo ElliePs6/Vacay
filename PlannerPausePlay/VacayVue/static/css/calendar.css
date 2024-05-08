@@ -38,16 +38,16 @@
     border-color:#ff0a00;
     color:#ffffff;
 }
-/* Adjust the height of all-day events */
+/* Adjust the height of all-day events
 .fc-daygrid-event {
   max-height: 20px;
   overflow: auto; 
   margin-bottom: 5%; 
 
-}
+} */
 /* Enable overflow scrolling for events that exceed the maximum height */
 .fc-daygrid-event.fc-event-start.fc-event-end {
-  overflow-y: auto; /* Enable vertical overflow scrolling */
+  overflow-y: auto; 
  
 }
 

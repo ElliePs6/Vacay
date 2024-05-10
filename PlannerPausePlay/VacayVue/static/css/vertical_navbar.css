@@ -1,11 +1,11 @@
 #v-pills-tab {
     position: fixed; 
-    bottom: 5%;
-    top: 5%;
+    bottom: 0;
+    top: 0;
     left: 0; 
     width: 12%; 
     background-color: #000000; 
-    padding-top: 4%; 
+    padding-top: 6%; 
    
     overflow-y: auto; 
     font-size:0.7vw;

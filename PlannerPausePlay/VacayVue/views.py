@@ -1,24 +1,26 @@
 from django.shortcuts import render, redirect,get_object_or_404
-from django.contrib.auth import authenticate, login,logout
+from django.contrib.auth import authenticate,login,logout,update_session_auth_hash
 from .models import Request,Company,CustomUser,Employee, LeaveType,Balance
-from .forms import RequestForm,LoginForm,RegisterEmployeeForm,EditEmployeeForm, LeaveTypeForm
-from django.http import JsonResponse, Http404, HttpResponseServerError, HttpResponseRedirect, HttpResponse
+from .forms import RequestForm,LoginForm,RegisterEmployeeForm,EditEmployeeForm, LeaveTypeForm,ChangePasswordForm
+from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from datetime import datetime
-from django.forms import modelformset_factory
-from django.db import IntegrityError
-from django.db.models import Sum
-from django.db.models import F, ExpressionWrapper, DurationField,FloatField
 from django.core.exceptions import ValidationError
-from django.db.models import Count
-import json
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 
 
 
 
 
-
+#from datetime import datetime
+#from django.forms import modelformset_factory
+#from django.db import IntegrityError
+#from django.db.models import Sum
+#from django.db.models import F, ExpressionWrapper, DurationField,FloatField
+#from django.db.models import Count
+#import json
 #from django.core.serializers import serialize
 #from django.utils import timezone
 #from django.urls import reverse
@@ -52,17 +54,17 @@ def all_requests(request):
 
 def get_color_for_request(request_leave_type):
     color_map = {
-        'κανονική άδεια': '#f84747', 
-        'άδεια εξετάσεων εργαζόμενων σπουδαστών': '#00ff00',  
-        'άδεια εξετάσεων μεταπτυχιακών φοιτητών': '#0000ff', 
-        'αιμοδοτική άδεια': '#ffff00',  
-        'άδεια άνευ αποδοχών': '#ff00ff', 
-        'άδεια μητρλοτητας': '#00ffff',  
-        'άδεια πατρότητας': '#ff9900'   
+        'κανονική άδεια':'#C40C0C',
+        'αδεια εξετάσεων εργαζόμενων σπουδαστών':'#FF6500',
+        'αδεια εξετάσεων μεταπτυχιακών φοιτητών':'#FF8A08', 
+        'αιμοδοτική άδεια': '#FFC100',
+        'άδεια άνευ αποδοχών':'#C08B5C',
+        'άδεια μητρότητας':'#795458', 
+        'άδεια πατρότητας':'#453F78',
     }
     return color_map.get(request_leave_type, '#7777')  
 
-
+@login_required
 def calendar(request):  
     all_requests = Request.objects.all()
     context = {
@@ -70,7 +72,7 @@ def calendar(request):
     }
     return render(request, 'vacayvue/company_home.html', context)
 
-#---------------Συναρτήσεις για αιτήσεις----------------------------------------------
+#------------------------------------------Συναρτήσεις για αιτήσεις----------------------------------------------------
 
 @login_required
 def add_request(request):
@@ -78,39 +80,31 @@ def add_request(request):
         form = RequestForm(request.POST)
         if form.is_valid():
             request_instance = form.save(commit=False)
-            request_instance.user = request.user
-            
+            request_instance.user = request.user            
             # Check if the requested number of days exceeds the default days
             leave_type = form.cleaned_data['leave_type']
             start_date = form.cleaned_data['start']
             end_date = form.cleaned_data['end']
             requested_days = (end_date - start_date).days + 1
             if leave_type.default_days < requested_days:
-                raise ValidationError("Η διάρκεια της άδειας υπερβαίνει τις προεπιλεγμένες μέρες.")
-            
+                raise ValidationError("Η διάρκεια της άδειας υπερβαίνει τις προεπιλεγμένες μέρες.")            
             # Check remaining days for the user and leave type
             if Request.objects.filter(user=request.user, leave_type=leave_type, is_approved=True).exists():
                 remaining_days = Balance.objects.filter(user=request.user, leave_type=leave_type).values_list('remaining_days', flat=True).first()
                 print("Remaining days:", remaining_days)
                 if remaining_days is not None and remaining_days < requested_days:
-                    raise ValidationError("Οι υπόλοιπες ημέρες δεν επαρκούν για το αίτημα άδειας.")
-            
+                    raise ValidationError("Οι υπόλοιπες ημέρες δεν επαρκούν για το αίτημα άδειας.")            
             request_instance.save()
-            
-            # Update balance on request save
-                                                                              
-            
-            return redirect('self-requests')
+            return redirect('my_requests')
     else:
         form = RequestForm()
     return render(request, 'vacayvue/add_request.html', {'form': form})
 
-
-
-
+@login_required
 def leave_request_success(request):
     return render(request, 'leave_request_success.html')
 
+@login_required
 def leave_request_rejected(request):
     return render(request, 'leave_request_rejected.html')
 
@@ -136,8 +130,7 @@ def reject_leave_request(request, request_id):
 
 @login_required
 def self_requests(request):
-     employee = get_object_or_404(CustomUser, email=request.user.email)
-     
+     employee = get_object_or_404(CustomUser, email=request.user.email)     
      pending_requests = Request.objects.filter(user_id=employee,is_pending=True)
      rejected_requests = Request.objects.filter(user_id=employee,is_rejected=True)
      approved_requests = Request.objects.filter(user_id=employee,is_approved=True)
@@ -146,11 +139,9 @@ def self_requests(request):
         'approved_requests':approved_requests,
         'rejected_requests':rejected_requests,
         'pending_requests': pending_requests,
-        'employee': employee,
-        
+        'employee': employee,        
      }
-
-     return render(request, 'vacayvue/self-requests.html', context)
+     return render(request, 'vacayvue/my_requests.html', context)
 
 
 @login_required
@@ -167,9 +158,9 @@ def list_all_requests(request):
     context={
         'requests': requests,
  }
-    return render(request, 'vacayvue/list-all-requests.html',context )
+    return render(request, 'vacayvue/list_requests.html',context )
 
-#----------------------------------Balance---------------------------------------------------------------
+#----------------------------------------Settings/Balance-------------------------------------------------------------------
 
 @login_required
 def manage_leave_type(request):
@@ -199,31 +190,21 @@ def set_default_days(leave_type, user, default_days):
 def update_balance_on_approval(request_instance):
     # Check if a Balance instance with the same leave_type already exists for the user
     existing_balance = Balance.objects.filter(user=request_instance.user, leave_type=request_instance.leave_type).first()
-    
     if existing_balance:
         # If an existing instance is found, use its default_days
         default_days = existing_balance.default_days
     else:
         # If not, use the default_days from the leave_type associated with the request_instance
         default_days = request_instance.leave_type.default_days
-    
     # Get or create the balance for the user and leave type
     balance, created = Balance.objects.get_or_create(user=request_instance.user, leave_type=request_instance.leave_type)
-    
     # Calculate the approved days
     approved_days = (request_instance.end - request_instance.start).days + 1
-    
     # Update the used_days field in the balance
     balance.used_days += approved_days
-    
     # Calculate remaining days
     balance.remaining_days = default_days - balance.used_days
-   
     balance.save()
-
-
-
-
 
 @login_required
 def update_default_days(request, leave_type_id):
@@ -231,8 +212,14 @@ def update_default_days(request, leave_type_id):
     if request.method == "POST":
         form = LeaveTypeForm(request.POST, instance=leave_type)
         if form.is_valid():
+            # Save the form for the current leave type
             form.save()
-            return redirect('leave_types')
+            
+            # Update the reset_month field for all leave types
+            reset_month = form.cleaned_data['reset_month']
+            LeaveType.objects.exclude(id=leave_type_id).update(reset_month=reset_month)
+            
+            return redirect('manage_leave_type')
     else:
         form = LeaveTypeForm(instance=leave_type)
     return render(request, 'vacayvue/update_default_days.html', {'form': form, 'leave_type': leave_type})
@@ -256,7 +243,7 @@ def reset_leave_balances():
 
 
 
-#-------------Συναρτήσεις για υπαλλήλους----------------------------------------------------------
+#--------------------------------Συναρτήσεις για υπαλλήλους----------------------------------------------------------
 
 @login_required
 def delete_employee(request, employee_id):
@@ -264,27 +251,21 @@ def delete_employee(request, employee_id):
     custom_user = employee.user
     employee.delete()
     custom_user.delete()
-    return redirect('list-employees')  # Redirect to the employee list page after successful deletion
+    return redirect('list_employees')
 
 
 @login_required
-def edit_employee(request, employee_id):
+def update_employee(request, employee_id):
     # Retrieve the Employee instance
     employee = Employee.objects.get(pk=employee_id)
     custom_user = employee.user
-
     # Initialize the form with the Employee instance
     form = EditEmployeeForm(request.POST or None, instance=custom_user )
-
     if form.is_valid():
         # Save the form data to the Employee instance
         custom_user  = form.save()
-        
-
-
-        return redirect('list-employees')
-    
-    return render(request, 'vacayvue/edit_employee.html', {'employee': employee, 'form': form})
+        return redirect('list_employees')    
+    return render(request, 'vacayvue/update_employee.html', {'employee': employee, 'form': form})
 
 @login_required
 def employee_details(request, employee_id):
@@ -297,72 +278,111 @@ def list_employees(request):
     company = get_object_or_404(Company, user_id=request.user.pk)    
     employees_list = Employee.objects.filter(company=company)
     print("Employees_list:", employees_list)  # Debugging statement
-    return render(request, 'vacayvue/list-employees.html', {'employees_list': employees_list})
+    return render(request, 'vacayvue/list_employees.html', {'employees_list': employees_list})
 
-
+from django.contrib.auth import get_user_model
 
 @login_required
-def register_employee(request):
+def add_employee(request):
     if request.method == 'POST':
         form = RegisterEmployeeForm(request.POST)
         if form.is_valid():
-            employee = form.save()
-            company = get_object_or_404(Company, user_id=request.user.pk)
-            employee.company = company
+            employee = form.save(commit=False)
+            # Get the logged-in user (which is a company in this case)
+            company_user = request.user
+            company = company_user.company_profile  # Access the associated company
+            # Generate a temporary password
+            temporary_password = CustomUser.objects.make_random_password()
+            employee.set_password(temporary_password)
             employee.save()
+            # Send email with temporary password
+            send_temporary_password_email(company_user.email, employee.email, temporary_password)
             messages.success(request, "Your employee was registered successfully!")
-            return redirect('list-employees')
+            return redirect('list_employees')
         else:
             print("Form errors:", form.errors)
             print("Data received in POST:", request.POST)
             print("Invalid form data:", form.cleaned_data)
     else:
         form = RegisterEmployeeForm()
-    return render(request, 'vacayvue/register_employee.html', {'form': form})
+    return render(request, 'vacayvue/add_employee.html', {'form': form})
 
+
+def send_temporary_password_email(from_email, to_email, temporary_password):
+    subject = 'Προσωρινός Κωδικός'
+    html_message = render_to_string('email_templates/temporary_pass_email.html', {'password': temporary_password})
+    plain_message = strip_tags(html_message)
+    send_mail(subject, plain_message, from_email, [to_email], html_message=html_message)
 
 
 @login_required
 def employee_home(request):
     employee = get_object_or_404(Employee, user_id=request.user.pk)
     balances = Balance.objects.filter(user=request.user)
-
+    leave_types = LeaveType.objects.all()
+    color_map = {}
+    for leave_type in leave_types:
+        leave_type_name = leave_type.name.strip().lower()  # Convert to lowercase
+        color_map[leave_type_name] = get_color_for_request(leave_type_name)
     context ={
         'employee': employee,
         'balances': balances,
+        'leave_types': leave_types,
+        'color_map': color_map
     }
     return render(request, 'vacayvue/employee_home.html', context)
 
+#----------------------------------Password-------------------------------------------#
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        form = ChangePasswordForm(request.POST)
+        if form.is_valid():
+            current_password = form.cleaned_data['current_password']
+            new_password = form.cleaned_data['new_password']
+            confirm_password = form.cleaned_data['confirm_password']
+            if request.user.check_password(current_password):
+                if new_password == confirm_password:
+                    request.user.set_password(new_password)
+                    request.user.save()
+                    update_session_auth_hash(request, request.user)  # Update session with new password
+                    messages.success(request, 'Your password was successfully updated!')
+                    return redirect('employee_home')  # Redirect to user profile page
+                else:
+                    messages.error(request, 'New passwords do not match!')
+            else:
+                messages.error(request, 'Incorrect current password!')
+    else:
+        form = ChangePasswordForm()
+    return render(request, 'vacayvue/change_password.html', {'form': form})
 
+#-----------------------HomePage Company συναρτήσεις-------------------------------------------------------
 
-
-
-
-
-
-
-#-----------------HomePage Company συναρτήσεις-------------------------------------------------------
+@login_required
 def company_home(request):
     company = get_object_or_404(Company, user_id=request.user.pk)
-    
-    employee_count =Employee.objects.filter(company=company).count()
-
+    employee_count = Employee.objects.filter(company=company).count()
     # Fetch all pending requests
     pending_requests = Request.objects.filter(is_pending=True)
     leave_types = LeaveType.objects.all()
-
+    # Populate the color map for leave types
+    color_map = {}
+    for leave_type in leave_types:
+        leave_type_name = leave_type.name.strip().lower()  # Convert to lowercase
+        color_map[leave_type_name] = get_color_for_request(leave_type_name)
     context = {
         'employee_count': employee_count,
         'pending_requests': pending_requests,
-        'company': company
+        'company': company,
+        'color_map': color_map
     }
-
     return render(request, 'vacayvue/company_home.html', context)
 
 
 
-#-----------------Συναρτήσεις για users----------------------------------------------------
 
+#-------------------------Συναρτήσεις για users----------------------------------------------------
+@login_required
 def logout_user(request):
     logout(request)
     messages.success(request, 'Είσαι Αποσυνδεμένος')
@@ -383,11 +403,16 @@ def login_user(request):
 
             user = authenticate(request, email=email, password=password)
             if user is not None:
-                login(request, user)
-                if user.user_type == 'company':
-                    return redirect('company_home')
+                if user.has_usable_password():  # Check if user has a permanent password
+                    login(request, user)
+                    if user.user_type == 'company':
+                        return redirect('company_home')
+                    else:
+                        return redirect('employee_home')
                 else:
-                    return redirect('employee_home')
+                    messages.warning(request, 'Πρέπει να αλλάξετε τον προσωρινό κωδικό πρόσβασής σας.')
+                    # Redirect to the change password page
+                    return redirect('change_password')
             else:
                 messages.error(request, 'Λάθος email ή κωδικός', )
                 return redirect('login')
@@ -397,10 +422,8 @@ def login_user(request):
 
 def main_home(request):
     #Get current year   
-    current_year=datetime.now().year
-    return render(request, 'vacayvue/main_home.html',{       
-        'current_year':current_year,
-        
-    })
+   
+    return render(request, 'vacayvue/main_home.html')
+
 
 #-----------------------------------------------------------------------------------

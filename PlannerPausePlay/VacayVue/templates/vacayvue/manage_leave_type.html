@@ -4,20 +4,19 @@
 {% block content %}
 <div class="container">
     <div class="row">
+        <h3 class="manage-leave-title">Διαχείρηση Αδειών</h3>
         <div class="col-md-12 manage-leave-container">
-			<h4 class="manage-leave-title">Διαχείρηση Αδειών</h4>
-			<div class="subtext-container">
-				<p>Προσαρμόστε το σύστημα διαχείρισης αδειών χωρίς κόπο ώστε να ταιριάζει απόλυτα στις ανάγκες σας. 
+            <div class="subtext-container">
+                <p>Προσαρμόστε το σύστημα διαχείρισης αδειών χωρίς κόπο ώστε να ταιριάζει απόλυτα στις ανάγκες σας. 
                     Ορίστε τους τύπους άδειας, εκχωρήστε προεπιλεγμένες ημέρες και επιλέξτε τον μήνα επαναφοράς με ευκολία:
-				</p>
-			</div>
-			<div class="row">
-				<div class="col-md-6">
-					 <div class="picture-container">
+                </p>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="picture-container">
                         <img src="{% static 'images/stripy2.png' %}" alt="Image" class="img-fluid ">
-                     </div>
-                     
-				</div>
+                    </div>
+                </div>
                 <div class="col-md-6">
                     <div class="form-container">
                         <form action="{% url 'manage_leave_type' %}" method="POST" class="form-container">
@@ -27,9 +26,7 @@
                                     <td><label for="id_reset_month">Μήνας Επαναφοράς:</label></td>
                                     <td>{{ form.reset_month }}</td>
                                 </tr>
-                              
                                 <tr>
-                                   
                                     <td><label for="id_name">Τύπος Αδείας:</label></td>
                                     <td>{{ form.name }}</td>
                                 </tr>
@@ -39,7 +36,7 @@
                                 </tr>
                             </table>
                             <button id="add-leave-btn" type="submit" class="button">
-                                <span class="plus-icon">&#43;</span>Προσθήκη 
+                                <span class="plus-icon">&#43;</span>Προσθήκη
                             </button>
                         </form>
                     </div>
@@ -50,36 +47,35 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="list-leave-container">
-						<table class="leave-table">
-							<thead class="leave-table-header">
-								<tr>
-									<th>Τύπος Άδειας:</th>
-									<th>Μέρες ανα Χρόνο:</th>
-								</tr>
-							</thead>
-							<tbody class="leave-table-body">
-								{% for leave_type in leave_types %}
-									<tr>
-										<td>{{ leave_type.name }}</td>
-										<td>{{ leave_type.default_days }}</td>
-									</tr>
-								{% empty %}
-									<tr>
-										<td colspan="2">No leave types found</td>
-									</tr>
-								{% endfor %}
-							</tbody>
-						</table>
-					</div>
-				</div>
-				<div class="col-md-6">
+                        <table class="leave-table">
+                            <thead class="leave-table-header">
+                                <tr>
+                                    <th>Τύπος Άδειας:</th>
+                                    <th>Μέρες ανα Χρόνο:</th>
+                                </tr>
+                            </thead>
+                            <tbody class="leave-table-body">
+                                {% for leave_type in leave_types %}
+                                <tr>
+                                    <td>{{ leave_type.name }}</td>
+                                    <td>{{ leave_type.default_days }}: <a href="{% url 'update_default_days' leave_type_id=leave_type.id %}">αλλαγή</a></td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="2">No leave types found</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-6">
                     <div class="picture-container">
                         <img src="{% static 'images/stripy1.png' %}" alt="Image" class="img-fluid ">
                     </div>
-
-				</div>
-			</div>
-		</div>
-	</div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}

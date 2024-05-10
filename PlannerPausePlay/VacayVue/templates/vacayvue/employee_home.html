@@ -3,25 +3,57 @@
 {% block content %} 
 <div class="container">
     <div class="row">
-        <div class="col-md-6 leftEmp-container">
+        <div class="col-md-7 leftEmp-container">
             <h3 class="welcome-title">Καλωσήρθες {{ employee.first_name }}</h3>
             <div id="calendar"></div>
+			<div class="color-legend">
+                <table>
+                    <tbody>
+                        {% for leave_type, color in color_map.items %}
+                        <tr>
+                            <td>
+                                <div class="color-square" style="background-color:{{ color }};"></div>
+                            </td>
+                            <td>
+                                <span>: {{ leave_type }}</span>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <div class="col-md-6 balance-container">
-            <h3 class="balance-title">Balance</h3>
-            <ul>
-                {% for balance in balances %}
-                <li>
-                    <span>{{ balance.leave_type.name }}</span>:
-                    <div class="progress-circle" data-leave-type="{{ balance.leave_type.name }}" data-default-days="{{ balance.leave_type.default_days }}"  data-used-days="{{ balance.used_days }}">
-                        <div class="progress-indicator"></div>
-                        <div class="progress-text"></div>
-                    </div>
-                </li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
+		<div class="col-md-5 balance-container">
+			<h3 class="balance-title">Balance</h3>
+			<table>
+				<thead>
+					<tr>
+						<th>Τύπος Άδειας</th>
+						<th>Progress</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for leave_type in leave_types %}
+					<tr>
+						<td>{{ leave_type.name }}:</td>
+						<td>
+							<div class="progress-circle-container">
+								{% for balance in balances %}
+									{% if balance.leave_type == leave_type %}
+										<div class="progress-circle" data-leave-type="{{ balance.leave_type.name }}" data-default-days="{{ balance.leave_type.default_days }}"  data-used-days="{{ balance.used_days }}">
+											<div class="progress-indicator"></div>
+											<div class="progress-text"></div>
+										</div>
+									{% endif %}
+								{% endfor %}
+							</div>
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
 </div>
 {% endblock %}
 

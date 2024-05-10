@@ -4,16 +4,29 @@
 {% block content %}
 <div class="container">
     <div class="row">
-        <div class="col-md-6 leftComp-container">
-            <h3 class="welcome-title">Καλωσήρθες: {{ company.name }}</h3>
+        <div class="col-md-7 leftComp-container">
+            <h3 class="welcome-title">Καλωσήρθες {{ company.name }}</h3>
             <div id="calendar"></div>
+            <div class="color-legend">
+                <table>
+                    <tbody>
+                        {% for leave_type, color in color_map.items %}
+                        <tr>
+                            <td>
+                                <div class="color-square" style="background-color:{{ color }};"></div>
+                            </td>
+                            <td>
+                                <span>: {{ leave_type }}</span>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <div class="col-md-6 request-list-container">
+        <div class="col-md-5 request-list-container">
             <h3 class="emp-num-title">Αριθμος Υπαλλήλων:</h3>
             <div class="animated-number">{{  employee_count }}</div>
-            
-
-            
             <h4 class="all-emp-req-title">Αιτήσεις σε αναμονή:</h4>
             <ul class="requests-list">
                 {% for request in pending_requests %}
@@ -24,7 +37,10 @@
                     <button class="btn btn-danger reject-btn" data-reject-request-id="{{ request.id }}">✗</button>
                 </li>
                 <a href="#" class="request-detail-link" data-request-id="{{ request.id }}" data-url="{% url 'request_details' request.id %}">Λεπτομέριες</a>
-                {% endfor %}
+                {% empty %}
+                <hr>
+                <li colspan="2">No request at the moment..</li>
+				{% endfor %}
             </ul>
         </div>
     </div>
@@ -32,9 +48,7 @@
 {% endblock %}
 
 {% block script%}
-
 <script src="{% static 'js/calendar.js' %}"></script>
-
 <script>
     $(document).ready(function() {
         $('.request-detail-link').click(function(e) {
@@ -95,6 +109,5 @@
             });
         });
     });
-
 </script>
 {% endblock  %}

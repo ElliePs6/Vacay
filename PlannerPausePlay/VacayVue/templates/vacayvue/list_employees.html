@@ -3,8 +3,16 @@
 {% block content %}
 <div class="container">
     <div class="row">
-        <div class="col-md-12">
-            <h4 class="all-requests-title">Προεπισκόπηση Υπαλλήλων</h4>
+        <h3 class="all-employees-title">Προεπισκόπηση Υπαλλήλων</h3>
+        <div class="col-md-12 list-employees-container ">
+            <!-- Display messages -->
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}            
             <div class="table-responsive">
                 <table id="employee-table" class="table">
                     <thead>
@@ -20,14 +28,13 @@
                     </thead>
                     <tbody>
                         {% for employee in employees_list %}
-                       
                         <tr style="border-color: red;">
                             <td>{{ forloop.counter }}</td> <!-- Use forloop.counter to display the counter -->
                             <td>{{ employee.first_name }}</td>
                             <td>{{ employee.last_name }}</td>
                             <td>{{ employee.join_date }}</td>
                             <td>{{ employee.user.email }}</td>
-                            <td><a href= "{% url 'edit_employee' employee.id %}" role="button" class="edit-button">Επεξεργασία</button></td>
+                            <td><a href= "{% url 'update_employee' employee.id %}" role="button" class="edit-button">Επεξεργασία</button></td>
                             <td><a href= "{% url 'delete_employee' employee.id %}" role="button" class="delete-button">Διαγραφή</button></td>
                         </tr>
                         {% endfor %}

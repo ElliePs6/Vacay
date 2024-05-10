@@ -1,191 +1,175 @@
 /*---------------Υπάλληλοσ Dashboard Page----------------------*/
 
 .leftEmp-container{
-    display: flex;
-    flex-direction: column;
-    align-items: left;
-    justify-content: left;
-    border-right: 1px solid #ff0800d2;
-  }
-
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: left;
+  border-right: 1px solid #ff0800d2;
+  padding: 2%;
+}
+.balance-title {
+  border-top:1px solid red;
+  border-bottom:1px solid red;
+  color: rgb(255, 255, 255);
+  border-radius: 5px; 
+  padding: 1%;
+  text-align: center;
+  margin-top: 1%;
+  margin-bottom: 3%;
+}
 .balance-container {
-    max-height: 100%; 
-    overflow-y: auto; 
-    display: flex;
-    flex-direction: column;
-    align-items: left;
-    justify-content: left;
-    
-  }
-
-  .balance-title {
-    border-top:1px solid red;
-    border-bottom:1px solid red;
-    color: rgb(255, 255, 255);
-    border-radius: 5px; 
-    padding: 1%;
-    text-align: center;
-    margin-bottom: 3%; 
-  }
-
-  /* Progress Circle Styles */
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: left;
+  padding: 2%;
+}  
 .progress-circle {
   position: relative;
-  width: 100px;
-  height: 100px;
+  width:70px;
+  height: 70px;
   border-radius: 50%;
-  background-color: #e0e0e0; /* Default background color */
+  background-color: #e7e7e786; /* Default background color */
   overflow: hidden;
+  text-align: center;
 }
-
 .progress-indicator {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: #4caf50; /* Progress color */
-  transform-origin: left;
+  background-color: #ff0a00; /* Progress color */
+  transform-origin: right;
 }
-
 .progress-text {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: #000;
-  font-size: 14px;
+  color: #ffffff;
+  font-size: 16px;
   font-weight: bold;
 }
+.balance-container table {
+  width: 100%;
+  border-collapse: collapse;
+}
 
-  
-  @keyframes fillProgress {
-    0% {
-      transform: rotate(0deg); /* At 0%, the progress is 0° rotated (fully visible) */
-    }
-    100% {
-      transform: rotate(360deg); /* At 100%, the progress is 360° rotated (invisible) */
-    }
-  }
-  
-  
-  
+.balance-container th,
+.balance-container td {
+  padding: 2%; /* Adjust as needed */
+}
 /*------------------------------------Η Αιτήσεις μου------------------------------------*/
 
 .myrequest-container{
-margin-top: 3%;
-    padding: 20px;
-    
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: left;
+  border-right: 1px solid #ff0800d2;
+  padding: 2%;
 }
 .nav-tabs {
-    background-color: #e9ecef;
-    border-bottom: none;
-    margin-bottom: 20px;
+  background-color: #e9ecef;
+  border-bottom: none;
+  margin-bottom: 20px;
 }
 .nav-tabs .nav-link {
-    color: red;
-    border: none;
+  color: red;
+  border: none;
 }
 .nav-tabs .nav-link.active {
-    background-color: #ffffff;
-    border-bottom: 2px solid red;
-    font-weight: bold;
-    color:rgb(255, 45, 45);
+  background-color: #ffffff;
+  border-bottom: 2px solid red;
+  font-weight: bold;
+  color:rgb(255, 45, 45);
 }
-
 /* Style for the tab content */
 .tab-panel {
-    padding: 20px;
+  padding: 20px;
 }
 .table thead th {
-    background-color: transparent;
-    color: #ff0000;
-  }
-  
-.table tbody td {
-    border-top: 1px solid #ff0000;
+  background-color: transparent;
+  color: #ff0000;
 }
-
-/* Additional styling for specific tables */
+.table tbody td {
+  border-top: 1px solid #ff0000;
+}
 #pendingTable tbody td,
 #approvedTable tbody td,
 #rejectedTable tbody td {
-    vertical-align: middle;
+  vertical-align: middle;
 }
 
 /*----------------------------------Προσθήκη Αίτησης-------------------------------------------*/
-.first-image-container {
-    width:40%;
-    height:50%;
-}
-  
-.first-image-container img {
-    padding-top: 20%;
-    width: auto; /* Ensure the image takes up the full container */
-    height: 100%; /* Maintain aspect ratio */
-}
 
 .add-req-title{
-    border-top:1px solid red;
-    border-bottom:1px solid red;
-    color: rgb(255, 255, 255);
-    text-align: center;
-    padding: 1%;
+  border-top:1px solid red;
+  border-bottom:1px solid red;
+  color: rgb(255, 255, 255);
+  border-radius: 5px; 
+  padding: 1%;
+  text-align: center;
+  margin-top: 1%;
+  margin-bottom: 3%; 
+}
+.first-image-container {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: left;
+  border-right: 1px solid #ff0800d2;
+  padding: 2%; 
+}
+.first-image-container img {
+  padding: 10%;
+  width: auto;
+  height: 100%;
+  position: relative; /* Ensure the image is positioned relative to its container */
+  z-index: 1; /* Ensure the image appears above the color overlay */
 }
 .addrequest-container {
-   padding-top:3%;
-   border-radius: 10px;
-   box-shadow: 0 0 10px rgba(2, 2, 2, 0.1);
-   border-left:1px solid red;
-   
-}
-/*Form Container*/
-.add-request{
-    background-color: #222;
-    padding:2%;
-    border-radius: 10px;
-    margin-bottom: 2%;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: left;
+  padding: 2%;
+  margin-top: 5%;
 }
 /* Style για φορμα */
 .form-group label {
-    color: #ff2727; 
-    font-weight: bold;
-    padding: 5px;
-   
+  color: #ff2727; 
+  font-weight: bold;
+  padding: 5px;
 }
-
 /* Form input field styling */
 .form-control {
-    background-color: #ffffff; 
-    border: 1px solid #ced4da; 
-    border-radius: 5px;
+  background-color: #ffffff; 
+  border: 1px solid #ced4da; 
+  border-radius: 5px;
 }
-
 /* Form input field margin */
 .form-group {
-    margin-bottom:3%; 
+  margin-bottom:3%; 
 }
-
-
 .btn-secondary {
-    background-color: #ff0000; 
-    border-color: #b40000; 
-    color: #ffffff; 
-    font-weight: bold;
-    margin-bottom: 1%;
+  background-color: #ff0000; 
+  border-color: #b40000; 
+  color: #ffffff; 
+  font-weight: bold;
+  margin-bottom: 1%;
 }
-
-
 .btn-secondary:hover {
-    background-color: #ff2727; 
-    border-color: #8f0101; 
+  background-color: #ff2727; 
+  border-color: #8f0101; 
 }
 .form-row .col-md-6 {
-    display: inline-block;
-    width: 48%; /* για κενό ανάμεσα στα πεδία */
-    margin-right: 2%; /* για κενό ανάμεσα στα πεδία */
+  display: inline-block;
+  width: 48%; /* για κενό ανάμεσα στα πεδία */
+  margin-right: 2%; /* για κενό ανάμεσα στα πεδία */
 }
-
 .form-row .col-md-6:last-child {
-    margin-right: 0; /* Remove margin from the last column to prevent extra space */
+  margin-right: 0; /* Remove margin from the last column to prevent extra space */
 }

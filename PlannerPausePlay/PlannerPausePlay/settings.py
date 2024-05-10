@@ -33,6 +33,15 @@ AUTHENTICATION_BACKENDS = [
     'VacayVue.backends.EmailBackend'
 ]
 
+# Email settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.example.com'  # Replace 'smtp.example.com' with your SMTP server address
+EMAIL_PORT = 587  # Replace 587 with your SMTP port number
+EMAIL_USE_TLS = True  # Set it to True if TLS is required, otherwise set it to False
+EMAIL_HOST_USER = 'your_email@example.com'  # Replace with your email address used for authentication
+EMAIL_HOST_PASSWORD = 'your_email_password'  # Replace with your email password
+DEFAULT_FROM_EMAIL = 'your_email@example.com'  # Replace with your default sender email address
+
 
 
 MIDDLEWARE = [
@@ -62,6 +71,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'VacayVue.context_processors.current_year',
                 
             ],
         },

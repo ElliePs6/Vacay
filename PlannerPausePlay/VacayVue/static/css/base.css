@@ -2,19 +2,14 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-  }
-
-
-  
+}
 h1,h2,h3,h4,h5,p{
     color:#ffffff;
     font-family: "Roboto Mono", monospace;
-   
-    
-    
 }
 /* Navbar styles */
 .navbar {
+    /* Other styles... */
     position: fixed;
     top: 0;
     left: 0;
@@ -22,9 +17,7 @@ h1,h2,h3,h4,h5,p{
     background-color: #ff0a00;
     padding: 1% 2%;
     z-index: 1000;
-    margin: 0 auto;
 }
-
 
 .navbar-brand  {
     color: #ffffff ;
@@ -34,16 +27,13 @@ h1,h2,h3,h4,h5,p{
 .navbar-brand:hover {
     color: #ebebeb96;
 }
-
 .navbar-toggler-icon {
     font-size: 1vw;
     color: #000;
 }
-
 .navbar-toggler {
     border: none;
 }
-
 .horizontal-nav-link {
     color: #ffffff;
     background-color: transparent;    
@@ -51,15 +41,11 @@ h1,h2,h3,h4,h5,p{
     cursor: pointer;
     padding: 1% 5%;
 }
-
 .horizontal-nav-link:hover {
     color: #ebebeb;
     background-color: none;
     
 }
-
-
-
 /* Base styles */
 body {
     font-family: Arial, sans-serif;
@@ -67,44 +53,168 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto;
-    min-height: 100vh; /* Ensure body covers at least the viewport height */
-    overflow-y: auto; /* Enable vertical scrolling */
+    margin:20% auto;
+   
+    
+    overflow-y: scroll; /* Enable vertical scrolling */
+    min-width: 100%;
+
+
     
 }
-
-
-
+/* Container styles */
 .container {
+    /* Other styles... */
+    position: absolute;
     background-color: #000;
     color: #ffffff;
-    padding: 1%;
     border-radius: 4px;
-    box-shadow: 2px 2px 4px #EEEEEE;
-    margin-top: 15vh; /* Increase the margin-top to create more space between navbar and container */
-    margin-bottom: 10vh; /* Increase the margin-bottom to create more space between container and footer */
-    height: 75vh; /* Set a fixed height for the container */
+    box-shadow: 4px 4px 6px 2px #444444;
     overflow-y: auto; /* Enable vertical scrolling if content exceeds the height */
+    max-width:70%; /* Adjust the width relative to the body */
+    margin-top: 2%; /* Add some gap between navbar and container */
 }
-
-
-
-
-
-
-
-
 
 /* Footer styles */
 footer {
-    background-color: #ff0a00;
-    color: #ffffff;
-    padding: 20px 0;
-    text-align: center;
+    /* Other styles... */
     position: fixed;
-    bottom: 0;
+    bottom: -10%;
     left: 0;
     width: 100%;
+    padding: 20px 0;
+    text-align: center;
+    background-color: #ff0a00;
+    color: #ffffff;
     z-index: 1000;
-    margin-top: 70vh; /* Increase the margin-bottom to create more space between container and footer */
+    margin-top: 2%; /* Add some gap between container and footer */
+}
+/*----------------------------------------CSS for Cards----------------------------------------------------------------------------------------------*/
+.card {
+    background-color:black;
+    padding: 5%;
+    margin-bottom: 5%;
+    margin-top: 5%;
+
+    
+ 
+ 
+}
+.card-title {
+    border-top:1px solid red;
+    border-bottom:1px solid red;
+    color: rgb(255, 255, 255);
+    border-radius: 5px; 
+    padding: 1%;
+    text-align: center;
+    margin-top: 2%;
+ 
+}
+.custom-card label {
+    color: #fff; 
+    font-weight: bold;
+    padding: 1%;
+}
+
+.custom-card .form-group {
+    margin-bottom: 20px; /* Add some spacing between form groups */
+}
+.pic-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid red;
+ 
+    
+  
+  }
+  .pic-container img {
+    
+    width: auto;
+    height: 100%
+  }
+  
+
+/*---------------------------------- CSS for Datepicker ---------------------------------------------------------------------------------*/
+input[type="submit"] {
+    background-color:red;
+    color: white;
+    padding: 1% 3%;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width:100%;
+  }
+  input[type="submit"]:hover {
+    background-color: rgb(255, 69, 69);
+    color: #dbdada;
+  }
+/*-----------------------------------------------------------------------*/
+.ui-datepicker-header {
+    background-color: #ff0000; 
+    color: #fff; 
+   
+}
+.ui-datepicker-prev, .ui-datepicker-next {
+    background-color: transparent; 
+    color: #fff; 
+    border-color: #b90a04;
+    
+}
+.ui-datepicker-prev:hover, .ui-datepicker-next:hover {
+    background-color: #c90000;
+    border-color: #770502;
+ 
+}
+.ui-datepicker-calendar  {
+    background-color:#000000; 
+    color: #ffffff; 
+
+}
+.ui-datepicker th {
+    border-bottom: 1px solid rgb(0, 0, 0); 
+}
+.ui-datepicker td {
+    border: 1px solid rgb(0, 0, 0); 
+    background-color: transparent;
+    color:white;
+  }
+  
+  /* Style for td elements with links (dates) */
+  .ui-datepicker td a {
+    text-decoration: none; 
+    color: inherit; /* Inherit text color from parent */
+  }
+   /* Style for td box elements(dates) */
+  .ui-state-default,
+  .ui-widget-content .ui-state-default{
+    border: 1px solid #a0303000;
+    background: red;
+    font-weight: normal;
+    color: #f7f7f7;
+}
+  /* Style for td elements with links on hover (dates) */
+  .ui-datepicker td a:hover {
+    background-color: #78bd8080;
+    text-decoration: underline; /* Underline on hover */
+  }
+/*-------------------------------------------------------------------------------------------------------------------*/
+
+
+@media (min-width: 1350px) and (max-width: 1750px) {
+    .container {
+        width:auto
+    }
+}
+@media (min-width: 950px) and (max-width: 1350px) {
+    .container {
+        width:auto
+    }
+}
+@media  (min-width: 650px) and (max-width: 950px) {
+    .container {
+        width:auto
+   
+    }
 }

@@ -8,17 +8,17 @@
      <div class="col-md-12 myrequest-container ">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" id="pending-tab" data-toggle="tab" href="#pending" role="tab" aria-controls="pending" aria-selected="true">Eκκρεμής</a>
+                    <a class="nav-link " id="approved-tab" data-toggle="tab" href="#approved" role="tab" aria-controls="approved" aria-selected="false">Εγκεκριμένες</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="approved-tab" data-toggle="tab" href="#approved" role="tab" aria-controls="approved" aria-selected="false">Εγκεκριμένες</a>
+                    <a class="nav-link " id="pending-tab" data-toggle="tab" href="#pending" role="tab" aria-controls="pending" aria-selected="true">Eκκρεμής</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="rejected-tab" data-toggle="tab" href="#rejected" role="tab" aria-controls="rejected" aria-selected="false">Απορρίφθεισες</a>
                 </li>
             </ul>
             <div class="tab-content" id="myTabContent">
-                <div class="tab-pane fade show active" id="pending" role="tabpanel" aria-labelledby="pending-tab">
+                <div class="tab-pane fade" id="pending" role="tabpanel" aria-labelledby="pending-tab">
                     <h5>Eκκρεμής Αιτήσεις</h5>
                     <div class="table-responsive">
                         <table id="pendingTable" class="table">
@@ -41,7 +41,7 @@
                         </table>
                     </div>
                 </div>
-                <div class="tab-pane fade" id="approved" role="tabpanel" aria-labelledby="approved-tab">
+                <div class="tab-pane fade  show active" id="approved" role="tabpanel" aria-labelledby="approved-tab">
                     <h5>Εγκεκριμένες Αιτήσεις</h5>
                     <div class="table-responsive">
                         <table id="approvedTable" class="table">

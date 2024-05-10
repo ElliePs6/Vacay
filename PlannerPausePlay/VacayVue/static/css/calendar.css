@@ -1,17 +1,15 @@
 #calendar {
-  border: 1px solid #990000;
+  border: 1px solid #646060a2;
   border-radius: 1px;
   padding:10px; 
   background-color: #ffffff;
 
-  
-}
 
+}
 /*  header toolbar */
 .fc-header-toolbar {
-  background-color: #ffffff;
+  background-color:transparent;
   color: #ff0a00;
- 
 }
 /*Title*/
 .fc-toolbar-title {
@@ -19,7 +17,7 @@
   font-family: "Roboto Mono", monospace;
 }
 
-/*navigation buttons */
+/*-------------------Navigation buttons --------------------------*/
 .fc .fc-button-primary {
     background-color: #ff0a00;
     border-color:#ff0a00;
@@ -31,27 +29,45 @@
   color:#ffffff;
 
 }
-
-/* view buttons */
+/* --------------------Month/Week/List buttons---------------- */
 .fc .fc-button-primary:not(:disabled).fc-button {
   background-color: #ff0a00;
     border-color:#ff0a00;
     color:#ffffff;
 }
-/* Adjust the height of all-day events
-.fc-daygrid-event {
-  max-height: 20px;
-  overflow: auto; 
-  margin-bottom: 5%; 
-
-} */
-/* Enable overflow scrolling for events that exceed the maximum height */
-.fc-daygrid-event.fc-event-start.fc-event-end {
-  overflow-y: auto; 
- 
+/*---------------------------- Calendar's Events-------------------------- */
+/* Adjust the height of the event container */
+.fc-daygrid-day-events {
+  margin-bottom: 20px;
+  padding-right: 5px; /* Adjust as needed */
+  overflow-y: auto;
+  max-height: 200px; /* Set the maximum height to display */
 }
 
-/*for the links in dates*/
+/* Add margin to create space between the event and the scrollbar */
+.fc-daygrid-event.fc-event-start.fc-event-end {
+  margin-bottom: 5px; /* Adjust as needed */
+}
+
+/* Adjust scrollbar width and style */
+.fc-daygrid-day-events::-webkit-scrollbar {
+  width: 5px; /* Adjust scrollbar width */
+}
+.fc-daygrid-day-events::-webkit-scrollbar-track {
+  background: transparent; /* Set scrollbar track color */
+}
+.fc-daygrid-day-events::-webkit-scrollbar-thumb {
+  background-color: #ccc; /* Set scrollbar thumb color */
+  border-radius: 10px; /* Set scrollbar thumb border radius */
+}
+
+.fc-list-item-title {
+  font-weight: bold;
+  color: #035c1e;
+  font-size: 12px;
+}
+
+/*-----------------------------For the Links in Dates-----------------------------*/
 .fc-col-header-cell a,
 .fc-daygrid-day-frame .fc-daygrid-day-number{
   color:#000000;
@@ -64,46 +80,61 @@
   border: 1px solid  #ff0a00; /* Example color */
 }
 
-.fc-list-item-title {
-  font-weight: bold;
-  color: #ffffff;
-}
+
 
 .fc-list-item-time {
   color: #666;
 }
 .fc-list-event-time{color: #666;}
 
+/*----------------------------------------------------------------------------------------------------------------------------------*/
 
 /* Media query for small devices */
-@media (max-width: 768px) {
+@media  (min-width: 650px) and (max-width: 950px) {
   .fc-scrollgrid-section,
   .fc-scrollgrid-sync-table td {
     border-width: 0.5px; 
-    
   }
   #calendar {
-    overflow-y: auto; 
-    max-height: 300px; 
+    overflow-y: auto;
+    max-height: 300px;
   }
   #calendar tbody {
-    height: auto; 
+    height: auto;
     overflow: auto; 
 }
+.fc .fc-button-primary:not(:disabled).fc-button {
+  font-size: 12px;
+  padding: 5%;
+}
+/* Adjustments for navigation buttons */
+.fc .fc-button-primary {
+  font-size: 10px;
+  padding: 5px 10px;
+}
+}
+/* Media query for medium-sized devices */
+@media (min-width: 950px) and (max-width: 1350px) {
+  .fc-scrollgrid-section,
+  .fc-scrollgrid-sync-table td {
+    border-width: 0.5px;
+  }
+  #calendar {
+    overflow-y: auto;
+    max-height: 300px;
+  }
+  #calendar tbody {
+    height: auto;
+    overflow: auto;
+  }
   .fc .fc-button-primary:not(:disabled).fc-button {
     font-size: 12px; 
-    padding: 5%; 
-  }
-
-  /* Adjustments for navigation buttons */
-  .fc .fc-button-primary {
-    font-size: 10px; 
-    padding: 5px 10px; 
+    padding: 10%;
   }
 }
 
 /* Media query for larger devices */
-@media (min-width: 1200px) and (max-width: 1700px) {
+@media (min-width: 1350px) and (max-width: 1750px) {
   .fc-scrollgrid-section,
   .fc-scrollgrid-sync-table td {
     border-width: 1px;
@@ -117,23 +148,4 @@
   overflow: auto; 
   }
 
-}
-/* Media query for medium-sized devices */
-@media (min-width: 770px) and (max-width: 1200px) {
-  .fc-scrollgrid-section,
-  .fc-scrollgrid-sync-table td {
-    border-width: 0.5px;    
-  }
-  #calendar {
-    overflow-y: auto; 
-    max-height: 300px; 
-  }
-  #calendar tbody {
-    height: auto;
-    overflow: auto; 
-    }
-  .fc .fc-button-primary:not(:disabled).fc-button {
-    font-size: 12px; 
-    padding: 10%; 
-  }
 }

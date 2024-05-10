@@ -1,40 +1,44 @@
 document.addEventListener("DOMContentLoaded", function() {
-    var progressCircles = document.querySelectorAll('.progress-circle');
+    var progressCirclesContainers = document.querySelectorAll('.progress-circle-container');
 
-    progressCircles.forEach(function(progressCircle) {
-        var leaveType = progressCircle.dataset.leaveType;
-        var usedDays = parseInt(progressCircle.dataset.usedDays);
-        var totalDays = parseInt(progressCircle.dataset.defaultDays);
+    progressCirclesContainers.forEach(function(container) {
+        var progressCircles = container.querySelectorAll('.progress-circle');
 
-        // Debugging: Log values
-        console.log("Leave Type:", leaveType);
-        console.log("Used Days:", usedDays);
-        console.log("Total Days:", totalDays);
+        progressCircles.forEach(function(progressCircle) {
+            var leaveType = progressCircle.dataset.leaveType;
+            var usedDays = parseInt(progressCircle.dataset.usedDays);//γιατι ειναι αριθμοι και περιμενοι string
+            var totalDays = parseInt(progressCircle.dataset.defaultDays);
 
-        // Check for NaN or division by zero
-        if (isNaN(usedDays) || isNaN(totalDays) || totalDays === 0) {
-            console.error("Invalid or missing data for leave type:", leaveType);
-            return;
-        }
+            // Debugging: Log values
+            console.log("Leave Type:", leaveType);
+            console.log("Used Days:", usedDays);
+            console.log("Total Days:", totalDays);
 
-        // Calculate percentage
-        var percentage = (usedDays / totalDays) * 100;
+            // Check for NaN or division by zero
+            if (isNaN(usedDays) || isNaN(totalDays) || totalDays === 0) {
+                console.error("Invalid or missing data for leave type:", leaveType);
+                return;
+            }
 
-        // Debugging: Log percentage
-        console.log("Percentage:", percentage);
+            // Calculate percentage
+            var percentage = (usedDays / totalDays) * 100;
 
-        var progressIndicator = progressCircle.querySelector('.progress-indicator');
-        var progressText = progressCircle.querySelector('.progress-text');
+            // Debugging: Log percentage
+            console.log("Percentage:", percentage);
 
-        // Update progress circle style and text
-        progressIndicator.style.width = percentage + '%';
-        progressText.textContent = '(' + usedDays + '/' + totalDays + ')';
+            var progressIndicator = progressCircle.querySelector('.progress-indicator');
+            var progressText = progressCircle.querySelector('.progress-text');
 
-        // Display percentage if it's a valid number
-        if (!isNaN(percentage)) {
-            progressText.textContent += ' ' + Math.round(percentage) + '%';
-        } else {
-            progressText.textContent = 'N/A';
-        }
+            // Update progress circle style and text
+            progressIndicator.style.width = percentage + '%';
+            progressText.textContent = '(' + usedDays + '/' + totalDays + ')';
+
+            // Display percentage if it's a valid number
+            if (!isNaN(percentage)) {
+                progressText.textContent += ' ' + Math.round(percentage) + '%';
+            } else {
+                progressText.textContent = 'N/A';
+            }
+        });
     });
 });

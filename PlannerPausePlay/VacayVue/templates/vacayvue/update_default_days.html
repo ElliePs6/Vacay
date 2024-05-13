@@ -1,0 +1,37 @@
+{% extends 'vacayvue/base.html' %}
+{% load static %}
+
+{% block content %}
+<div id="content-wrap">
+    <div class="row">
+        <div class="col-md-6 pic-container">
+            <h3 class="card-title">Ενημέρωση Στοιχείων</h3>
+            <img src="{% static 'images/stripy6.png' %}" alt="Image" class="img-fluid ">
+        </div>
+        <div class="col-md-6">
+            <!-- Right column for card -->
+            <div class="card custom-card">
+                <div class="card-body">
+                    
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="id_name">Όνομα:</label>
+                            {{ form.name }}
+                        </div>
+                        <div class="form-group">
+                            <label for="id_default_days">Προεπιλεγμένες Μέρες:</label>
+                            {{ form.default_days }}
+                        </div>
+                        <div class="form-group">
+                            <label for="id_reset_month">Μήνας Επαναφοράς:</label>
+                            {{ form.reset_month }}
+                        </div>
+                        <input type="submit" value="Ενημέρωση" class="btn btn-secondary">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

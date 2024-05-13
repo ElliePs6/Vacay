@@ -1,0 +1,38 @@
+{% extends 'vacayvue/base.html' %}
+{% load static %}
+{% block content %}
+<div id="content-wrap">
+    <div class="row">
+      <div class="col-md-6 pic-container">
+        <h3 class="card-title">Ενημέρωση Στοιχείων</h3>
+        <img src="{% static 'images/stripy7.png' %}" alt="Image" class="img-fluid ">
+    </div>
+        <div class="col-md-6">
+            <div class="card custom-card">
+                <div class="card-body">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="id_first_name">Όνομα:</label>
+                            {{ form.first_name }}
+                        </div>
+                        <div class="form-group">
+                            <label for="id_last_name">Επίθετο:</label>
+                            {{ form.last_name }}
+                        </div>
+                        <div class="form-group">
+                            <label for="id_datejoined">Έναρξη</label>
+                            {{ form.join_date }}
+                        </div>
+                        <input type="submit" value="Αποθήκευση" class="btn btn-secondary">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block script%}
+<script src="{% static 'js/datepicker-el.js' %}"></script>
+<script src="{% static 'js/datepicker.js' %}"></script>
+{% endblock  %}

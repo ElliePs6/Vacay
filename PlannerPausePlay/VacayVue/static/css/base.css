@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 /* Reset default margin and padding */
 html, body, header, footer, div, p, h1, h2, h3, h4, h5, h6 {
     margin: 0;
@@ -37,3 +38,215 @@ footer {
     position: relative; /* Change position to relative */
     z-index: 2; /* Ensure the footer appears above the calendar */
 }
+=======
+:root {
+    --red: #ff0a00;
+    --white: #fff;
+    --max-width: 1200px;
+    --gradient-color:linear-gradient(90deg, , #ffffff 0%, #ff5852 100% );
+    --shadow-color:0px 10px 30px rgba(118,85,225,0.3);
+    --box-shadow:0px,10px,30px rgba(57,56,61,0.205);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+h1, h2, h3, h4, h5, p {
+    color: var(--white);
+    font-family: "Roboto Mono", monospace;
+}
+html,body{
+    width:100%;
+    height:100%;
+    
+}
+.main-menu{background-color: var(--red);}
+.navbar-brand{
+    padding: 0.2remo.5rem;
+}
+.navbar{
+    padding:1rem 20rem;
+   
+    
+}
+.nav-link{
+    font:normal 500 16px "Roboto Mono",cursive ;
+    text-transform: uppercase;
+    padding:1.7rem;
+    color:var(--white);
+
+}
+.navbar-nav a:hover{
+    background: var(--gradient-color);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+#page-container{
+
+    position: relative;
+    min-height: 100vh;
+
+}
+#content-wrap{ 
+    padding-bottom: 2.5rem;
+   margin-bottom: 2.5rem;
+
+    
+}
+
+
+#footer {
+        position:fixed;
+        bottom: 0;
+        width: 100%;
+        height: 2.5rem; 
+        padding: 2% 0;
+        text-align: center;
+        background-color: var(--red);
+        color: var(--white);
+        z-index: 1000;
+           
+    }
+/*----------------------------------------CSS for Cards----------------------------------------------------------------------------------------------*/
+.card {
+    background-color:black;
+    padding: 5%;
+    margin-bottom: 5%;
+    margin-top: 5%;
+
+    
+ 
+ 
+}
+.card-title {
+    border-top:1px solid red;
+    border-bottom:1px solid red;
+    color: rgb(255, 255, 255);
+    border-radius: 5px; 
+    padding: 1%;
+    text-align: center;
+    margin-top: 2%;
+ 
+}
+.custom-card label {
+    color: #fff; 
+    font-weight: bold;
+    padding: 1%;
+}
+
+.custom-card .form-group {
+    margin-bottom: 20px; /* Add some spacing between form groups */
+}
+.pic-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid red;
+ 
+    
+  
+  }
+  .pic-container img {
+    
+    width: auto;
+    height: 100%
+  }
+  
+
+/*---------------------------------- CSS for Datepicker ---------------------------------------------------------------------------------*/
+input[type="submit"] {
+    background-color:red;
+    color: white;
+    padding: 1% 3%;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width:100%;
+  }
+  input[type="submit"]:hover {
+    background-color: rgb(255, 69, 69);
+    color: #dbdada;
+  }
+/*-----------------------------------------------------------------------*/
+.ui-datepicker-header {
+    background-color: #ff0000; 
+    color: #fff; 
+   
+}
+.ui-datepicker-prev, .ui-datepicker-next {
+    background-color: transparent; 
+    color: #fff; 
+    border-color: #b90a04;
+    
+}
+.ui-datepicker-prev:hover, .ui-datepicker-next:hover {
+    background-color: #c90000;
+    border-color: #770502;
+ 
+}
+.ui-datepicker-calendar  {
+    background-color:#000000; 
+    color: #ffffff; 
+
+}
+.ui-datepicker th {
+    border-bottom: 1px solid rgb(0, 0, 0); 
+}
+.ui-datepicker td {
+    border: 1px solid rgb(0, 0, 0); 
+    background-color: transparent;
+    color:white;
+  }
+  
+  /* Style for td elements with links (dates) */
+  .ui-datepicker td a {
+    text-decoration: none; 
+    color: inherit; /* Inherit text color from parent */
+  }
+   /* Style for td box elements(dates) */
+  .ui-state-default,
+  .ui-widget-content .ui-state-default{
+    border: 1px solid #a0303000;
+    background: red;
+    font-weight: normal;
+    color: #f7f7f7;
+}
+  /* Style for td elements with links on hover (dates) */
+  .ui-datepicker td a:hover {
+    background-color: #78bd8080;
+    text-decoration: underline; /* Underline on hover */
+  }
+/*-------------------------------------------------------------------------------------------------------------------*/
+
+
+@media (width > 1200px) {
+    .container {
+        width:auto
+    }
+}
+@media (width >768) {
+    .container {
+        width:auto
+        
+    }
+    .nav{
+        position: :static;
+        padding-block: 2rem 0;
+        paddin
+    }
+    .navbar-toggler {
+        display: block; /* Show toggler icon when screen width is 1250px or less */
+        }
+}
+@media  (min-width: 550px) and (max-width: 850px) {
+    .container {
+        width:auto
+   
+    }
+}
+>>>>>>> Stashed changes

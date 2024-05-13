@@ -1,0 +1,438 @@
+/*---------------------------Για την Company Home σελίδα--------------------------------*/
+.welcome-title{
+  border-top:1px solid red;
+  border-bottom:1px solid red;
+  color: rgb(0, 0, 0);
+  border-radius: 5px; 
+  padding: 1%;
+  text-align: center;
+  margin-top: 1%;
+  margin-bottom: 3%; 
+}
+.leftComp-container{
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: left;
+  border-right: 1px solid #ff0800d2;
+  padding: 2%;
+
+ 
+}
+.color-legend {
+  padding-top: 1%;
+  display:inline-block
+  
+}
+.color-legend ul {
+  list-style: none;
+  padding: 0;
+}
+.color-legend li {
+  display:inline-block;
+
+}
+.color-legend .color-square {
+  width: 20px; /* Adjust as needed */
+  height: 20px; /* Adjust as needed */
+  margin-right: 10px; /* Adjust spacing */
+}
+.color-legend span {
+  margin-right: 5px; /* Adjust spacing between leave type and color square */
+}
+.emp-num-title{
+  border-top:1px solid red;
+  border-bottom:1px solid red;
+  color: rgb(8, 8, 8);
+  border-radius: 5px; 
+  padding: 1%;
+  text-align: center;
+  margin-top: 1%;
+  margin-bottom: 3%; 
+
+}
+.request-list-container {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: left;
+  padding: 2%;
+  color: black;
+
+}
+.animated-number {
+  font-size: 36px; 
+  font-weight: bold; 
+  color: #ff0a00;
+  animation: pulseNumber 1s infinite;
+  text-align: center;
+  margin-bottom: 2%;
+}
+@keyframes pulseNumber {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5; 
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.request-wait-title{
+  text-align: left;
+  
+}
+.all-emp-req-title {
+  padding-bottom: 1%;
+}
+.requests-list{
+  padding-left: 0rem;
+}
+.requests-list li {
+  display: flex; 
+  align-items: center; 
+}
+.requests-list  a {
+  color: #ff0a00;
+  font-style: bold;
+  font-size: 14px;
+}
+.requests-list a:hover {
+  color: #ff3636;
+}
+.approve-btn,
+.reject-btn {
+  border-radius: 50%; 
+  width: 25px; 
+  height: 25px; 
+  line-height: 25px; 
+  padding: 0; 
+  font-size: 14px; 
+  margin-right: 3%; 
+}
+.approve-btn{background-color:  rgb(0, 255, 200) ;}  
+.reject-btn {background-color: rgb(255, 32, 3) ;}
+
+/*---------------------------------------Για τη λίστα Αιτήσεων---------------------------------------------------------------*/
+.list-title{
+  border-top:1px solid red;
+  border-bottom:1px solid red;
+  color: rgb(255, 255, 255);
+  border-radius: 5px; 
+  padding: 1%;
+  text-align: center;
+  margin-top: 1%;
+  margin-bottom: 3%; 
+}
+.active-request-container{
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: left;
+  padding: 2%;
+
+}
+.active-request-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.active-request-table  th {
+  background-color: transparent; 
+  font-weight: bold; 
+  color: #fffefe; 
+}
+.active-request-table  th,
+.active-request-table  td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd; 
+}
+
+.active-request-table  .custom-link {
+  text-decoration: none;
+  color: blue; 
+}
+
+.active-request-table  .custom-link:hover {
+  text-decoration: underline; 
+}
+.custom-link {
+  color: #007bff; 
+  text-decoration: none;
+}
+
+.custom-link:hover {
+  text-decoration: underline;
+}
+/*---------------------------Για την προσθήκη Υπαλλήλων--------------------------------*/
+.reg-emp-title{
+  border-top:1px solid red;
+  border-bottom:1px solid red;
+  color: rgb(255, 255, 255);
+  border-radius: 5px; 
+  padding: 1%;
+  text-align: center;
+  margin-top: 1%;
+  margin-bottom: 3%; 
+}
+.image-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid #ff0800d2;
+  padding: 2%; 
+  
+
+}
+.image-container img {
+  padding: 10%;
+  width: auto;
+  height: 100%;
+  position: relative; /* Ensure the image is positioned relative to its container */
+  z-index: 1; /* Ensure the image appears above the color overlay */
+}
+
+.register-container{
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: left;
+  padding:2%;
+  
+}
+label {
+  color: #fff; 
+  font-weight: bold;
+  padding: 1%;
+}
+/* Style for the form fields */
+input[type="text"],
+input[type="email"],
+input[type="date"] {
+  width: 100%;  
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  margin-bottom: 16px;
+}
+
+
+
+/**--------------------------------Προβολή Υπαλλήλων-------------------------------------------------------**/
+.all-employees-title{
+  border-top:1px solid red;
+  border-bottom:1px solid red;
+  color: rgb(255, 255, 255);
+  border-radius: 5px; 
+  padding: 1%;
+  text-align: center;
+  margin-top: 1%;
+  margin-bottom: 3%; 
+}
+.table {
+  width: 100%;
+  margin-bottom: 20px;
+  color: white;
+  margin-top: 5vh; /* Move the table down a little */
+}
+#employee-table_filter {
+  float: right;
+}
+.table-responsive{
+  margin-bottom: 3%;
+}
+.pagination {
+  list-style: none; 
+  padding: 0; 
+  margin: 0 auto; /* Center the pagination horizontally */
+  margin-bottom: 2%;
+/*
+  margin-top: 2vh; --> Add some top margin 
+  margin-bottom: 5vh; --> Add some bottom margin 
+  text-align: center; --> Center the pagination links
+  position: absolute; --> Position the pagination absolutely 
+  bottom: 19%; --> Position the pagination at the bottom of the container 
+  left: 50%; --> Center the pagination horizontally 
+  transform: translateX(-50%); --> Center the pagination horizontally 
+*/
+}
+.pagination li {
+  display: inline-block; 
+  margin-right: 5px; 
+  border-top: 1px solid red; 
+  border-bottom: 1px solid red; 
+}
+
+.pagination li a {
+  color: red; 
+  text-decoration: none; 
+}
+
+.pagination li.active a {
+  background-color: red; 
+  color: white; 
+  border: 1px solid red; 
+  padding: 5px 10px; 
+}
+
+.pagination li.disabled a {
+  color: gray; 
+}
+
+.pagination li:hover a {
+  background-color: darkred; 
+}
+#employee-table_info
+ {
+  display: none;
+}
+#employee-table td {
+  border-right: 1px solid red;
+}
+
+/* CSS for the modal*/
+#DetailModal .modal-content {
+  background-color: black;
+  color: white;
+}
+
+#DetailModal .modal-header {
+  background-color: red;
+  color: white;
+  border-bottom: none; 
+}
+
+.modal-header{
+  background-color: red;
+}
+
+/*----------------------------------Για τις Ρυθμίσεις-----------------------------------------------*/
+
+.manage-leave-title {
+  border-top:1px solid red;
+  border-bottom:1px solid red;
+  color: rgb(255, 255, 255);
+  border-radius: 5px; 
+  padding: 1%;
+  text-align: center;
+  margin-top: 1%;
+  margin-bottom: 3%; 
+ 
+}
+.manage-leave-container {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: left;
+  padding: 2%;   
+}
+
+.subtext-container {
+  width: 90%;
+  margin: 0 auto;
+  opacity: 0.7;
+  margin-bottom: 1%;
+}
+/*table style*/
+.manage-leave {
+  width: 100%;
+  border-collapse: collapse;
+ 
+}
+.manage-leave td {
+  border: 1px solid red;
+  padding: 1.5%; /* Increase padding for better spacing */
+}
+/*button style*/
+#add-leave-btn {
+  width: 40%; 
+  margin: 2% 0; 
+  background-color: transparent;
+  border-color: #ff0800d2;
+  color: white;
+}
+
+.list-leave-container {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: left;
+  padding: 2%;
+ 
+}
+/* scrollbar style */
+.list-leave-container::-webkit-scrollbar {
+  width: 12px; /* Set the width of the scrollbar */
+}
+.list-leave-container::-webkit-scrollbar-track {
+  background: #6e08e4; /* Set background color of the track */
+}
+.list-leave-container::-webkit-scrollbar-thumb {
+  background: #ff0202; /* Set color of the handle */
+  border-radius: 6px; /* Set border radius of the handle */
+}
+.list-leave-container::-webkit-scrollbar-thumb:hover {
+  background: #af0202; /* Change color of handle on hover */
+}
+/* For Firefox */
+.list-leave-container {
+  scrollbar-width: thin; /* Set the width of the scrollbar */
+}
+.list-leave-container {
+  scrollbar-color: #ffffff #000000; /* Set color of scrollbar and track */
+}
+/*table style*/
+.leave-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.leave-table th,
+.leave-table td {
+  padding: 1.5%; /* Increase padding for better spacing */
+  border: 1px solid red;
+}
+/*image style*/
+.picture-container {
+  width: 100%; /* Adjust width to fit within the container */
+  max-width: 350px; /* Limit maximum width for responsiveness */
+  margin: 0 auto; /* Center the container horizontally */
+ 
+}
+.picture-container img {
+  width: 90%; /* Ensure the image takes up the full width of its container */
+  border-radius: 80%; /* Keep the image round */
+}
+/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+/* Media query for larger devices */
+@media (min-width: 1350px) and (max-width: 1750px) {
+  .leftComp-container {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: left;
+    border-right: 1px solid #ff0800d2;
+    padding: 3%;
+  }
+}
+/* Media query for medium-sized devices */
+@media (min-width: 950px) and (max-width: 1350px) {
+  .leftComp-container {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: left;
+    border-right: 1px solid #ff0800d2;
+    padding: 3%;
+  }
+}
+/* Media queries for small devices */
+@media  (min-width: 650px) and (max-width: 950px)  {
+  .image-container img {
+    width: 100px;
+    height: 100px;
+  }
+}

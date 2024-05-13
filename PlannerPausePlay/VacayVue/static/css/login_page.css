@@ -1,0 +1,102 @@
+.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+    font-size: 1.2rem; /* Increase font size */
+}
+
+.login-container {
+    background-color: #fffefe;
+    border-radius: 15px; /* Increase border radius */
+    padding: 30px; /* Increase padding */
+    box-shadow: var(--box-shadow);
+    margin: 0 2rem; /* Adjusted margin */
+}
+
+.login-title {
+    text-align: center;
+    background-color: #000000;
+    padding: 5rem 2rem; /* Increase padding */
+    border-radius: 15px; /* Increase border radius */
+}
+
+.title-text {
+    color: var(--red);
+    font-size: 2rem; 
+    padding-bottom: 1rem;
+}
+
+.login-form {
+    padding: 2%; /* Increase padding */
+    border-radius: 8px; /* Increase border radius */
+    color: var(--white);
+    max-width: 100%; /* Modified max-width */
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 15px; /* Increase border radius */
+    margin-right: 2rem; /* Added margin */
+}
+
+.login-form .input-group-text {
+    background-color: var(--red);
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform: translateX(-100%);
+    color: var(--white);
+    border-color: rgb(190, 0, 0);
+}
+
+.login-form .form-check-input[type="checkbox"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: 2px solid var(--red); /* Increase border width */
+    border-radius: 0px; /* Increase border radius */
+    cursor: pointer;
+}
+
+.login-form .form-check-input[type="checkbox"]:checked {
+    background-color: var(--red);
+    border-color: rgb(94, 0, 0);
+}
+
+.login-form .form-check-input[type="checkbox"]::before {
+    content: "";
+    display: inline-block;
+    width: 22px; /* Increase width */
+    height: 22px; /* Increase height */
+    background-color: #ccc;
+}
+
+.login-form .form-check-input[type="checkbox"]:checked::before {
+    content: "\2713";
+    font: normal 300 20px "Roboto Mono", cursive; /* Increase font size */
+    color: #000000;
+    text-align: center;
+    line-height: 25px; /* Increase line height */
+}
+
+.login-form button[type="submit"] {
+    display: inline-block;
+    padding: 10px 20px; /* Increase padding */
+    font: normal 500 16px "Roboto Mono", cursive; /* Increase font size */
+    border-color: rgb(190, 0, 0);
+    border-radius: 8px; /* Increase border radius */
+    background-color: var(--red);
+    color: var(--white);
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.login-form button[type="submit"]:hover {
+    background-color: rgb(255, 65, 65);
+}

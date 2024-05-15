@@ -3,15 +3,13 @@
 
 {% block login %}
 <div class="login-container">
-
-<div class="col-md-12 ">
-    <div class="row">
-        <div class="col-md-6">
-            <img src="{% static 'images/red.jpg' %}" alt="Image" class="img-fluid">
+    <div class="row loglog">
+        <div class="col-md-4 log-image-col">
+            <img src="{% static 'images/image2k.png' %}" alt="Image" class="img-fluid">
         </div>
-        <div class="col-md-6">
+        <div class="col-md-8 login-col">
             <form action="{% url 'login' %}" method="POST" class="form-container login-form">
-                <h4 class="text">Είσοδος Χρήστη</h4>
+                <h4 class="login-title">Είσοδος Χρήστη</h4>
                 {% csrf_token %}
                 <div class="form-group">
                     <div class="form-check form-check-inline">
@@ -52,10 +50,9 @@
                 <button type="submit" class="login-button">Σύνδεση</button>
             </form>
         </div>
-       
     </div>
 </div>
-</div>
+
 {% endblock %}
 {% block script%}
 <script src="{% static 'js/checkbox.js' %}"></script>

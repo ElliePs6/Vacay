@@ -203,17 +203,7 @@ label {
   font-weight: bold;
   padding: 1%;
 }
-/* Style for the form fields */
-input[type="text"],
-input[type="email"],
-input[type="date"] {
-  width: 100%;  
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-  margin-top: 6px;
-  margin-bottom: 16px;
-}
+
 
 
 
@@ -310,7 +300,7 @@ input[type="date"] {
 .manage-leave-title {
   border-top:1px solid red;
   border-bottom:1px solid red;
-  color: rgb(255, 255, 255);
+  color: #ffffff;
   border-radius: 5px; 
   padding: 1%;
   text-align: center;
@@ -357,6 +347,7 @@ input[type="date"] {
   align-items: left;
   justify-content: left;
   padding: 2%;
+  color: white;
  
 }
 /* scrollbar style */
@@ -382,11 +373,13 @@ input[type="date"] {
 }
 /*table style*/
 .leave-table {
+
   width: 100%;
   border-collapse: collapse;
 }
 .leave-table th,
 .leave-table td {
+  color: white;
   padding: 1.5%; /* Increase padding for better spacing */
   border: 1px solid red;
 }

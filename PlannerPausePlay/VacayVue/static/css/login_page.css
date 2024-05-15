@@ -1,72 +1,83 @@
-.login-container{
-    display:flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/*.col-md-6 {
-    padding: 0;
-    margin: 0;
-    
-}*/
-
-.login-form {
-    padding:2%;
-    border-radius: 5px;
-    background-color: #000000;
-    border-radius:5px;
-    color: #ffffff;
-    height: 100%;
-    max-height: 100%; 
-    overflow: hidden;
+/* Centering container */
+.login-container {
     display: flex;
-    flex-direction: column;
-    align-items: center; /* Center horizontally */
+    justify-content: center;
+    align-items: flex-start;
+   
+    margin-right: 10rem;
+
+}
+
+/* Image column styling */
+.log-image-col {
+    
+   
+    padding: 2rem; /* Adjust padding as needed */
+}
+
+/* Image styling */
+.log-image-col img {
+    margin-top: 5rem;
+ 
+    width: 100%; /* Set image width to fill its container */
+    max-width: 600px; /* Set maximum image width */
+    height:50%; /* Maintain aspect ratio */
+    border-bottom: 10px solid #ff0800d2; /* Set border */
+    border-radius: 50%; /* Make image circular */
+}
+
+
+/* Form styling */
+.login-form {
+    width: 100%;
+    padding: 2rem;
+    margin-top: 2rem;
+    font: normal 300 20px "Roboto Mono"; /* Increase font size */
+    background-color: #000000;
+    text-align: center;
+    border-radius: 10%;
+
+}
+
+/* Title styling */
+.login-title {
+    text-align: center;
+    margin-bottom: 2rem; /* Equivalent to 20px for 1200px width */
+    font: normal 600 30px "Roboto Mono"; /* Increase font size */
+    color: var(--white);
+}
+
+/* Input styling */
+.input-container {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center content horizontally */
+    width: 100%; /* Adjust the width as needed */
+    margin: 1rem 0; /* Add margin between input containers */
     
 }
 
-/* Form group*/ 
-.login-form .form-group {
-    margin-bottom: 10px;
+.input-group-text {
+    background-color: var(--red);
+    color: var(--white);
+    border: 2px solid var(--red); /* Equivalent to 2px for 1200px width */
+    border-radius: 80%;
+    padding: 1rem; /* Increase padding */
+    height: 2.75rem; /* Increase height */
+    width: 2.75rem; /* Increase width */
+    font-size: 20px; /* Increase font size */
+    margin: 0.75rem 0; /* Add margin between input containers */
 }
 
-.login-form .input-group {
-    position: relative;
-}
-
-.login-form .input-group input{
-    color:rgb(119, 30, 160);
-    width: 100%;
-    font-size: 1vw;
-    line-height: 2;   
-}
-
-.login-form .input-group-text {
-    background-color:#ff0a00 ;
-    position: absolute;
-    left: 0;
-    top: 0;
-    transform: translateX(-100%);
-    color: #ffffff; /* Icon color */
-}
-
-
-/* Form labels */
-.login-form label {
-    display: block;
-    margin-bottom: 5%;
-    font-weight: bold;
-}
-
-
+/* Checkbox styling */
 .login-form .form-check-input[type="checkbox"] {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    border: 1px solid #ff0a00;
-    border-radius: 2px;
-    width: 20px;
-    height: 20px;
+    border: 2px solid #ff0a00; /* Equivalent to 2px for 1200px width */
+    border-radius: 4px; /* Increase border radius */
+    width: 2rem; /* Increase width */
+    height: 2rem; /* Increase height */
     cursor: pointer;
 }
 
@@ -78,47 +89,35 @@
 .login-form .form-check-input[type="checkbox"]::before {
     content: "";
     display: inline-block;
-    width: 20px;
-    height: 20px;
+    width: 2rem; /* Increase width */
+    height: 2rem; /* Increase height */
     background-color: #ccc;
 }
 
 .login-form .form-check-input[type="checkbox"]:checked::before {
     content: "\2713";
-    font-size: 14px;
+    font-size: 18px; /* Increase font size */
     color: #000000;
     text-align: center;
-    line-height: 20px;
+    line-height: 2rem; /* Increase line height */
 }
 
-/* Form buttons */
-.login-form button[type="submit"] {
-    display: inline-block;
-    padding: 10px 20px;
-    font-size: 14px;
+/* Button styling */
+.login-button {
+    display: block;
+    width: 50%; /* Set button width to 50% */
+    margin: 1rem auto; /* Center button horizontally with top and bottom margin */
+    padding: 1rem; /* Increase padding */
+    background-color: var(--red);
+    color: var(--white);
     border: none;
-    border-radius: 5px;
-    background-color: #ff0a00;
-    color: #fff;
+    border-radius: 0.5rem; /* Equivalent to 5px for 1200px width */
     cursor: pointer;
-    transition: background-color 0.3s;
+    font-size: 22px; /* Increase font size */
+    text-align: center;
+    text-decoration: none;
 }
 
-.login-form button[type="submit"]:hover {
-    background-color: #ff0a00;
-}
-
-/* Checkbox styles */
-.login-form .form-check-inline {
-    margin-right: 30px;
-}
-
-
-
-
-/* Text alignment */
-.login-form .text {
-    margin-top: 10%;
-    font-style: italic;
-    padding-bottom: 5%;
+.login-button:hover {
+    background-color: rgb(190, 0, 0);
 }

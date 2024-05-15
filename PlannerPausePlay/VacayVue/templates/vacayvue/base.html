@@ -39,26 +39,62 @@
     <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.png' %}">
 </head>
 <body>
-    {% include 'vacayvue/navbar.html' %}
-    {% include 'vacayvue/vertical_navbar.html' %}
-    {% if not request.user.is_authenticated %}    
-        {% block login %}
-        {% endblock %}
-    {% else %}    
-        {% block content %}
-        {% endblock %}    
-    {% endif %}
-    <div class="modal fade" id="DetailModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <!-- Modal for showing details -->
+    <div class="container-fluid">
+        <!-- Header Row -->
+        <div class="header-row">
+            <div class="col-md-12">
+                <!-- Header Container -->
+                <header class="header-container">
+                    {% include 'vacayvue/navbar.html' %}
+                    {% include 'vacayvue/vertical_navbar.html' %}
+                </header>
+            </div>
+        </div>
+
+        <!-- Page Content Row -->
+        <div class="page-content-row">
+            <!-- Empty Column (Width 2) -->
+            <div class="col-md-2 empty-col">
+                <!-- Empty Column - No Content -->
+            </div>
+            
+            <!-- Content Column (Width 10) -->
+            <div class="col-md-10 content-col">
+                <!-- Page Content Container -->
+                <div class="page-content-container">
+                    {% if not request.user.is_authenticated %}    
+                        {% block login %}
+                        {% endblock %}
+                    {% else %}    
+                        {% block content %}
+                        {% endblock %}    
+                    {% endif %}
+                    <div class="modal fade" id="DetailModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <!-- Modal for showing details -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Row -->
+        <div class="footer-row">
+            <div class="col-md-12">
+                <!-- Footer -->
+                <footer id="footer">
+                    &copy; {{ current_year }} Vacations Management
+                </footer>
             </div>
         </div>
     </div>
-    <footer>
-        &copy; {{ current_year }} Vacations Management
-    </footer>
+
     {% block script %}
     {% endblock %}
 </body>
+
+
+    
 </html>

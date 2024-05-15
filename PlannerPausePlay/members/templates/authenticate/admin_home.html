@@ -26,16 +26,22 @@
                                         <th>Όνομα Εταιρίας</th>
                                         <th>HR Όνομα</th>
                                         <th>Email Εταιρίας</th>
+                                        <th>ΑΦΜ Εταιρίας</th>
+                                        <th>ΔΟΥ Εταιρίας</th>
+
+                                        
                                         <!-- Add more columns if needed -->
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for company in related_companies %}
+                                    {% for company in companies %}
                                     <tr>
                                         <td>{{ company.name }}</td>
                                         <td>{{ company.hr_name }}</td>
                                         <td>{{ company.user.email }}</td>
-                                        <!-- Add more columns if needed -->
+                                        <td>{{ company.afm }}</td>
+                                        <td>{{ company.dou }}</td>
+
                                     </tr>
                                     {% endfor %}
                                 </tbody>

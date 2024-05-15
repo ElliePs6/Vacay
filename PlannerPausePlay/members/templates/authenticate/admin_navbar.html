@@ -16,7 +16,7 @@
                 </li>
                 {% endif %}
                 <!-- Include other navigation links here -->
-                {% if request.user.is_authenticated and  request.user.is_admin %}
+                {% if request.user.is_authenticated and  request.user.user_type == 'admin' %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'logout_admin' %}">Logout</a>
                 </li>

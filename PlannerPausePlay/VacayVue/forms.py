@@ -1,71 +1,129 @@
 from django import forms
 from django.forms import ModelForm
-from .models import Requests,Employee,CustomUser,Company
-from django.contrib.auth.password_validation import validate_password
+from .models import Request,CustomUser,Employee,LeaveType
 from django.contrib.auth.forms import UserCreationForm
-from django.utils import timezone
-
-
 
 class LoginForm(forms.Form):
     email = forms.EmailField(widget=forms.TextInput(attrs={'autofocus': True}))
     password = forms.CharField(widget=forms.PasswordInput)
     user_type = forms.ChoiceField(choices=(('employee', 'Employee'), ('company', 'Company')), required=True)
 
-class RegisterEmployeeForm(UserCreationForm):
-    email = forms.EmailField(widget=forms.TextInput(attrs={'autofocus': True, 'class': 'form-control'}))
-    date_joined = forms.DateTimeField(widget=forms.DateInput(attrs={'class': 'form-control datepicker', 'placeholder': 'Joining Date', 'id': 'date_joined'}))
-    password1 = forms.CharField(
-        label='Password',
-        widget=forms.PasswordInput(attrs={'class': 'form-control', 'data-toggle': 'tooltip', 'title': 'Your password must contain at least 8 characters and cannot be too similar to your other personal information.'})
+
+class RegisterEmployeeForm(forms.ModelForm):
+    email = forms.EmailField(
+        widget=forms.TextInput(attrs={'autofocus': True, 'class': 'form-control', 'placeholder': 'Email'})
     )
-    password2 = forms.CharField(
-        label='Confirm Password',
-        widget=forms.PasswordInput(attrs={'class': 'form-control', 'data-toggle': 'tooltip', 'title': 'Please enter the same password for verification.'})
+    join_date = forms.DateField(
+        widget=forms.TextInput(attrs={'class': 'form-control', 'type': 'text', 'placeholder': 'Ημερομηνία Πρόσληψης', 'id': 'id_join_date'}),
+        input_formats=['%Y-%m-%d']  # Format expected by Django
     )
-    first_name = forms.CharField(max_length=30, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'First Name'}))
-    last_name = forms.CharField(max_length=150, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Last Name'}))
-    company = forms.ModelChoiceField(queryset=Company.objects.all(), empty_label=None, widget=forms.Select(attrs={'class': 'form-control'}))
+    first_name = forms.CharField(
+        max_length=30, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Όνομα'})
+    )
+    last_name = forms.CharField(
+        max_length=150, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Επίθετο'})
+    )
 
     class Meta:
         model = CustomUser
-        fields = ['email', 'date_joined', 'password1', 'password2', 'first_name', 'last_name','company']
-        
+        fields = ['email', 'join_date', 'first_name', 'last_name']
 
     def save(self, commit=True):
         user = super().save(commit=False)
         user.username = user.email
         user.user_type = 'employee'
-
         if commit:
             user.save()
-
-
-            Employee.objects.create(
-                    user=user,
-                    first_name=self.cleaned_data['first_name'],
-                    last_name=self.cleaned_data['last_name'],
-                    join_date=self.cleaned_data['date_joined'],  # Use the same date_joined as submitted
-                    company = self.cleaned_data.get('company')
-                )
-
+            # No need to create an employee object here since it's being handled in your view
         return user
 
+class EditEmployeeForm(forms.ModelForm):
+    join_date = forms.DateField(
+        widget=forms.TextInput(attrs={'class': 'form-control', 'type': 'text', 'placeholder': 'Ημερομηνία Πρόσληψης', 'id': 'id_join_date'}),
+        input_formats=['%Y-%m-%d']  # Format expected by Django
+    )
+
+    class Meta:
+        model = Employee
+        fields = ['first_name', 'last_name', 'join_date']
+        widgets = {
+            'first_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'First Name'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Last Name'}),
+        }
+
+
+#-------------------------------------------------------------------------------------------------------------------------------------------
+
+CHOICES = (
+        ('Κανονική Άδεια', 'Κανονική Άδεια'),
+        ('Αδεια Εξετάσεων Εργαζόμενων Σπουδαστών', 'Αδεια Εξετάσεων Εργαζόμενων Σπουδαστών'),
+        ('Αδεια Εξετάσεων Μεταπτυχιακών Φοιτητών', 'Αδεια Εξετάσεων Μεταπτυχιακών Φοιτητών'),
+        ('Αιμοδοτική Άδεια', 'Αιμοδοτική Άδεια'),
+        ('Άδεια Άνευ Αποδοχών', 'Άδεια Άνευ Αποδοχών'),
+        ('Άδεια Μητρότητας', 'Άδεια Μητρότητας'),
+        ('Άδεια Πατρότητας', 'Άδεια Πατρότητας'),
+    )
+MONTH_CHOICES = (
+        (1, 'Ιανουάριος'),(2, 'Φεβρουάριος'),(3, 'Μάρτιος'),(4, 'Απρίλιος'),
+        (5, 'Μάιος'),(6, 'Ιούνιος'),(7, 'Ιούλιος'),(8, 'Αύγουστος'),
+        (9, 'Σεπτέμβριος'),(10, 'Οκτώβριος'),(11, 'Νοέμβριος'),(12, 'Δεκέμβριος'),
+    )
+
+class LeaveTypeForm(forms.ModelForm):
+    class Meta:
+        model = LeaveType
+        fields = ['name', 'default_days', 'reset_month']
+        widgets ={
+            'default_days':forms.TextInput(attrs={'class': 'form-control', 'pattern': '\d*','placeholder': 'xxxx'}),
+             'name': forms.Select(choices=CHOICES),
+             'reset_month': forms.Select(choices=MONTH_CHOICES)
+             }
+    def clean(self):
+        cleaned_data = super().clean()
+        name = cleaned_data.get('name')
+        reset_month = cleaned_data.get('reset_month')
+        user = self.instance.user if self.instance and hasattr(self.instance, 'user') else None
+        if self.instance and self.instance.pk:  # If updating an existing LeaveType
+            return cleaned_data  # Skip validation for updates
+        if name and reset_month and user:
+            if LeaveType.objects.filter(user=user, name=name).exists():
+                raise forms.ValidationError("A LeaveType with this name already exists for this user.")
+            existing_leave_types = LeaveType.objects.filter(user=user)
+            if existing_leave_types.exists() and reset_month != existing_leave_types.first().reset_month:
+                raise forms.ValidationError({'reset_month': 'The reset month must be consistent for leave types with the same user.'})
+        return cleaned_data
 
 class RequestForm(ModelForm):
+    leave_type = forms.ModelChoiceField(queryset=LeaveType.objects.none())  # Empty initial queryset
+
+    start =forms.DateField(
+        widget=forms.TextInput(attrs={'class': 'form-control', 'type': 'text', 'placeholder': 'Ημερομηνία Έναρξης', 'id': 'id_start'}),
+        input_formats=['%Y-%m-%d']  # Format expected by Django
+    )
+    end = forms.DateField(
+        widget=forms.TextInput(attrs={'class': 'form-control', 'type': 'text', 'placeholder': 'Ημερομηνία Λήξης', 'id': 'id_end'}),
+        input_formats=['%Y-%m-%d']  # Format expected by Django
+    )
+
     class Meta:
-        model = Requests
-        fields = ('Type', 'StartDate', 'EndDate', 'Comments')
-        labels = { 
-            'Type': "",
-            'StartDate': "",
-            'EndDate': "",            
-            'Comments': ""
-        }
+        model = Request
+        fields = ["leave_type", "start", "end", "description"]
         widgets = {
-            'Type': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Τύπος Άδειας'}),
-            'StartDate': forms.DateInput(attrs={'class': 'form-control datepicker', 'placeholder': 'Ημερομηνία Έναρξης', 'id': 'start-date'}),
-            'EndDate': forms.DateInput(attrs={'class': 'form-control datepicker', 'placeholder': 'Ημερομηνία Λήξης', 'id': 'end-date'}),
-            'Comments': forms.TextInput(attrs={'class': 'form-control comments', 'placeholder': ''})
+            "description": forms.Textarea(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Περιγραφή Αιτήσεως",
+                }
+            ),
         }
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['leave_type'].queryset = LeaveType.objects.all()
+#---------------------------------------------------------------------------------------#
+class ChangePasswordForm(forms.Form):
+    current_password = forms.CharField(label='Current Password', widget=forms.PasswordInput)
+    new_password = forms.CharField(label='New Password', widget=forms.PasswordInput)
+    confirm_password = forms.CharField(label='Confirm New Password', widget=forms.PasswordInput)
+
+    

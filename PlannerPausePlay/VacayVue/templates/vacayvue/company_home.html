@@ -1,25 +1,113 @@
 {% extends 'vacayvue/base.html' %}
+{% load static %}
 
 {% block content %}
-<<<<<<< Updated upstream
-<h1 class="text-center">Company Home Page</h1>
-<div class="container-fluid">
-=======
-<div id="content-wrap">
->>>>>>> Stashed changes
+<div class="container">
     <div class="row">
-        <div class="col-md-4">
-            {% include 'vacayvue/calendar.html' %}
-           
+        <div class="col-md-7 leftComp-container">
+            <h3 class="welcome-title">Καλωσήρθες {{ company.name }}</h3>
+            <div id="calendar"></div>
+            <div class="color-legend">
+                <table>
+                    <tbody>
+                        {% for leave_type, color in color_map.items %}
+                        <tr>
+                            <td>
+                                <div class="color-square" style="background-color:{{ color }};"></div>
+                            </td>
+                            <td>
+                                <span>: {{ leave_type }}</span>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <div class="col-md-2">
-    
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <!-- Add your other div here -->
+        <div class="col-md-5 request-list-container">
+            <h3 class="emp-num-title">Αριθμος Υπαλλήλων:</h3>
+            <div class="animated-number">{{  employee_count }}</div>
+            <h4 class="all-emp-req-title">Αιτήσεις σε αναμονή:</h4>
+            <ul class="requests-list">
+                {% for request in pending_requests %}
+                <hr class="custom-hr">
+                <li>
+                    <h5>{{ request.user.first_name }}:</h5>
+                    <button class="btn btn-success approve-btn" data-approve-request-id="{{ request.id }}">✓</button>
+                    <button class="btn btn-danger reject-btn" data-reject-request-id="{{ request.id }}">✗</button>
+                </li>
+                <a href="#" class="request-detail-link" data-request-id="{{ request.id }}" data-url="{% url 'request_details' request.id %}">Λεπτομέριες</a>
+                {% empty %}
+                <hr>
+                <li colspan="2">No request at the moment..</li>
+				{% endfor %}
+            </ul>
         </div>
     </div>
 </div>
 {% endblock %}
+
+{% block script%}
+<script src="{% static 'js/calendar.js' %}"></script>
+<script>
+    $(document).ready(function() {
+        $('.request-detail-link').click(function(e) {
+            e.preventDefault();
+            console.log("request detail link clicked.");
+            var requestId = $(this).data('request-id');
+            console.log("request ID:", requestId);
+            var url = $(this).data('url');
+            console.log("URL:", url);
+            $.ajax({
+                url: url,
+                type: 'GET',
+                async: true,
+                data: {
+                    request_id: requestId
+                },
+                success: function(response) {
+                    console.log("AJAX request successful.");
+                    $('#DetailModal .modal-content').html(response);
+                    console.log("Modal content populated.");
+                    $('#DetailModal').modal('show');
+                    console.log("Modal shown.");
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching request details:', error);
+                }
+            });
+        });
+        $('.approve-btn').click(function() {
+            var requestId = $(this).data('approve-request-id');
+            console.log("Request ID:" ,requestId);
+            $.ajax({
+                url:`/vacayvue/approve_leave_request/${requestId}/`,
+                type: 'GET',
+                success: function(response) {
+                    alert('Η Αίτηση εγκρίθηκε επιτυχώς');
+                    location.reload();
+                },
+                error: function(xhr, status, error) {
+                    
+                }
+            });
+        });
+        $('.reject-btn').click(function(event) {
+            event.preventDefault();
+            var requestId = $(this).data('reject-request-id');
+            console.log("Request ID:" ,requestId);
+            $.ajax({
+                url:`/vacayvue/reject-leave-request/${requestId}/`,
+                type: 'GET',
+                success: function(response) {
+                    alert('Η Αίτηση απορρίφθηκε επιτυχώς');
+                    location.reload();
+                },
+                error: function(xhr, status, error) {
+                    
+                }
+            });
+        });
+    });
+</script>
+{% endblock  %}

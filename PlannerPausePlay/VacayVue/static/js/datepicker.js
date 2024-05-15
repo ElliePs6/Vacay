@@ -1,15 +1,20 @@
-$(document).ready(function() {
-    // Date picker initialization for all elements with the 'datepicker' class
-    $('.datepicker').datepicker({
-        format: 'dd/mm/yy',  // Set the desired date format
-        autoclose: true,
-        todayHighlight: true,
-        clearBtn: true,
-        // Any other options you want to include
+$(function() {
+    $.datepicker.setDefaults($.datepicker.regional['el']);
+
+    $("#id_join_date").datepicker({
+        dateFormat: "dd/mm/yy", // Display format
+        altFormat: "dd-mm-yy",  // Format expected by Django
+        altField: "#id_join_date", // Hidden field for Django
+    });
+    $("#id_start").datepicker({
+        dateFormat: "dd/mm/yy", 
+        altFormat: "yy-mm-dd",  
+        altField: "#id_start", 
     });
 
-    // Click event for the calendar icon buttons
-    $('#start-calendar-icon, #end-calendar-icon').click(function() {
-        $(this).prev('.datepicker').datepicker('show');
+    $("#id_end").datepicker({
+        dateFormat: "dd/mm/yy", 
+        altFormat: "yy-mm-dd",  
+        altField: "#id_end", 
     });
 });

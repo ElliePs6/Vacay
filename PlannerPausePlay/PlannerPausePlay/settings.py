@@ -4,9 +4,6 @@ import os
 BASE_DIR =Path(__file__).resolve().parent.parent
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
-
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-%ri+qjt7ybk=54euusv8l@t$%nw&37tl&%9^zt0nbbud72uv7a'
 
@@ -36,6 +33,15 @@ AUTHENTICATION_BACKENDS = [
     'VacayVue.backends.EmailBackend'
 ]
 
+# Email settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.example.com'  # Replace 'smtp.example.com' with your SMTP server address
+EMAIL_PORT = 587  # Replace 587 with your SMTP port number
+EMAIL_USE_TLS = True  # Set it to True if TLS is required, otherwise set it to False
+EMAIL_HOST_USER = 'your_email@example.com'  # Replace with your email address used for authentication
+EMAIL_HOST_PASSWORD = 'your_email_password'  # Replace with your email password
+DEFAULT_FROM_EMAIL = 'your_email@example.com'  # Replace with your default sender email address
+
 
 
 MIDDLEWARE = [
@@ -46,7 +52,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
 ]
+
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+
 
 ROOT_URLCONF = 'PlannerPausePlay.urls'
 
@@ -61,6 +71,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'VacayVue.context_processors.current_year',
+                
             ],
         },
     },
@@ -70,7 +82,7 @@ WSGI_APPLICATION = 'PlannerPausePlay.wsgi.application'
 
 
 # Database
-# https://docs.djangoproject.com/en/5.0/ref/settings/#databases
+
 
 DATABASES = {
     'default': {
@@ -122,15 +134,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = '/static/'
-# settings.py
+STATIC_URL = 'static/' #with or without slash at beginning	
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 STATICFILES_DIRS = [
-    BASE_DIR / "static",  # Include project-level static files
-    # Add static folders for each app
     os.path.join(BASE_DIR, 'members', 'static'),
     os.path.join(BASE_DIR, 'VacayVue', 'static'),
-    # Add more app static folders as needed
 ]
 
 # Default primary key field type

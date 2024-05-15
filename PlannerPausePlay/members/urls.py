@@ -9,10 +9,4 @@ urlpatterns = [
     path('admin_login/', views.admin_login, name='admin_login'),
     path('admin_register/', views.admin_register, name='admin_register'),
     path('switch_to_company_login/', views.switch_to_company_login, name='switch_to_company_login'),
-
-
-
-
-
-    
 ]

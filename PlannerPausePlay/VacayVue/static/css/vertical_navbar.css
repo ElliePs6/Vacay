@@ -6,7 +6,7 @@
     width: 12%; 
     background-color: #000000; 
     padding-top: 6%; 
-    z-index: 1000;
+   
     overflow-y: auto; 
     font-size:0.7vw;
     line-height: 2;
@@ -43,4 +43,3 @@
     color: #fcfcfc; 
     text-decoration: none; 
 }
-

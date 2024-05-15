@@ -1,0 +1,21 @@
+<div class="modal-header bg-primary">
+    <h4 class="modal-title text-white" id="title_employee_detail">Πληροφορίες Υπαλλήλου</h4>
+    <button class="close modalClose" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">               
+       <p>Όνομα: {{ employee.first_name }}</p>
+       <p>Επίθετο: {{ employee.last_name }}</p>
+       <p>Ημερομηνία Πρόσληψης: {{ employee.join_date }}</p>
+</div>
+{% block script %}
+<script> 
+    $(document).ready(function() {
+        // Close the modal when the close button is clicked
+        $('.modalClose').click(function() {
+            $('#DetailModal').modal('hide');
+        });
+    });
+</script>
+{% endblock  %}

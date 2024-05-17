@@ -1,63 +1,105 @@
 {% extends 'vacayvue/base.html' %}
 {% load static %}
-{% block content %} 
-<div class="container">
-    <div class="row">
-        <div class="col-md-7 leftEmp-container">
-            <h3 class="welcome-title">Καλωσήρθες {{ employee.first_name }}</h3>
+{% block content %}
+<div class="row">
+    <div class="col-md-7 calendar-section">
+        <h3 class="title">Καλωσήρθες {{ employee.first_name }}</h3>
+        <div class="calendar-container">
             <div id="calendar"></div>
-			<div class="color-legend">
-                <table>
-                    <tbody>
-                        {% for leave_type, color in color_map.items %}
-                        <tr>
-                            <td>
-                                <div class="color-square" style="background-color:{{ color }};"></div>
-                            </td>
-                            <td>
-                                <span>: {{ leave_type }}</span>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
         </div>
-		<div class="col-md-5 balance-container">
-			<h3 class="balance-title">Balance</h3>
-			<table>
-				<thead>
-					<tr>
-						<th>Τύπος Άδειας</th>
-						<th>Progress</th>
-					</tr>
-				</thead>
-				<tbody>
-					{% for leave_type in leave_types %}
-					<tr>
-						<td>{{ leave_type.name }}:</td>
-						<td>
-							<div class="progress-circle-container">
-								{% for balance in balances %}
-									{% if balance.leave_type == leave_type %}
-										<div class="progress-circle" data-leave-type="{{ balance.leave_type.name }}" data-default-days="{{ balance.leave_type.default_days }}"  data-used-days="{{ balance.used_days }}">
-											<div class="progress-indicator"></div>
-											<div class="progress-text"></div>
-										</div>
-									{% endif %}
-								{% endfor %}
-							</div>
-						</td>
-					</tr>
-					{% endfor %}
-				</tbody>
-			</table>
-		</div>
-	</div>
+        <div class="color-legend">
+            <table>
+                <tbody>
+                    {% for leave_type, color in color_map.items %}
+                    <tr>
+                        <td>
+                            <div class="color-square" style="background-color:{{ color }};"></div>
+                        </td>
+                        <td>
+                            <span>: {{ leave_type }}</span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-md-5 main-content-section">
+        <h3 class="title">Balance</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Τύπος Άδειας</th>
+                    <th>Progress</th>
+                </tr>
+            </thead>
+            <tbody id="balance-table-body">
+                {% for leave_type in leave_types %}
+                <tr>
+                    <td>{{ leave_type.name }}:</td>
+                    <td>
+                        <div class="progress-circle-container">
+                            <div class="progress-circle" data-leave-type="{{ leave_type.name }}" data-default-days="{{ leave_type.default_days }}" data-used-days="0">
+                                <div class="progress-indicator"></div>
+                                <div class="progress-text"></div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 {% endblock %}
 
 {% block script %}
-<script src="{% static 'js/progressBar.js' %}"></script>
+<script>
+	document.addEventListener("DOMContentLoaded", function() {
+		fetchProgressData();
+	});
+	
+	function fetchProgressData() {
+		// No need to encode the leaveType here, as leaveType is not defined in this scope
+		// const encodedLeaveType = encodeURIComponent(leaveType);
+		fetch(`/vacayvue/balance-data/`)
+			.then(response => {
+				if (!response.ok) {
+					throw new Error('Failed to fetch progress data');
+				}
+				return response.json();
+			})
+			.then(data => {
+				if (!data.balance_data) {
+					throw new Error('balance_data property is missing in the response');
+				}
+				data.balance_data.forEach(balanceItem => {
+					const leaveType = balanceItem.leave_type;
+					const usedDays = balanceItem.usedDays;
+					const totalDays = balanceItem.totalDays;
+	
+					updateProgressCircle(leaveType, usedDays, totalDays);
+				});
+			})
+			.catch(error => console.error('Error fetching progress data:', error));
+	}
+	
+	
+	function updateProgressCircle(leaveType, usedDays, totalDays) {
+		const progressCircle = document.querySelector(`[data-leave-type="${leaveType}"]`);
+		if (!progressCircle) {
+			console.error('Progress circle not found for leave type:', leaveType);
+			return;
+		}
+	
+		const percentage = totalDays === 0 ? 0 : (usedDays / totalDays) * 100;
+		const progressIndicator = progressCircle.querySelector('.progress-indicator');
+		const progressText = progressCircle.querySelector('.progress-text');
+	
+		progressIndicator.style.width = percentage + '%';
+		progressText.textContent = `(${usedDays}/${totalDays}) ${Math.round(percentage)}%`;
+	}
+	
+</script>
 <script src="{% static 'js/calendar.js' %}"></script>
 {% endblock %}

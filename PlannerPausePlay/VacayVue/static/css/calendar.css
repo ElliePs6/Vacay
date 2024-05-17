@@ -1,99 +1,148 @@
+.calendar-container {
+ 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 #calendar {
-  border: 1px solid #646060a2;
+  width: 100%; /* Make the width bigger */
+  height: 50vh; /* Make the height smaller */
+  border: 1px solid #fd0303;
   border-radius: 1px;
-  padding:10px; 
-  background-color: #ffffff;
-
-
+  padding: 1rem;
+  background-color: #fffffffd;
+  overflow-y: auto;
 }
-/*  header toolbar */
+
+/* Header toolbar */
 .fc-header-toolbar {
-  background-color:transparent;
+  background-color: transparent;
   color: #ff0a00;
+  padding-top: 1em;
+  padding-left: 1em;
+  padding-right: 1em;
 }
-/*Title*/
+
+/* Title */
 .fc-toolbar-title {
   color: #ff0a00;
   font-family: "Roboto Mono", monospace;
 }
 
-/*-------------------Navigation buttons --------------------------*/
-.fc .fc-button-primary {
-    background-color: #ff0a00;
-    border-color:#ff0a00;
-    color:#ffffff;
-}
-.fc .fc-button-primary:disabled{
+/* Navigation buttons */
+.btn-group {
   background-color: #ff0a00;
-  border-color:#ff0a00;
-  color:#ffffff;
-
+  border-color: #ff0a00;
+  color: #ffffff;
 }
-/* --------------------Month/Week/List buttons---------------- */
+
+.btn-group .btn:not(:last-child):not(.dropdown-toggle) {
+  background-color: #ff0a00;
+  border-color: #ff0a00;
+  color: #ffffff;
+}
+
+.btn-primary {
+  background-color: #ff0a00;
+  border-color: #ff0a00;
+  color: #ffffff;
+}
+.btn-primary:hover {
+  background-color: #ff0a00;
+  border-color: #ff0a00;
+  color: #ffffff;
+}
+
+.btn-primary:disabled {
+  background-color: #ff0a00;
+  border-color: #ff0a00;
+  color: #ffffff;
+}
+.btn-primary:disabled:hover {
+  background-color: #ff0a00;
+  border-color: #ff0a00;
+  color: #ffffff;
+}
+
+/* Month/Week/List buttons */
 .fc .fc-button-primary:not(:disabled).fc-button {
   background-color: #ff0a00;
-    border-color:#ff0a00;
-    color:#ffffff;
+  border-color: #ff0a00;
+  color: #ffffff;
 }
-/*---------------------------- Calendar's Events-------------------------- */
-/* Adjust the height of the event container */
-.fc-daygrid-day-events {
-  margin-bottom: 20px;
-  padding-right: 5px; /* Adjust as needed */
-  overflow-y: auto;
-  max-height: 200px; /* Set the maximum height to display */
+.fc .fc-button-primary:not(:disabled).fc-button:hover {
+  background-color: #ff0a00;
+  border-color: #ff0a00;
+  color: #ffffff;
 }
 
-/* Add margin to create space between the event and the scrollbar */
-.fc-daygrid-event.fc-event-start.fc-event-end {
-  margin-bottom: 5px; /* Adjust as needed */
-}
-
-/* Adjust scrollbar width and style */
-.fc-daygrid-day-events::-webkit-scrollbar {
-  width: 5px; /* Adjust scrollbar width */
-}
-.fc-daygrid-day-events::-webkit-scrollbar-track {
-  background: transparent; /* Set scrollbar track color */
-}
-.fc-daygrid-day-events::-webkit-scrollbar-thumb {
-  background-color: #ccc; /* Set scrollbar thumb color */
-  border-radius: 10px; /* Set scrollbar thumb border radius */
-}
-
+/* Calendar's Events */
 .fc-list-item-title {
-  font-weight: bold;
+  font: normal 500 10px "Roboto Mono", cursive;
   color: #035c1e;
-  font-size: 12px;
+  overflow-x: auto;
+  padding: 5px;
 }
 
-/*-----------------------------For the Links in Dates-----------------------------*/
-.fc-col-header-cell a,
-.fc-daygrid-day-frame .fc-daygrid-day-number{
-  color:#000000;
-  text-decoration:none;
-  
+/* Thin scrollbar */
+.fc-list-item-title::-webkit-scrollbar {
+  width: 1px; /* Adjust as needed */
 }
-/*Border vertical and horizontal*/
+
+/* Track */
+.fc-list-item-title::-webkit-scrollbar-track {
+  background: transparent; /* Or any color you prefer */
+}
+
+/* Handle */
+.fc-list-item-title::-webkit-scrollbar-thumb {
+  background: transparent; /* Color of the scrollbar thumb */
+  border: none; /* Roundness of the scrollbar thumb */
+}
+
+/* Handle on hover */
+.fc-list-item-title::-webkit-scrollbar-thumb:hover {
+  background: transparent; /* Hover color of the scrollbar thumb */
+}
+
+/* Thin scrollbar */
+.fc-list-item-title {
+  scrollbar-width: thin; /* Make the scrollbar thin */
+  scrollbar-color: transparent;
+}
+
+/* Track */
+.fc-list-item-title::-webkit-scrollbar-track {
+  background: #000000; /* Or any color you prefer */
+}
+
+/* For the Links in Dates */
+.fc-col-header-cell a,
+.fc-daygrid-day-frame .fc-daygrid-day-number {
+  color: #000000;
+  text-decoration: none;
+}
+
+/* Border vertical and horizontal */
 .fc-scrollgrid-section,
 .fc-scrollgrid-sync-table td {
-  border: 1px solid  #ff0a00; /* Example color */
+  border: 1px solid #ff0a00; /* Example color */
 }
-
-
 
 .fc-list-item-time {
   color: #666;
 }
-.fc-list-event-time{color: #666;}
 
-/*----------------------------------------------------------------------------------------------------------------------------------*/
+.fc-list-event-time {
+  color: #666;
+}
 
 /* Media query for small devices */
-@media  (min-width: 650px) and (max-width: 950px) {
+@media (min-width: 650px) and (max-width: 950px) {
   .fc-scrollgrid-section,
   .fc-scrollgrid-sync-table td {
-    border-width: 0.5px; 
+    border-width: 0.5px;
   }
   #calendar {
     overflow-y: auto;
@@ -101,18 +150,19 @@
   }
   #calendar tbody {
     height: auto;
-    overflow: auto; 
+    overflow: auto;
+  }
+  .fc .fc-button-primary:not(:disabled).fc-button {
+    font-size: 12px;
+    padding: 5%;
+  }
+  /* Adjustments for navigation buttons */
+  .fc .fc-button-primary {
+    font-size: 10px;
+    padding: 5px 10px;
+  }
 }
-.fc .fc-button-primary:not(:disabled).fc-button {
-  font-size: 12px;
-  padding: 5%;
-}
-/* Adjustments for navigation buttons */
-.fc .fc-button-primary {
-  font-size: 10px;
-  padding: 5px 10px;
-}
-}
+
 /* Media query for medium-sized devices */
 @media (min-width: 950px) and (max-width: 1350px) {
   .fc-scrollgrid-section,
@@ -128,24 +178,12 @@
     overflow: auto;
   }
   .fc .fc-button-primary:not(:disabled).fc-button {
-    font-size: 12px; 
+    font-size: 12px;
     padding: 10%;
   }
 }
 
 /* Media query for larger devices */
 @media (min-width: 1350px) and (max-width: 1750px) {
-  .fc-scrollgrid-section,
-  .fc-scrollgrid-sync-table td {
-    border-width: 1px;
-  }
-  #calendar {
-  overflow-y: auto; 
-  max-height: 500px; 
-  }
-  #calendar tbody {
-  height: auto;
-  overflow: auto; 
-  }
-
+  .fc-scroll
 }

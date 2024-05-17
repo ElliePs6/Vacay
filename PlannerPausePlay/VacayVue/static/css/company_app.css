@@ -1,26 +1,9 @@
 /*---------------------------Για την Company Home σελίδα--------------------------------*/
-.welcome-title{
-  border-top:1px solid red;
-  border-bottom:1px solid red;
-  color: rgb(255, 255, 255);
-  border-radius: 5px; 
-  padding: 1%;
-  text-align: center;
-  margin-top: 1%;
-  margin-bottom: 3%; 
-}
-.leftComp-container{
-  display: flex;
-  flex-direction: column;
-  align-items: left;
-  justify-content: left;
-  border-right: 1px solid #ff0800d2;
-  padding: 2%;
- 
-}
+
 .color-legend {
   padding-top: 1%;
-  display:inline-block
+  display:inline-block;
+  color:white;
   
 }
 .color-legend ul {
@@ -39,24 +22,7 @@
 .color-legend span {
   margin-right: 5px; /* Adjust spacing between leave type and color square */
 }
-.emp-num-title{
-  border-top:1px solid red;
-  border-bottom:1px solid red;
-  color: rgb(255, 255, 255);
-  border-radius: 5px; 
-  padding: 1%;
-  text-align: center;
-  margin-top: 1%;
-  margin-bottom: 3%; 
 
-}
-.request-list-container {
-  display: flex;
-  flex-direction: column;
-  align-items: left;
-  justify-content: left;
-  padding: 2%;
-}
 .animated-number {
   font-size: 36px; 
   font-weight: bold; 
@@ -111,118 +77,59 @@
 .reject-btn {background-color: rgb(255, 32, 3) ;}
 
 /*---------------------------------------Για τη λίστα Αιτήσεων---------------------------------------------------------------*/
-.list-title{
-  border-top:1px solid red;
-  border-bottom:1px solid red;
-  color: rgb(255, 255, 255);
-  border-radius: 5px; 
-  padding: 1%;
-  text-align: center;
-  margin-top: 1%;
-  margin-bottom: 3%; 
+.week-calendar{
+  
+  border-radius: 10px;
+  margin: 1rem;
 }
-.active-request-container{
-  display: flex;
-  flex-direction: column;
-  align-items: left;
-  justify-content: left;
-  padding: 2%;
-
-}
-.active-request-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-.active-request-table  th {
-  background-color: transparent; 
-  font-weight: bold; 
-  color: #fffefe; 
-}
-.active-request-table  th,
-.active-request-table  td {
-  padding: 8px;
-  text-align: left;
-  border-bottom: 1px solid #ddd; 
+#calendar2 {
+  width: 100%; /* Make the width bigger */
+  height: 60vh;
+  border-left: 4px double #eb0000;
+  border-right: 4px double  #eb0000;
+  border-radius: 10px;
+  color:rgb(253, 7, 7);
+  padding: 20px;
+  box-shadow: 0px 0px 10px 2px #971313;
+ 
 }
 
-.active-request-table  .custom-link {
-  text-decoration: none;
-  color: blue; 
+.fc-toolbar {
+ 
+  padding: 1rem;
+  color: #ffffff;
 }
 
-.active-request-table  .custom-link:hover {
-  text-decoration: underline; 
+.fc-daygrid-event {
+  background-color: #aaaaff;
+  color: #ffffff;
+  
 }
-.custom-link {
-  color: #007bff; 
-  text-decoration: none;
-}
+.fc-col-header{
+  border: 1px solid #ff0000;
 
-.custom-link:hover {
-  text-decoration: underline;
-}
+} 
+
+
 /*---------------------------Για την προσθήκη Υπαλλήλων--------------------------------*/
-.reg-emp-title{
-  border-top:1px solid red;
-  border-bottom:1px solid red;
-  color: rgb(255, 255, 255);
-  border-radius: 5px; 
-  padding: 1%;
-  text-align: center;
-  margin-top: 1%;
-  margin-bottom: 3%; 
-}
-.image-container{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border-right: 1px solid #ff0800d2;
-  padding: 2%; 
-  
-
-}
-.image-container img {
-  padding: 10%;
-  width: auto;
-  height: 100%;
-  position: relative; /* Ensure the image is positioned relative to its container */
-  z-index: 1; /* Ensure the image appears above the color overlay */
-}
-
-.register-container{
-  display: flex;
-  flex-direction: column;
-  align-items: left;
-  justify-content: left;
-  padding:2%;
-  
-}
 label {
   color: #fff; 
-  font-weight: bold;
+  font: normal 400 18px "Roboto Mono", cursive;
   padding: 1%;
 }
 
-
+#register-btn{
+  float:right;
+}
 
 
 /**--------------------------------Προβολή Υπαλλήλων-------------------------------------------------------**/
-.all-employees-title{
-  border-top:1px solid red;
-  border-bottom:1px solid red;
-  color: rgb(255, 255, 255);
-  border-radius: 5px; 
-  padding: 1%;
-  text-align: center;
-  margin-top: 1%;
-  margin-bottom: 3%; 
-}
+
 .table {
   width: 100%;
   margin-bottom: 20px;
   color: white;
-  margin-top: 5vh; /* Move the table down a little */
+  
 }
 #employee-table_filter {
   float: right;
@@ -297,59 +204,55 @@ label {
 
 /*----------------------------------Για τις Ρυθμίσεις-----------------------------------------------*/
 
-.manage-leave-title {
-  border-top:1px solid red;
-  border-bottom:1px solid red;
-  color: #ffffff;
-  border-radius: 5px; 
-  padding: 1%;
-  text-align: center;
-  margin-top: 1%;
-  margin-bottom: 3%; 
- 
-}
-.manage-leave-container {
-  display: flex;
-  flex-direction: column;
-  align-items: left;
-  justify-content: left;
-  padding: 2%;   
-}
-
 .subtext-container {
   width: 90%;
   margin: 0 auto;
   opacity: 0.7;
-  margin-bottom: 1%;
+  margin-bottom:1rem;
+  font: normal 500 16px "Roboto Mono", cursive;
 }
 /*table style*/
-.manage-leave {
+.leave-table {
   width: 100%;
   border-collapse: collapse;
- 
+  padding: 0;
+  margin: 0;
 }
-.manage-leave td {
+.leave-table th,
+.leave-table td {
+  color: white;
+  padding:0.5rem; /* Increase padding for better spacing */
   border: 1px solid red;
-  padding: 1.5%; /* Increase padding for better spacing */
+  font: normal 500 18px "Roboto Mono", cursive;
 }
+
 /*button style*/
 #add-leave-btn {
-  width: 40%; 
-  margin: 2% 0; 
+  float: right; 
   background-color: transparent;
-  border-color: #ff0800d2;
+  border: 1px solid #d80801d2;
+  color: white;
+ font: normal 500 18px "Roboto Mono", cursive;
+}
+#add-leave-btn:hover {
+  background-color: red;
+  border-color:  #d80801d2;
   color: white;
 }
 
-.list-leave-container {
-  display: flex;
-  flex-direction: column;
-  align-items: left;
-  justify-content: left;
-  padding: 2%;
-  color: white;
- 
+.leave-table-body a {
+  color: rgb(189, 189, 189);
+  opacity: 0.7;
+  text-decoration: none; /* Remove underline */
+  font: normal 500 12px "Roboto Mono", cursive;
 }
+
+.leave-table-body a:hover {
+  color: red; 
+  text-decoration: underline; 
+  
+}
+
 /* scrollbar style */
 .list-leave-container::-webkit-scrollbar {
   width: 12px; /* Set the width of the scrollbar */
@@ -366,34 +269,22 @@ label {
 }
 /* For Firefox */
 .list-leave-container {
-  scrollbar-width: thin; /* Set the width of the scrollbar */
-}
-.list-leave-container {
+  scrollbar-width: thin;
   scrollbar-color: #ffffff #000000; /* Set color of scrollbar and track */
 }
-/*table style*/
-.leave-table {
+/* CSS for select bar */
+select {
+  width: 100%; /* Set the width to 100% to fill the entire container */
+  padding: 0.5rem; /* Add padding for better spacing */
+  font-size: 1rem; /* Adjust font size */
+  border-radius: 0.25rem; /* Add border radius for rounded corners */
+  border: 1px solid #ccc; /* Add border for better visibility */
+  background-color: #fff; /* Set background color */
+  color: #000; /* Set text color */
+}
 
-  width: 100%;
-  border-collapse: collapse;
-}
-.leave-table th,
-.leave-table td {
-  color: white;
-  padding: 1.5%; /* Increase padding for better spacing */
-  border: 1px solid red;
-}
-/*image style*/
-.picture-container {
-  width: 100%; /* Adjust width to fit within the container */
-  max-width: 350px; /* Limit maximum width for responsiveness */
-  margin: 0 auto; /* Center the container horizontally */
- 
-}
-.picture-container img {
-  width: 90%; /* Ensure the image takes up the full width of its container */
-  border-radius: 80%; /* Keep the image round */
-}
+
+
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 /* Media query for larger devices */
@@ -424,4 +315,7 @@ label {
     width: 100px;
     height: 100px;
   }
+  select {
+    width: auto; /* Reset width to auto on larger screens */
+}
 }

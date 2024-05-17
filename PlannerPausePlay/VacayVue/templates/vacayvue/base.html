@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vacations Management</title>
+    <title>Διαχείρηση Αδειών</title>
     <!-- JQUERY -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <!-- DATEPICKER -->
@@ -16,6 +16,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/js/bootstrap.bundle.min.js"></script>
     <!-- FullCalendar js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.11.5/main.min.js"></script>
+    <script src="{% static 'js/scroll.js' %}"></script>
     <!-- FullCalendar CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.11.5/main.min.css" rel="stylesheet" />
     <!-- FullCalendar Locale (Greek) -->
@@ -35,6 +36,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/employee_app.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/vertical_navbar.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/calendar.css' %}">
+
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.png' %}">
 </head>
@@ -85,12 +87,12 @@
             <div class="col-md-12">
                 <!-- Footer -->
                 <footer id="footer">
-                    &copy; {{ current_year }} Vacations Management
+                    &copy; {{ current_year }} Διαχείρηση Αδειών
                 </footer>
             </div>
         </div>
     </div>
-
+    
     {% block script %}
     {% endblock %}
 </body>

@@ -4,6 +4,7 @@ from .models import Request,Company,CustomUser,Employee, LeaveType,Balance
 from .forms import RequestForm,LoginForm,RegisterEmployeeForm,EditEmployeeForm, LeaveTypeForm,ChangePasswordForm
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_GET
 from django.contrib import messages
 from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
@@ -177,7 +178,51 @@ def manage_leave_type(request):
         form = LeaveTypeForm()
 
     leave_types = LeaveType.objects.filter(user=request.user)
+    
+    # Ensure balances are created for each leave type
+    for leave_type in leave_types:
+        balance, created = Balance.objects.get_or_create(user=request.user, leave_type=leave_type)
+        if created:
+            balance.default_days = leave_type.default_days
+            balance.save()
+
     return render(request, 'vacayvue/manage_leave_type.html', {'form': form, 'leave_types': leave_types})
+
+
+
+from django.db.models import Sum
+
+@require_GET
+def balance_data(request):
+    if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
+        # Get all leave types
+        leave_types = LeaveType.objects.all()
+        balance_data = []
+
+        for leave_type in leave_types:
+            try:
+                
+                leave_type = request.leave_type.name.strip().lower()
+                balance = Balance.objects.filter(user=request.user, leave_type=leave_type).aggregate(
+                    usedDays=Sum('used_days'), totalDays=Sum('default_days'))
+                balance_data.append({
+                    'leave_type': leave_type.name,
+                    'usedDays': balance['usedDays'] if balance['usedDays'] is not None else 0,
+                    'totalDays': balance['totalDays'] if balance['totalDays'] is not None else leave_type.default_days
+                })
+            except Balance.DoesNotExist:
+                # If balance data doesn't exist, add default values
+                balance_data.append({
+                    'leave_type': leave_type.name,
+                    'usedDays': 0,
+                    'totalDays': leave_type.default_days
+                })
+
+        # Return the constructed JSON response outside the loop
+        return JsonResponse({'balance_data': balance_data})
+    else:
+        return JsonResponse({'error': 'Invalid request.'}, status=400)
+
 
 # Function to set default days for a leave type and update balance
 def set_default_days(leave_type, user, default_days):
@@ -282,21 +327,16 @@ def list_employees(request):
 
 from django.contrib.auth import get_user_model
 
+
 @login_required
 def add_employee(request):
     if request.method == 'POST':
         form = RegisterEmployeeForm(request.POST)
         if form.is_valid():
-            employee = form.save(commit=False)
-            # Get the logged-in user (which is a company in this case)
-            company_user = request.user
-            company = company_user.company_profile  # Access the associated company
-            # Generate a temporary password
-            temporary_password = CustomUser.objects.make_random_password()
-            employee.set_password(temporary_password)
+            employee = form.save()
+            company = get_object_or_404(Company, user_id=request.user.pk)
+            employee.company = company
             employee.save()
-            # Send email with temporary password
-            send_temporary_password_email(company_user.email, employee.email, temporary_password)
             messages.success(request, "Your employee was registered successfully!")
             return redirect('list_employees')
         else:
@@ -306,6 +346,7 @@ def add_employee(request):
     else:
         form = RegisterEmployeeForm()
     return render(request, 'vacayvue/add_employee.html', {'form': form})
+
 
 
 def send_temporary_password_email(from_email, to_email, temporary_password):

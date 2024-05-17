@@ -3,11 +3,11 @@
 {% block content %}
 
     <div class="row">
-        <div class="col-md-5 image-container">
-            <h3 class="reg-emp-title">Προσθήκη Υπαλλήλου</h3>
+        <div class="col-md-5 border-image-container">
+            <h3 class="title">Προσθήκη Υπαλλήλου</h3>
             <img src="{% static 'images/stripy3.png' %}" alt="Image" class="img-fluid ">
         </div>
-        <div class="col-md-7 register-container">
+        <div class="col-md-7 main-content-section">
             <form action="{% url 'add_employee' %}" method="POST" class="form-container">
                 {% csrf_token %}
                 <table class="table table-borderless">
@@ -27,12 +27,18 @@
                         <tr>
                             <td><label for="id_datejoined">Έναρξη</label></td>
                             <td>{{ form.join_date }}</td>
-                        </tr>                       
+                        </tr>
+                        <tr>
+                            <td><label for="id_password1" class="custom-form-label">Κωδικός</label></td>
+                                <td>{{ form.password1 }}</td>
+                        </tr>
+                          <tr>
+                          <td><label for="id_password2" class="custom-form-label">Επιβεβαίωση Κωδικού</label></td>
+                            <td>{{ form.password2 }}</td>
+                          </tr>                       
                     </tbody>
                 </table>
-                <div class="form-group">
-                    <input type="submit" value="Εγγραφή" class="btn btn-primary">
-                </div>
+                <button id="register-btn" type="submit" class="button">Εγγραφή </button>
             </form>
         </div>
     </div>

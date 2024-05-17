@@ -3,8 +3,9 @@
     display: flex;
     justify-content: center;
     align-items: flex-start;
-   
-    margin-right: 10rem;
+    flex:1;
+    margin-right: 10rem;    
+    position: relative;
 
 }
 
@@ -18,7 +19,6 @@
 /* Image styling */
 .log-image-col img {
     margin-top: 5rem;
- 
     width: 100%; /* Set image width to fill its container */
     max-width: 600px; /* Set maximum image width */
     height:50%; /* Maintain aspect ratio */
@@ -102,22 +102,3 @@
     line-height: 2rem; /* Increase line height */
 }
 
-/* Button styling */
-.login-button {
-    display: block;
-    width: 50%; /* Set button width to 50% */
-    margin: 1rem auto; /* Center button horizontally with top and bottom margin */
-    padding: 1rem; /* Increase padding */
-    background-color: var(--red);
-    color: var(--white);
-    border: none;
-    border-radius: 0.5rem; /* Equivalent to 5px for 1200px width */
-    cursor: pointer;
-    font-size: 22px; /* Increase font size */
-    text-align: center;
-    text-decoration: none;
-}
-
-.login-button:hover {
-    background-color: rgb(190, 0, 0);
-}

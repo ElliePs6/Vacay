@@ -4,11 +4,11 @@
 {% block content %}
 <div class="container">
     <div class="row">
-        <div class="col-md-6 pic-container">
-            <h3 class="card-title">Ενημέρωση Στοιχείων</h3>
+        <div class="col-md-6 border-image-container">
+            <h3 class="title">Ενημέρωση Στοιχείων</h3>
             <img src="{% static 'images/stripy6.png' %}" alt="Image" class="img-fluid ">
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6  main-content-section">
             <!-- Right column for card -->
             <div class="card custom-card">
                 <div class="card-body">
@@ -27,7 +27,7 @@
                             <label for="id_reset_month">Μήνας Επαναφοράς:</label>
                             {{ form.reset_month }}
                         </div>
-                        <input type="submit" value="Ενημέρωση" class="btn btn-secondary">
+                        <input type="submit" value="Ενημέρωση" class="button">
                     </form>
                 </div>
             </div>

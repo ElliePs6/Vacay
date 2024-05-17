@@ -21,8 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     calendar.render();
-<<<<<<< HEAD
+
 })
-=======
-})
->>>>>>> da86c773ca0cde7e739f650d2f5cf3d0d739e298
+
+

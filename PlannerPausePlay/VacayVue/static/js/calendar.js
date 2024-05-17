@@ -2,14 +2,18 @@ document.addEventListener('DOMContentLoaded', function () {
     const calendarEl = document.getElementById('calendar');
 
     const calendar = new FullCalendar.Calendar(calendarEl, {
+        themeSystem: 'bootstrap5',
         locale: 'el', // Set Greek locale
         initialView: 'dayGridMonth',
         headerToolbar: {
             left: 'prev,next,today',
             center: 'title',
-            right: 'dayGridMonth,timeGridWeek,list'
+            right: 'dayGridMonth,dayGridWeek,list'
         },
-        
+       
+        dayMaxEvents: true,
+        expandRows: true,
+        height: '100%',
         events: '/vacayvue/all_requests/',
         eventContent: function (arg) {
             return {

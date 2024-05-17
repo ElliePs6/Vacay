@@ -8,7 +8,7 @@
             <img src="{% static 'images/image2k.png' %}" alt="Image" class="img-fluid">
         </div>
         <div class="col-md-8 login-col">
-            <form action="{% url 'login' %}" method="POST" class="form-container login-form">
+            <form action="{% url 'login' %}" method="POST" class="login-form">
                 <h4 class="login-title">Είσοδος Χρήστη</h4>
                 {% csrf_token %}
                 <div class="form-group">
@@ -47,11 +47,12 @@
                     {% endfor %}
                     {% endif %}
                 </div>
-                <button type="submit" class="login-button">Σύνδεση</button>
+                <button type="submit" class="button">Σύνδεση</button>
             </form>
         </div>
     </div>
 </div>
+
 
 {% endblock %}
 {% block script%}

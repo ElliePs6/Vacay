@@ -29,6 +29,7 @@ urlpatterns = [
 
     path('update_default_days/<int:leave_type_id>/', views.update_default_days, name='update_default_days'),
     path('manage_leave_type/', views.manage_leave_type, name='manage_leave_type'),
+    path('balance-data/', views.balance_data, name='balance_data'),
   
     path('change-password/', views.change_password, name='change_password'),
 

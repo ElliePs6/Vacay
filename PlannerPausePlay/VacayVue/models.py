@@ -33,6 +33,13 @@ class Company(models.Model):
     def __str__(self):
         return self.user.username
     
+class Balance(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    leave_type = models.ForeignKey('LeaveType', on_delete=models.CASCADE, related_name='balances')  # Custom related_name
+    default_days = models.PositiveIntegerField(default=0)
+    used_days = models.PositiveIntegerField(default=0)
+    remaining_days = models.IntegerField(default=0)
+
 
 class LeaveType(models.Model):
     CHOICES = (
@@ -50,17 +57,16 @@ class LeaveType(models.Model):
         (9, 'Σεπτέμβριος'),(10, 'Οκτώβριος'),(11, 'Νοέμβριος'),(12, 'Δεκέμβριος'),
     )
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="leave_types")
-    name = models.CharField(max_length=100, choices=CHOICES,default='Κανονική Άδεια')
+    name = models.CharField(max_length=100, choices=CHOICES, default='Κανονική Άδεια')
     default_days = models.PositiveIntegerField(default=1)
     reset_month = models.IntegerField(choices=MONTH_CHOICES, default=1)
+   
 
     class Meta:
         unique_together = ['user', 'name']
-        
 
     def __str__(self):
         return self.name
-
 
 
 class Employee(models.Model):
@@ -77,7 +83,7 @@ class Request(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="employee_requests")
     start = models.DateField(null=True, blank=True)
     end = models.DateField(null=True, blank=True)
-    leave_type = models.ForeignKey(LeaveType, on_delete=models.CASCADE)
+    leave_type = models.ForeignKey(LeaveType, on_delete=models.CASCADE,default='Κανονική Άδεια')
     description = models.TextField(blank=True)
     is_pending = models.BooleanField(default=True)
     is_approved = models.BooleanField(default=False)
@@ -86,12 +92,7 @@ class Request(models.Model):
     def __str__(self):
         return f"Leave request for {self.user.username}"
     
-class Balance(models.Model):
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    leave_type = models.ForeignKey(LeaveType, on_delete=models.CASCADE)
-    default_days = models.PositiveIntegerField(default=0)
-    used_days = models.PositiveIntegerField(default=0)
-    remaining_days = models.IntegerField(default=0)
+
 
 
 '''

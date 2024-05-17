@@ -1,30 +1,6 @@
 /*---------------Υπάλληλοσ Dashboard Page----------------------*/
 
-.leftEmp-container{
-  display: flex;
-  flex-direction: column;
-  align-items: left;
-  justify-content: left;
-  border-right: 1px solid #ff0800d2;
-  padding: 2%;
-}
-.balance-title {
-  border-top:1px solid red;
-  border-bottom:1px solid red;
-  color: rgb(255, 255, 255);
-  border-radius: 5px; 
-  padding: 1%;
-  text-align: center;
-  margin-top: 1%;
-  margin-bottom: 3%;
-}
-.balance-container {
-  display: flex;
-  flex-direction: column;
-  align-items: left;
-  justify-content: left;
-  padding: 2%;
-}  
+
 .progress-circle {
   position: relative;
   width:70px;
@@ -52,13 +28,13 @@
   font-size: 16px;
   font-weight: bold;
 }
-.balance-container table {
+.main-content-section table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.balance-container th,
-.balance-container td {
+.main-content-section th,
+.main-content-section td {
   padding: 2%; /* Adjust as needed */
 }
 /*------------------------------------Η Αιτήσεις μου------------------------------------*/
@@ -105,39 +81,8 @@
 
 /*----------------------------------Προσθήκη Αίτησης-------------------------------------------*/
 
-.add-req-title{
-  border-top:1px solid red;
-  border-bottom:1px solid red;
-  color: rgb(255, 255, 255);
-  border-radius: 5px; 
-  padding: 1%;
-  text-align: center;
-  margin-top: 1%;
-  margin-bottom: 3%; 
-}
-.first-image-container {
-  display: flex;
-  flex-direction: column;
-  align-items: left;
-  justify-content: left;
-  border-right: 1px solid #ff0800d2;
-  padding: 2%; 
-}
-.first-image-container img {
-  padding: 10%;
-  width: auto;
-  height: 100%;
-  position: relative; /* Ensure the image is positioned relative to its container */
-  z-index: 1; /* Ensure the image appears above the color overlay */
-}
-.addrequest-container {
-  display: flex;
-  flex-direction: column;
-  align-items: left;
-  justify-content: left;
-  padding: 2%;
-  margin-top: 5%;
-}
+
+
 /* Style για φορμα */
 .form-group label {
   color: #ff2727; 
@@ -154,17 +99,7 @@
 .form-group {
   margin-bottom:3%; 
 }
-.btn-secondary {
-  background-color: #ff0000; 
-  border-color: #b40000; 
-  color: #ffffff; 
-  font-weight: bold;
-  margin-bottom: 1%;
-}
-.btn-secondary:hover {
-  background-color: #ff2727; 
-  border-color: #8f0101; 
-}
+
 .form-row .col-md-6 {
   display: inline-block;
   width: 48%; /* για κενό ανάμεσα στα πεδία */

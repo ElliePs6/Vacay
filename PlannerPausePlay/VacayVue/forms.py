@@ -9,24 +9,26 @@ class LoginForm(forms.Form):
     user_type = forms.ChoiceField(choices=(('employee', 'Employee'), ('company', 'Company')), required=True)
 
 
-class RegisterEmployeeForm(forms.ModelForm):
-    email = forms.EmailField(
-        widget=forms.TextInput(attrs={'autofocus': True, 'class': 'form-control', 'placeholder': 'Email'})
-    )
+class RegisterEmployeeForm(UserCreationForm):
+    email = forms.EmailField(widget=forms.TextInput(attrs={'autofocus': True, 'class': 'form-control','placeholder': 'Email'}))
     join_date = forms.DateField(
-        widget=forms.TextInput(attrs={'class': 'form-control', 'type': 'text', 'placeholder': 'Ημερομηνία Πρόσληψης', 'id': 'id_join_date'}),
-        input_formats=['%Y-%m-%d']  # Format expected by Django
+    widget=forms.TextInput(attrs={'class': 'form-control', 'type': 'text', 'placeholder': 'Ημερομηνία Πρόσληψης', 'id': 'id_join_date'}),
+    input_formats=['%d/%m/%Y']  # Adjusted format
+)
+    
+    password1 = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'data-toggle': 'tooltip', 'placeholder': 'Κωδικός','title': 'Your password must contain at least 8 characters and cannot be too similar to your other personal information.'})
     )
-    first_name = forms.CharField(
-        max_length=30, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Όνομα'})
+    password2 = forms.CharField(
+        label='Confirm Password',
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'data-toggle': 'tooltip','placeholder': 'Επιβεβαίωση Κωδικού','title': 'Please enter the same password for verification.'})
     )
-    last_name = forms.CharField(
-        max_length=150, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Επίθετο'})
-    )
-
+    first_name = forms.CharField(max_length=30, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Όνομα'}))
+    last_name = forms.CharField(max_length=150, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Επίθετο'}))
+    
     class Meta:
         model = CustomUser
-        fields = ['email', 'join_date', 'first_name', 'last_name']
+        fields = ['email', 'join_date', 'password1', 'password2', 'first_name', 'last_name']
 
     def save(self, commit=True):
         user = super().save(commit=False)
@@ -34,8 +36,13 @@ class RegisterEmployeeForm(forms.ModelForm):
         user.user_type = 'employee'
         if commit:
             user.save()
-            # No need to create an employee object here since it's being handled in your view
-        return user
+            employee=Employee.objects.create(
+            user=user,#1 user is employee user
+            first_name=self.cleaned_data['first_name'],
+            last_name=self.cleaned_data['last_name'],
+            join_date=self.cleaned_data['join_date'],
+            )
+        return employee
 
 class EditEmployeeForm(forms.ModelForm):
     join_date = forms.DateField(
@@ -97,13 +104,15 @@ class RequestForm(ModelForm):
     leave_type = forms.ModelChoiceField(queryset=LeaveType.objects.none())  # Empty initial queryset
 
     start =forms.DateField(
-        widget=forms.TextInput(attrs={'class': 'form-control', 'type': 'text', 'placeholder': 'Ημερομηνία Έναρξης', 'id': 'id_start'}),
-        input_formats=['%Y-%m-%d']  # Format expected by Django
+       widget=forms.TextInput(attrs={'class': 'form-control', 'type': 'text', 'placeholder': 'Ημερομηνία Έναρξης', 'id': 'id_start'}),
+       input_formats=['%d/%m/%Y']  # Adjusted format
     )
+
     end = forms.DateField(
-        widget=forms.TextInput(attrs={'class': 'form-control', 'type': 'text', 'placeholder': 'Ημερομηνία Λήξης', 'id': 'id_end'}),
-        input_formats=['%Y-%m-%d']  # Format expected by Django
+       widget=forms.TextInput(attrs={'class': 'form-control', 'type': 'text', 'placeholder': 'Ημερομηνία Λήξης', 'id': 'id_end'}),
+       input_formats=['%d/%m/%Y']  # Adjusted format
     )
+
 
     class Meta:
         model = Request
@@ -120,6 +129,9 @@ class RequestForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['leave_type'].queryset = LeaveType.objects.all()
+        default_leave_type = LeaveType.objects.filter(name='Κανονική Άδεια').first()
+        if default_leave_type:
+            self.initial['leave_type'] = default_leave_type
 #---------------------------------------------------------------------------------------#
 class ChangePasswordForm(forms.Form):
     current_password = forms.CharField(label='Current Password', widget=forms.PasswordInput)

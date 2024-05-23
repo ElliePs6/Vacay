@@ -3,8 +3,8 @@
 
 {% block login %}
 <div class="login-container">
-    <div class="row loglog">
-        <div class="col-md-4 log-image-col">
+    <div class="row ">
+        <div class="col-md-4 log-image-col img ">
             <img src="{% static 'images/image2k.png' %}" alt="Image" class="img-fluid">
         </div>
         <div class="col-md-8 login-col">
@@ -13,11 +13,11 @@
                 {% csrf_token %}
                 <div class="form-group">
                     <div class="form-check form-check-inline">
-                        <input type="checkbox" class="form-check-input" id="employee" name="user_type" value="employee">
+                        <input type="checkbox" class="form-check-input" id="employee" name="user_type" value="υπάλληλο">
                         <label class="form-check-label" for="employee">Εργαζόμενος</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input type="checkbox" class="form-check-input" id="company" name="user_type" value="company">
+                        <input type="checkbox" class="form-check-input" id="company" name="user_type" value="εταιρία">
                         <label class="form-check-label" for="company">Εταιρία</label>
                     </div>
                 </div>
@@ -26,32 +26,19 @@
                         <span class="input-group-text"><i class="bi bi-envelope"></i></span>
                         {{ form.email }}
                     </div>
-                    {% if form.errors.email %}
-                    <div class="alert alert-danger alert-dismissible" role="alert">
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        {{ form.errors.email }}
-                    </div>
-                    {% endif %}
                 </div>
                 <div class="form-group">
                     <div class="input-container input-group mb-3">
                         <span class="input-group-text"><i class="bi bi-lock"></i></span>
                         {{ form.password }}
                     </div>
-                    {% if messages %}
-                    {% for message in messages %}
-                    <div class="alert alert-danger alert-dismissible" role="alert">
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        {{ message }}
-                    </div>
-                    {% endfor %}
-                    {% endif %}
                 </div>
-                <button type="submit" class="button">Σύνδεση</button>
+				<button type="submit" class="button">Σύνδεση</button>
             </form>
-        </div>
+		</div>
     </div>
 </div>
+
 
 
 {% endblock %}

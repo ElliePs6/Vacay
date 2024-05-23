@@ -82,7 +82,8 @@
   font: normal 500 10px "Roboto Mono", cursive;
   color: #035c1e;
   overflow-x: auto;
-  padding: 5px;
+  overflow-y: hidden;
+  padding: 2px;
 }
 
 /* Thin scrollbar */
@@ -138,6 +139,41 @@
   color: #666;
 }
 
+/* Styles for Greek holidays */
+.greek-holiday {
+  background-color: #f0f0f0; /* Light gray background */
+  border-color: #ff0000; /* Red border */
+  color: #000000; /* Black text */
+  
+  width:50%;}
+
+/* Styles for Islamic holidays */
+.islamic-holiday {
+  background-color: #ffffcc; /* Light yellow background */
+  border-color: #008000; /* Green border */
+  color: #000000; /* Black text */
+  
+  width:50%;
+}
+
+
+
+
+/* Styles for Greek holidays */
+.greek-holiday {
+  background-color: #f0f0f0; /* Light gray background */
+  border-color: #ff0000; /* Red border */
+  color: #000000; /* Black text */
+}
+
+/* Styles for Islamic holidays */
+.islamic-holiday {
+  background-color: #ffffcc; /* Light yellow background */
+  border-color: #008000; /* Green border */
+  color: #000000; /* Black text */
+}
+
+
 /* Media query for small devices */
 @media (min-width: 650px) and (max-width: 950px) {
   .fc-scrollgrid-section,
@@ -183,7 +219,3 @@
   }
 }
 
-/* Media query for larger devices */
-@media (min-width: 1350px) and (max-width: 1750px) {
-  .fc-scroll
-}

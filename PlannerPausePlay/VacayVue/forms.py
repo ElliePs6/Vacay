@@ -6,13 +6,13 @@ from django.contrib.auth.forms import UserCreationForm
 class LoginForm(forms.Form):
     email = forms.EmailField(widget=forms.TextInput(attrs={'autofocus': True}))
     password = forms.CharField(widget=forms.PasswordInput)
-    user_type = forms.ChoiceField(choices=(('employee', 'Employee'), ('company', 'Company')), required=True)
+    user_type = forms.ChoiceField(choices=(('υπάλληλο', 'υπάλληλο'), ('εταιρία', 'Εταιρία')), required=True)
 
 
 class RegisterEmployeeForm(UserCreationForm):
     email = forms.EmailField(widget=forms.TextInput(attrs={'autofocus': True, 'class': 'form-control','placeholder': 'Email'}))
     join_date = forms.DateField(
-    widget=forms.TextInput(attrs={'class': 'form-control', 'type': 'text', 'placeholder': 'Ημερομηνία Πρόσληψης', 'id': 'id_join_date'}),
+    widget=forms.TextInput(attrs={'class': 'form-control', 'type': 'text', 'placeholder': 'Ημερομηνία Πρόσληψης', 'id': 'id_join_date','autocomplete': 'off'}),
     input_formats=['%d/%m/%Y']  # Adjusted format
 )
     
@@ -33,7 +33,7 @@ class RegisterEmployeeForm(UserCreationForm):
     def save(self, commit=True):
         user = super().save(commit=False)
         user.username = user.email
-        user.user_type = 'employee'
+        user.user_type = 'υπάλληλο'
         if commit:
             user.save()
             employee=Employee.objects.create(
@@ -46,7 +46,7 @@ class RegisterEmployeeForm(UserCreationForm):
 
 class EditEmployeeForm(forms.ModelForm):
     join_date = forms.DateField(
-        widget=forms.TextInput(attrs={'class': 'form-control', 'type': 'text', 'placeholder': 'Ημερομηνία Πρόσληψης', 'id': 'id_join_date'}),
+        widget=forms.TextInput(attrs={'class': 'form-control', 'type': 'text', 'placeholder': 'Ημερομηνία Πρόσληψης', 'id': 'id_join_date','autocomplete': 'off'}),
         input_formats=['%Y-%m-%d']  # Format expected by Django
     )
 
@@ -75,23 +75,34 @@ MONTH_CHOICES = (
         (5, 'Μάιος'),(6, 'Ιούνιος'),(7, 'Ιούλιος'),(8, 'Αύγουστος'),
         (9, 'Σεπτέμβριος'),(10, 'Οκτώβριος'),(11, 'Νοέμβριος'),(12, 'Δεκέμβριος'),
     )
-
 class LeaveTypeForm(forms.ModelForm):
+    update_mode = forms.BooleanField(required=False, widget=forms.HiddenInput())
+
     class Meta:
         model = LeaveType
-        fields = ['name', 'default_days', 'reset_month']
-        widgets ={
-            'default_days':forms.TextInput(attrs={'class': 'form-control', 'pattern': '\d*','placeholder': 'xxxx'}),
-             'name': forms.Select(choices=CHOICES),
-             'reset_month': forms.Select(choices=MONTH_CHOICES)
-             }
+        fields = ['name', 'default_days', 'reset_month', 'update_mode']
+        widgets = {
+            'default_days': forms.TextInput(attrs={'class': 'form-control', 'pattern': '\d*', 'placeholder': 'xxxx'}),
+            'name': forms.Select(choices=CHOICES),
+            'reset_month': forms.Select(choices=MONTH_CHOICES)
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if 'update_mode' in self.initial and self.initial['update_mode']:
+            self.fields['reset_month'].disabled = False
+        else:
+            self.fields['reset_month'].disabled = True
+
     def clean(self):
         cleaned_data = super().clean()
         name = cleaned_data.get('name')
         reset_month = cleaned_data.get('reset_month')
         user = self.instance.user if self.instance and hasattr(self.instance, 'user') else None
+
         if self.instance and self.instance.pk:  # If updating an existing LeaveType
             return cleaned_data  # Skip validation for updates
+
         if name and reset_month and user:
             if LeaveType.objects.filter(user=user, name=name).exists():
                 raise forms.ValidationError("A LeaveType with this name already exists for this user.")
@@ -104,19 +115,19 @@ class RequestForm(ModelForm):
     leave_type = forms.ModelChoiceField(queryset=LeaveType.objects.none())  # Empty initial queryset
 
     start =forms.DateField(
-       widget=forms.TextInput(attrs={'class': 'form-control', 'type': 'text', 'placeholder': 'Ημερομηνία Έναρξης', 'id': 'id_start'}),
+       widget=forms.TextInput(attrs={'class': 'form-control', 'type': 'text', 'placeholder': 'ΗΗ/ΜΜ/ΧΧΧΧ', 'id': 'id_start','autocomplete': 'off'}),
        input_formats=['%d/%m/%Y']  # Adjusted format
     )
 
     end = forms.DateField(
-       widget=forms.TextInput(attrs={'class': 'form-control', 'type': 'text', 'placeholder': 'Ημερομηνία Λήξης', 'id': 'id_end'}),
+       widget=forms.TextInput(attrs={'class': 'form-control', 'type': 'text', 'placeholder': 'ΗΗ/ΜΜ/ΧΧΧΧ', 'id': 'id_end','autocomplete': 'off'}),
        input_formats=['%d/%m/%Y']  # Adjusted format
     )
 
 
     class Meta:
         model = Request
-        fields = ["leave_type", "start", "end", "description"]
+        fields = ["leave_type", "start", "end", "description", 'document']
         widgets = {
             "description": forms.Textarea(
                 attrs={
@@ -138,4 +149,7 @@ class ChangePasswordForm(forms.Form):
     new_password = forms.CharField(label='New Password', widget=forms.PasswordInput)
     confirm_password = forms.CharField(label='Confirm New Password', widget=forms.PasswordInput)
 
-    
+class CustomHolidayForm(forms.Form):
+    name = forms.CharField(max_length=100)
+    date = forms.DateField(
+    widget=forms.TextInput(attrs={'class': 'form-control', 'type': 'text', 'placeholder': 'Ημερομηνία', 'id': 'custom_holiday','autocomplete': 'off'}))

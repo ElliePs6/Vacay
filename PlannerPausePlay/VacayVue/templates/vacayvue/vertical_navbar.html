@@ -1,7 +1,7 @@
 {% load static %}
 <!-- Employee navbar -->
 {% if request.user.is_authenticated %}
-    {% if request.user.user_type == 'employee' %}
+    {% if request.user.user_type == 'υπάλληλο' %}
         <div class="nav flex-column" id="v-pills-tab" role="tablist" aria-orientation="vertical">
             <div class="container-fluid">
                 <!-- Dashboard -->
@@ -10,11 +10,11 @@
                 </a>
                 <!-- View Request -->
                 <a class="nav-link" href="{% url 'my_requests' %}">
-                    <i class="fas fa-list"></i> Οι Αιτήσεις Μου
+                    <i class="fas fa-list"></i> Οι Αιτησεις Μου
                 </a>
                 <!-- Add Request -->
                  <a class="nav-link" href="{% url 'add_request' %}">
-                    <i class="fas fa-calendar-plus"></i> Προσθήκη Αίτησης
+                    <i class="fas fa-calendar-plus"></i> Προσθηκη Αιτησης
                 </a>
             </div>
         </div>
@@ -22,7 +22,7 @@
 {% endif %}
 <!-- Company navbar -->
 {% if request.user.is_authenticated %}
-    {% if request.user.user_type == 'company' %}
+    {% if request.user.user_type == 'εταιρία' %}
         <div class="nav flex-column" id="v-pills-tab" role="tablist" aria-orientation="vertical">
             <div class="container-fluid">
                 <!-- Dashboard -->
@@ -31,19 +31,19 @@
                 </a>
                 <!-- View Request -->
                 <a class="nav-link" href="{% url 'list_all_requests' %}">
-                    <i class="fas fa-list"></i> Προβολή Αιτήσεων
+                    <i class="fas fa-list"></i> Προβολη Αιτησεων
                 </a>
                 <!-- Add Employee -->
                 <a class="nav-link" href="{% url 'add_employee' %}">
-                    <i class="fas fa-user-plus"></i> Προσθήκη Υπαλλήλου
+                    <i class="fas fa-user-plus"></i> Προσθηκη Υπαλληλου
                 </a>
                 <!-- View Employee-->
                 <a class="nav-link" href="{% url 'list_employees' %}">
-                    <i class="fas fa-users"></i> Προβολή Υπαλλήλων
+                    <i class="fas fa-users"></i> Προβολη Υπαλληλων
                 </a>
                 <!-- Balance -->
                 <a class="nav-link" href="{% url 'manage_leave_type' %}">
-                    <i class="fas fa-cog"></i> Ρυθμίσεις
+                    <i class="fas fa-cog"></i> Ρυθμισεις
                 </a>
             </div>
         </div>

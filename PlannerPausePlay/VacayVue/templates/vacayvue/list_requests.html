@@ -2,23 +2,42 @@
 {% load static %}
 
 {% block content %}
-
-
-
-    <div class="row">
-        <div class="col-md-12 full-width-container">
-            <h3 class="title">Λίστα Ενεργών Αιτήσεων</h3>
-            <div class="week-calendar">
+<div class="row">
+    <h3 class="title">Λίστα Ενεργών Αιτήσεων</h3>
+    <div class="col-md-7 calendar-section">
+        <div class="week-calendar">
             <div id="calendar2"></div>
-            </div>
-
-        
         </div>
     </div>
-
+    <div class="col-md-5 main-content-section">
+        <div id="approved-requests">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Όνομα</th>
+                        <th>Τύπος Άδειας</th>
+                        <th>Ενέργεια</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for request in approved_requests %}
+                    <tr>
+                        <td>{{ request.user.last_name }}</td>
+                        <td>{{ request.leave_type.name }}</td>
+                        <td><a href="{% url 'delete_request' request.id %}" role="button" class="delete-button">Διαγραφή</a></td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4">Δεν υπάρχουν ενεργές αιτήσεις αυτή τη στιγμή.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
-{% block script%}
+{% block script %}
 <script src="{% static 'js/week-calendar.js' %}"></script>
-
-{% endblock  %}
+{% endblock %}

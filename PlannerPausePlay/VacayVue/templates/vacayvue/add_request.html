@@ -1,6 +1,8 @@
 {% extends 'vacayvue/base.html' %}
 {% load static %}
 
+
+
 {% block content %}
 <div class="row">
     <div class="col-md-5 border-image-container">
@@ -8,16 +10,14 @@
         <img src="{% static 'images/stripy5.png' %}" alt="Image" class="img-fluid">
     </div>
     <div class="col-md-7 main-content-section">
-        {% if submitted %}
-        <div class="alert alert-success" role="alert">
-            Η Αίτηση σας καταχωρήθηκε επιτυχώς!!!
-        </div>
-        {% else %}
-        <form action="{% url 'add_request' %}" method="POST" class="form-container">
+        <form action="{% url 'add_request' %}" method="POST" class="form-container" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="form-group">
                 <label for="id_leave_type">Τύπος:</label>
                 {{ form.leave_type }}
+                {% if form.errors.leave_type %}
+                    <div class="message error">{{ form.errors.leave_type }}</div>
+                {% endif %}
             </div>
             <div class="form-row">
                 <div class="col-md-6">
@@ -38,11 +38,10 @@
                 <div class="input-group">
                     {{ form.description }}
                 </div>
+                <input type="file" name="documents" multiple class="custom-file-input">
             </div>
-            <input type="hidden" name="submitted" value="True">
             <button type="submit" class="button">Υποβολή</button>
         </form>
-        {% endif %}
     </div>
 </div>
 {% endblock %}

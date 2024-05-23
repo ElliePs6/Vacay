@@ -24,6 +24,6 @@ class EmployeesAdmin(admin.ModelAdmin):
 
 @admin.register(Request)
 class RequestsAdmin(admin.ModelAdmin):
-    list_display = ('user', 'start', 'end', 'leave_type','description')
+    list_display = ('user', 'start', 'end', 'leave_type','description', 'document')
     ordering = ('leave_type',)
     

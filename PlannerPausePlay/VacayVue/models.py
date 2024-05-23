@@ -1,16 +1,17 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.core.exceptions import ValidationError
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save , post_delete
+
 from django.dispatch import receiver
 
 
 
 class CustomUser(AbstractUser):
     USER_TYPE_CHOICES = [
-        ('employee', 'Employee'),
-        ('company', 'Company'),
-        ('admin', 'Admin'),
+        ('υπάλληλο', 'Υπάλληλο'),
+        ('εταιρία', 'Εταιρία'),
+        ('διαχειριστής', 'Διαχειριστής'),
     ]
     email=models.EmailField(max_length=100,unique=True)
     user_type = models.CharField(max_length=20, choices=USER_TYPE_CHOICES)
@@ -85,14 +86,18 @@ class Request(models.Model):
     end = models.DateField(null=True, blank=True)
     leave_type = models.ForeignKey(LeaveType, on_delete=models.CASCADE,default='Κανονική Άδεια')
     description = models.TextField(blank=True)
+    document = models.FileField(upload_to='documents/', null=True, blank=True)
     is_pending = models.BooleanField(default=True)
     is_approved = models.BooleanField(default=False)
     is_rejected = models.BooleanField(default=False)
 
     def __str__(self):
         return f"Leave request for {self.user.username}"
-    
-
+   
+class CustomHolidays(models.Model):    
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="company_set_holiday")
+    name = models.CharField(max_length=255)
+    date =models.DateField(null=True, blank=True)
 
 
 '''
@@ -102,17 +107,8 @@ class Request(models.Model):
 
 
 
-class Holidays(models.Model):
-    HolidayID = models.AutoField(primary_key=True)
-    HolidayName = models.CharField(max_length=255)
-    Date = models.DateField()
 
 
-class CustomHolidays(models.Model):
-    CustomHolidayID = models.AutoField(primary_key=True)
-    UserID = models.ForeignKey(Users, on_delete=models.CASCADE)
-    HolidayName = models.CharField(max_length=255)
-    Date = models.DateField()
 
 
 class Permissions(models.Model):

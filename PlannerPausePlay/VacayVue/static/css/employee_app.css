@@ -1,4 +1,4 @@
-/*---------------Υπάλληλοσ Dashboard Page----------------------*/
+/*---------------υπάλληλο Dashboard Page----------------------*/
 
 
 .progress-circle {
@@ -25,8 +25,8 @@
   left: 50%;
   transform: translate(-50%, -50%);
   color: #ffffff;
-  font-size: 16px;
-  font-weight: bold;
+  font: bold 500 16px "Roboto Mono", cursive;
+  
 }
 .main-content-section table {
   width: 100%;
@@ -39,14 +39,7 @@
 }
 /*------------------------------------Η Αιτήσεις μου------------------------------------*/
 
-.myrequest-container{
-  display: flex;
-  flex-direction: column;
-  align-items: left;
-  justify-content: left;
-  border-right: 1px solid #ff0800d2;
-  padding: 2%;
-}
+
 .nav-tabs {
   background-color: #e9ecef;
   border-bottom: none;
@@ -59,7 +52,7 @@
 .nav-tabs .nav-link.active {
   background-color: #ffffff;
   border-bottom: 2px solid red;
-  font-weight: bold;
+  font: bold 500 16px "Roboto Mono", cursive;
   color:rgb(255, 45, 45);
 }
 /* Style for the tab content */
@@ -86,7 +79,7 @@
 /* Style για φορμα */
 .form-group label {
   color: #ff2727; 
-  font-weight: bold;
+  font: bold 500 16px "Roboto Mono", cursive;
   padding: 5px;
 }
 /* Form input field styling */
@@ -107,4 +100,38 @@
 }
 .form-row .col-md-6:last-child {
   margin-right: 0; /* Remove margin from the last column to prevent extra space */
+}
+/* Style for the file input button (browse) */
+.custom-file-input {
+  color: #ffffff; /* Text color */
+  border-bottom: 2px solid #bd0000; 
+  border-left: 2px solid #bd0000;
+  padding: 8px;
+  margin-top: 0.5rem;
+  border-radius: 5px; /* Border radius */
+  cursor: pointer; /* Cursor style */
+  position: relative; /* Position relative for shadow */
+  transition: box-shadow 0.3s ease; /* Transition for shadow */
+}
+
+/* Add shadow on hover */
+.custom-file-input:hover {
+  box-shadow: 0 4px 8px rgba(255, 253, 253, 0.685); /* Shadow style */
+}
+
+
+/* Hide the default file input button */
+.custom-file-input::file-selector-button {
+  display: none;
+}
+
+/* Style the label for the file input */
+.custom-file-label {
+  overflow: hidden; /* Hide overflow */
+  text-overflow: ellipsis; /* Add ellipsis for long file names */
+  white-space: nowrap; /* Prevent wrapping */
+}
+.custom-file-input::file-placeholder {
+  color: #999999; /* Text color for placeholder */
+  content: "Choose a file"; /* Custom placeholder text */
 }

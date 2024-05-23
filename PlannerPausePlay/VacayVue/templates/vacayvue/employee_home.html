@@ -43,63 +43,34 @@
                                 <div class="progress-indicator"></div>
                                 <div class="progress-text"></div>
                             </div>
+                            
                         </div>
                     </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
-    </div>
+        <hr>
+        <div id="current-month">
+                <span>Τρέχων Μήνας: {{ current_month }}</span>
+                <i class="far fa-clock"></i>
+            </div>
+            <div id="reset-month">
+                {% if reset_month %}
+                <span>Μήνας Επαναφοράς: {{ reset_month }}</span>
+                <i class="far fa-clock"></i>
+                {% else %}
+                <span>No reset month set</span>
+                {% endif %}
+            </div>
+        </div>
 </div>
 {% endblock %}
 
 {% block script %}
-<script>
-	document.addEventListener("DOMContentLoaded", function() {
-		fetchProgressData();
-	});
-	
-	function fetchProgressData() {
-		// No need to encode the leaveType here, as leaveType is not defined in this scope
-		// const encodedLeaveType = encodeURIComponent(leaveType);
-		fetch(`/vacayvue/balance-data/`)
-			.then(response => {
-				if (!response.ok) {
-					throw new Error('Failed to fetch progress data');
-				}
-				return response.json();
-			})
-			.then(data => {
-				if (!data.balance_data) {
-					throw new Error('balance_data property is missing in the response');
-				}
-				data.balance_data.forEach(balanceItem => {
-					const leaveType = balanceItem.leave_type;
-					const usedDays = balanceItem.usedDays;
-					const totalDays = balanceItem.totalDays;
-	
-					updateProgressCircle(leaveType, usedDays, totalDays);
-				});
-			})
-			.catch(error => console.error('Error fetching progress data:', error));
-	}
-	
-	
-	function updateProgressCircle(leaveType, usedDays, totalDays) {
-		const progressCircle = document.querySelector(`[data-leave-type="${leaveType}"]`);
-		if (!progressCircle) {
-			console.error('Progress circle not found for leave type:', leaveType);
-			return;
-		}
-	
-		const percentage = totalDays === 0 ? 0 : (usedDays / totalDays) * 100;
-		const progressIndicator = progressCircle.querySelector('.progress-indicator');
-		const progressText = progressCircle.querySelector('.progress-text');
-	
-		progressIndicator.style.width = percentage + '%';
-		progressText.textContent = `(${usedDays}/${totalDays}) ${Math.round(percentage)}%`;
-	}
-	
-</script>
+
+
+
+<script src="{% static 'js/progressBar.js' %}"></script>
 <script src="{% static 'js/calendar.js' %}"></script>
 {% endblock %}

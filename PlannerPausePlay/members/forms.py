@@ -29,7 +29,7 @@ class AdminRegistrationForm(UserCreationForm):
     def save(self, commit=True):
         user = super().save(commit=False)
         user.username = user.email  # Set username as email
-        user.user_type = 'admin'
+        user.user_type = 'διαχειριστής'
         if commit:
             user.save()
         return user
@@ -86,7 +86,7 @@ class RegisterCompanyForm(UserCreationForm):
     def save(self, commit=True):
         user = super().save(commit=False)
         user.username = user.email  
-        user.user_type = 'company'
+        user.user_type = 'εταιρία'
 
         if commit:
             user.save()

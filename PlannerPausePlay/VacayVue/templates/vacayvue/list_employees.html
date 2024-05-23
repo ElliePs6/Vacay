@@ -4,14 +4,6 @@
     <div class="row">
         <div class="col-md-12 full-width-container ">
             <h3 class="title">Προεπισκόπηση Υπαλλήλων</h3>
-            <!-- Display messages -->
-            {% if messages %}
-            <ul class="messages">
-                {% for message in messages %}
-                <li>{{ message }}</li>
-                {% endfor %}
-            </ul>
-            {% endif %}            
             <div class="table-responsive">
                 <table id="employee-table" class="table">
                     <thead>
@@ -21,8 +13,8 @@
                             <th style="border-bottom: 1px solid red;">Επίθετο</th>
                             <th style="border-bottom: 1px solid red;">Πρόσληψη</th>
                             <th style="border-bottom: 1px solid red;">Email</th>
-                            <th style="border-bottom: 1px solid red;">Επεξεργασία</th>
-                            <th style="border-bottom: 1px solid red;">Διαγραφή</th>
+                            <th style="border-bottom: 1px solid red; text-align: center;">Ενέργεια</th>
+                           
                         </tr>
                     </thead>
                     <tbody>
@@ -31,10 +23,11 @@
                             <td>{{ forloop.counter }}</td> <!-- Use forloop.counter to display the counter -->
                             <td>{{ employee.first_name }}</td>
                             <td>{{ employee.last_name }}</td>
-                            <td>{{ employee.join_date }}</td>
+                            <td>{{ employee.join_date|date:"d/m/Y" }}</td>
                             <td>{{ employee.user.email }}</td>
-                            <td><a href= "{% url 'update_employee' employee.id %}" role="button" class="edit-button">Επεξεργασία</button></td>
-                            <td><a href= "{% url 'delete_employee' employee.id %}" role="button" class="delete-button">Διαγραφή</button></td>
+                            <td><a href= "{% url 'update_employee' employee.id %}" role="button" class="edit-button">Επεξεργασία</td>
+                            <td><a href= "{% url 'delete_employee' employee.id %}" role="button" class="delete-button">Διαγραφή</td>
+                            <td><a href= "#" role="button" class="add-button">+Άδεια</td>
                         </tr>
                         {% endfor %}
                     </tbody>

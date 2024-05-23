@@ -1,3 +1,4 @@
+
 from pathlib import Path
 import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -10,7 +11,11 @@ SECRET_KEY = 'django-insecure-%ri+qjt7ybk=54euusv8l@t$%nw&37tl&%9^zt0nbbud72uv7a
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
+#Google API
+# settings.py
+
+GOOGLE_API_KEY = 'AIzaSyAadAkcwKCpmMhWOLrjRbh_rkGRO6a0ePc'
 
 
 # Application definition

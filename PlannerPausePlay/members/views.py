@@ -26,7 +26,7 @@ def admin_login(request):
                 print(f'User authenticated: {user}')
                 print(f'User type: {user.user_type}')
                 login(request, user)
-                if user.user_type == 'admin':
+                if user.user_type == 'διαχειριστής':
                     return redirect('admin_home')  # Redirect to admin dashboard
             else:
                 print('Authentication failed')  # Debugging statement
@@ -51,8 +51,8 @@ def admin_register(request):
     return render(request, 'authenticate/admin_register.html', {'form': form})
 
 def admin_home(request):
-    if request.user.is_authenticated and request.user.user_type == 'admin':
-        if request.user.user_type == 'admin':
+    if request.user.is_authenticated and request.user.user_type == 'διαχειριστής':
+        if request.user.user_type == 'διαχειριστής':
             companies = Company.objects.all()
             return render(request, 'authenticate/admin_home.html', {'companies': companies})
         else:

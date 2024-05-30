@@ -1,0 +1,28 @@
+/* Custom CSS for scrollable table */
+.table-responsive {
+    max-height: 400px; /* Adjust max-height as needed */
+    overflow-y: auto;
+}
+.card-title {
+    font-size: 1.25rem; /* Adjust the font size as needed */
+    font-weight: bold; /* Make the text bold */
+    color: #C33A1A; /* Set the text color */
+    /* Add any additional styling here */
+}
+
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-right: 10px;
+    text-decoration: none;
+    color: #FFEBB0;
+    background-color: #F84322 ;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.button:hover {
+    color: #FFEBB0;
+    background-color: #ff7551; 
+}

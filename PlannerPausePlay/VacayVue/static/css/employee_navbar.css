@@ -1,0 +1,41 @@
+#v-pills-tab {
+    position: fixed; /* Fix the navbar position */
+    bottom: calc(12px +  1vh); /* Distance from the bottom (adjust as needed) */
+    left: 0; /* Align navbar to the left */
+    width: 200px; /* Set the width of the navbar */
+    height: calc(100vh - 110px); /* Set the height of the navbar */
+    background-color: #c0401e; /* Navbar background color */
+    padding-top: 1%; /* Add padding to the top */
+    overflow-y: auto; /* Enable vertical scrolling if content exceeds viewport height */
+    padding-left: 10px; /* Add padding to the left */
+}
+
+
+
+
+.navbar-brand {
+    color: #3d3a50 !important; /* Text color */
+    font-size: 20px; /* Adjust font size as needed */
+    line-height: 2;
+
+}
+
+.nav-link {
+    color: #e1e2e0; /* Set color for nav links */
+    padding: 5px;
+    text-align: center;
+    margin-bottom: 10%; /* Add some space between nav links */
+    border-radius: 5px;
+    transition: background-color 0.3s ease; /* Smooth transition for background color */
+    display: block; /* Display nav links as block */
+}
+
+.nav-link.active {
+    background-color: #ef9361; /* Set background color for active nav link */
+    color: #fff;
+}
+.nav-link:hover {
+    background-color: #ef9361; /* Change background color on hover */
+    color: #fff; /* Change text color on hover */
+    text-decoration: none; /* Remove underline on hover */
+}

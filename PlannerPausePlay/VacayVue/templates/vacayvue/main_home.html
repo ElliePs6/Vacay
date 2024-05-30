@@ -1,0 +1,28 @@
+{% extends 'vacayvue/base.html' %}
+
+{% block content %}
+<main>
+    <section class="hero">
+        <h2>Welcome to the Employee Day Off Manager!</h2>
+        <p>This app helps you manage your employees' day off requests efficiently.</p>
+    </section>
+
+    <section class="features">
+        <h2>Key Features</h2>
+        <ul>
+            <li>Submit and manage day off requests.</li>
+            <li>View employee schedules and availability.</li>
+            <li>Intuitive calendar interface for scheduling.</li>
+            <li>Real-time notifications for request status updates.</li>
+        </ul>
+    </section>
+
+    <section class="get-started">
+        <h2>Get Started</h2>
+        <p>Start managing your employees' day off requests today!</p>
+       <!-- <a href="{% url 'register_company' %}" class="button">Sign Up</a>-->
+        <a href="{% url 'login' %}" class="button">Login</a>
+    </section>
+    
+</main>
+{% endblock %}

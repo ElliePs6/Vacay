@@ -1,0 +1,71 @@
+.text-center {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #C33A1A;
+}
+
+.form-container {
+    padding: 30px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    text-align: center; /* Align form fields in the center */
+
+}
+
+.form-label {
+    font-weight: bold;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.button {
+    background-color: #F84322;
+    color: #ffebb0;
+    border-color: #fd5e3a;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: #ff7551;
+    color: #ffebb0;
+}
+
+.form-container select {
+    font-size: 16px;
+    padding:5px;
+    margin:5px;
+    color: #ffebb0; 
+    background-color: #F84322;
+}
+
+.form-container select:hover {
+    background-color: #ff7551; 
+}
+
+/* Style for when an option has been selected */
+.form-container select:focus {
+    border-color: #c5940d; 
+}
+
+/* Style for the dropdown options */
+.form-container select option {
+    color: #ffebb0; 
+    background-color: #ff7551; 
+    font-size: 16px;
+}
+
+.alert {
+    background-color: #FF8A00;
+    color: black;
+    border-color: black;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.btn-close {
+    color: black;
+}
+

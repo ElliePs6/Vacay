@@ -1,0 +1,35 @@
+{% extends 'authenticate/base.html' %}
+
+{% block content %}
+
+ {% if messages %}
+ <div class="alert alert-warning alert-dismissible fade show" role="alert">
+    {% for message in messages %}
+    {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    {% endfor %}
+</div>
+ {% endif %}
+ <div class="shadow p-3 mb-5 bg-body rounded">
+    <h1 class="text-center"> Login Admin</h1>
+    <br>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form action="" method="POST" class="form-container">
+                {% csrf_token %}
+                    <div class="form-group">
+                        <label for="id_email" class="form-label">Email</label>
+                        {{ form.email }}
+                    </div>
+                    <div class="form-group">
+                        <label for="id_password" class="form-label">Password</label>
+                        {{ form.password }}
+                    </div>
+                    <button type="submit" class="button">Login</button>
+                </form>
+                
+</div>
+</div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'authenticate/base.html' %}
+
+{% block content %}
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <!-- Register Company Form -->
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Καταχώρηση Εταιρίας</h5>
+                        <a href="{% url 'register_company' %}" class="button">Προσθήκη</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <!-- View Registered Companies -->
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Καταχωρημένες Εταιρίες</h5>
+                        <!-- Display list of registered companies here -->
+                        <div class="table-responsive">
+                            <table id="company-table" class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Όνομα Εταιρίας</th>
+                                        <th>HR Όνομα</th>
+                                        <th>Email Εταιρίας</th>
+                                        <!-- Add more columns if needed -->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for company in related_companies %}
+                                    <tr>
+                                        <td>{{ company.name }}</td>
+                                        <td>{{ company.hr_name }}</td>
+                                        <td>{{ company.user.email }}</td>
+                                        <!-- Add more columns if needed -->
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

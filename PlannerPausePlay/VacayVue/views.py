@@ -6,13 +6,13 @@ from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_GET
 from django.contrib import messages
-from django.core.exceptions import ValidationError
+
 from datetime import datetime,date
 from django.db.utils import IntegrityError
-import logging
+
 import json
 
-logger = logging.getLogger(__name__)
+
 
 
 #-----------------Συναρτήσεις για το ημερολογιο----------------------------------------------------

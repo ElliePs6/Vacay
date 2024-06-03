@@ -1,12 +1,14 @@
 
 from pathlib import Path
 import os
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR =Path(__file__).resolve().parent.parent
 
-
+import secrets
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-%ri+qjt7ybk=54euusv8l@t$%nw&37tl&%9^zt0nbbud72uv7a'
+SECRET_KEY = secrets.SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -15,7 +17,7 @@ ALLOWED_HOSTS = ['*']
 #Google API
 # settings.py
 
-GOOGLE_API_KEY = 'AIzaSyAadAkcwKCpmMhWOLrjRbh_rkGRO6a0ePc'
+GOOGLE_API_KEY = secrets.GOOGLE_API_KEY
 
 
 # Application definition

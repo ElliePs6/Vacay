@@ -10,6 +10,7 @@ from django.core.exceptions import ValidationError
 from datetime import datetime,date
 from django.db.utils import IntegrityError
 import logging
+import json
 
 logger = logging.getLogger(__name__)
 
@@ -17,6 +18,7 @@ logger = logging.getLogger(__name__)
 #-----------------Συναρτήσεις για το ημερολογιο----------------------------------------------------
 def all_requests(request):
     approved_requests = Request.objects.filter(is_approved=True)
+    custom_holidays = CustomHolidays.objects.all()
     events = []
 
     for request in approved_requests:
@@ -30,6 +32,15 @@ def all_requests(request):
             'color': color
         }
         events.append(event)
+
+    for holiday in custom_holidays:
+        event = {
+            'title': holiday.name,
+            'start': holiday.date.strftime('%Y-%m-%d'),
+            'color': '#f1f1f1'  # Set a color for custom holidays
+        }
+        events.append(event)
+
 
     return JsonResponse(events, safe=False)
 
@@ -48,26 +59,35 @@ def get_color_for_request(request_leave_type):
 @login_required
 def calendar(request):  
     all_requests = Request.objects.all()
+   
     context = {
         "all_requests": all_requests,
+        
     }
     return render(request, 'vacayvue/company_home.html', context)
 
 
 def add_custom_holiday(request):
     if request.method == 'POST':
-        form = CustomHolidayForm(request.POST)
+        # Load JSON data from request body
+        data = json.loads(request.body)
+        form = CustomHolidayForm(data)
         if form.is_valid():
             name = form.cleaned_data['name']
             date = form.cleaned_data['date']
-            CustomHolidays.objects.create(name=name, date=date)
+            
+            # Get the current user
+            user = request.user
+            
+            # Create CustomHolidays object with user information
+            CustomHolidays.objects.create(user=user, name=name, date=date)
+            
             return JsonResponse({'success': True})
         else:
             return JsonResponse({'success': False, 'errors': form.errors})
     else:
         # Handle GET request if needed
         return JsonResponse({'success': False, 'message': 'Method not allowed'})
-
 #------------------------------------------Συναρτήσεις για αιτήσεις----------------------------------------------------
 
 

@@ -47,12 +47,47 @@
             </ul>
         </div>
     </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="customHolidayModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Custom Holiday</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="customHolidayForm">
+                    <div class="mb-3">
+                        <label for="holidayName" class="form-label red-label">Όνομα</label>
+                        {{ form.name }}
+                        <input type="text" class="form-control" id="holidayName" name="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="holidayDate" class="form-label red-label">Ημερονηνία</label>
+                        {{ form.date }}
+                        <input type="text" class="form-control" id="id_date" name="date" required>
+                    </div>
+                    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                    <button type="submit" class="btn btn-primary">Προσθήκη</button>
+                </form>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+
 {% endblock %}
 
 {% block script %}
 
 <script src="{% static 'js/calendar.js' %}"></script>
+<script src="{% static 'js/datepicker-el.js' %}"></script>
+<script src="{% static 'js/datepicker.js' %}"></script>
 <script src="{% static 'js/customholidays.js' %}"></script>
+
 <script src="{% static 'js/leave_requests.js' %}"></script>
 
 

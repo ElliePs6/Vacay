@@ -37,6 +37,7 @@ urlpatterns = [
 
     path('calendar/', views.calendar, name='calendar'),
     path('all_requests/', views.all_requests, name='all_requests'),
+    path('add_custom_holiday/', views.add_custom_holiday, name='add_custom_holiday'),
     
     
    

@@ -82,7 +82,7 @@ class LeaveTypeForm(forms.ModelForm):
         model = LeaveType
         fields = ['name', 'default_days', 'reset_month', 'update_mode']
         widgets = {
-            'default_days': forms.TextInput(attrs={'class': 'form-control', 'pattern': '\d*', 'placeholder': 'xxxx'}),
+             'default_days': forms.TextInput(attrs={'class': 'form-control', 'pattern': r'\d*', 'placeholder': 'xxxx'}),
             'name': forms.Select(choices=CHOICES),
             'reset_month': forms.Select(choices=MONTH_CHOICES)
         }
@@ -152,4 +152,5 @@ class ChangePasswordForm(forms.Form):
 class CustomHolidayForm(forms.Form):
     name = forms.CharField(max_length=100)
     date = forms.DateField(
-    widget=forms.TextInput(attrs={'class': 'form-control', 'type': 'text', 'placeholder': 'Ημερομηνία', 'id': 'custom_holiday','autocomplete': 'off'}))
+    widget=forms.TextInput(attrs={'class': 'form-control', 'type': 'text', 'placeholder': 'Ημερομηνία ', 'id': 'id_date','autocomplete': 'off'}),
+    input_formats=['%d/%m/%Y']  )

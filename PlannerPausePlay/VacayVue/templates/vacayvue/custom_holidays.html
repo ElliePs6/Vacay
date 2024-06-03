@@ -1,4 +1,54 @@
+{% extends 'vacayvue/base.html' %}
+{% load static %}
 
+{% block content %}
+<div class="row">
+    <div class="col-md-8 calendar-section">
+        <h3 class="title">Καλωσήρθες {{ company.name }}</h3>
+        <button id="addCustomHolidayBtn" class="btn btn-primary" style="width:20%"><span class="plus-icon">&#43;</span>Προσθήκη Αργίας</button>      
+
+        <div class="calendar-container">
+            <div id="calendar"></div>
+        </div>
+        <div class="color-legend">
+            <table>
+                <tbody>
+                    {% for leave_type, color in color_map.items %}
+                    <tr>
+                        <td>
+                            <div class="color-square" style="background-color:{{ color }};"></div>
+                        </td>
+                        <td>
+                            <span>: {{ leave_type }}</span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-md-4 main-content-section">
+        <h3 class="title">Αριθμος Υπαλλήλων:</h3>
+        <div class="animated-number">{{ employee_count }}</div>
+        <h4 class="all-emp-req-title">Αιτήσεις σε αναμονή:</h4>
+        <ul class="requests-list">
+            {% for request in pending_requests %}
+            <hr class="custom-hr">
+            <li>
+                <h5>{{ request.user.first_name }}:</h5>
+                <button class="btn btn-success approve-btn" data-approve-request-id="{{ request.id }}">✓</button>
+                <a href="{% url 'delete_request' request.id %}" role="button" class="btn btn-reject reject-btn ">✗</a>
+            </li>
+            <a href="#" class="request-detail-link" data-request-id="{{ request.id }}" data-url="{% url 'request_details' request.id %}">Λεπτομέριες</a>
+            {% empty %}
+            <hr>
+            <li colspan="2">Καμία αίτηση σε αναμονή..</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<!-- Modal -->
 <div class="modal fade" id="customHolidayModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -10,16 +60,28 @@
           <form id="customHolidayForm">
             <div class="mb-3">
               <label for="holidayName" class="form-label">Holiday Name</label>
-              <input type="text" class="form-control" id="holidayName" required>
+              <input type="text" class="form-control" id="holidayName" name="name" required>
             </div>
             <div class="mb-3">
               <label for="holidayDate" class="form-label">Holiday Date</label>
-              <input type="date" class="form-control" id="holidayDate" required>
+              <input type="date" class="form-control" id="holidayDate" name="date" required>
             </div>
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
             <button type="submit" class="btn btn-primary">Submit</button>
           </form>
         </div>
       </div>
     </div>
-  </div>
-  
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'js/calendar.js' %}"></script>
+<script src="{% static 'js/leave_requests.js' %}"></script>
+
+<script>
+console.log("Script block is executed.");
+
+
+</script>
+{% endblock %}

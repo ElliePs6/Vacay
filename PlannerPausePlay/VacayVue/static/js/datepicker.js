@@ -30,6 +30,17 @@ $(function() {
             $("#id_end").val($.datepicker.formatDate("dd/mm/yy", date));
         }
     });
+
+    $("#id_date").datepicker({
+        dateFormat: "dd/mm/yy", // Display format
+        altFormat: "yy-mm-dd",  // Format expected by Django
+        altField: "#id_date", // Hidden field for Django
+        onSelect: function(dateText, inst) {
+            var date = $.datepicker.parseDate("dd/mm/yy", dateText);
+            $("#id_date").val($.datepicker.formatDate("dd/mm/yy", date));
+        }
+    });
+    
     
 
 });

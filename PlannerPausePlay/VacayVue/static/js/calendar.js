@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
         },
         dayMaxEvents: true,
         expandRows: true,
-        
+        events:'/vacayvue/all_requests/',
         eventContent: function (arg) {
             return {
                 html: `<div class="fc-list-item-title">${arg.event.title}</div>`,
